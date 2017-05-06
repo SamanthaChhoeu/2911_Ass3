@@ -5,53 +5,49 @@ import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-import Main.ModelFrame;
+import Main.ModelInterface;
 
-public class ViewMenu implements Observer {
+public class ViewMenu extends JFrame implements Observer {
     
-    private ModelFrame mf;
-    private JFrame frame;
-    private JPanel mainMenuPanel;
+    private static final long serialVersionUID = -2245823903580615555L;
+    private ModelInterface mi;
     private JButton playButton;
     private JButton settingsButton;
     private JButton quitButton;
 
-    public ViewMenu (ModelFrame mf) {
+    public ViewMenu (ModelInterface mi) {   
+        // the model interface is referenced to allow to view to get details from the model
+        this.mi = mi;
         
-        this.mf = mf;
-        createMenu();
-        
-    }
-    
-    private void createMenu() {
-        
-        frame = new JFrame();
-        frame.setSize(mf.getWidth(), mf.getHeight());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setLayout(null);
-        frame.setLocationRelativeTo(null);
-        
-        //mainMenuPanel = new JPanel();
-        //mainMenuPanel.setLayout(null);
-        //frame.add(mainMenuPanel);
+        // sets the size of the window
+        this.setSize(mi.getDimensions());
+        // sets what happens when the user closes the window
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // sets the layout to a manual layout to enable full customisation of where the buttons are
+        this.setLayout(null);
+        // sets the window to show in the middle of the screen
+        this.setLocationRelativeTo(null);
 
+        // creates a new button to start playing the game
         playButton = new JButton("Play");
+        // sets the size and the position of the buttons (only works for null layout)
         playButton.setBounds(390, 375, 500, 50);
-        //mainMenuPanel.add(playButton);
-        frame.add(playButton);
+        // adds the play button to the current frame
+        this.add(playButton);
         
+        // creates a new button to access the settings of the game
         settingsButton = new JButton("Settings");
         settingsButton.setBounds(390, 450, 500, 50);
-        //mainMenuPanel.add(settingsButton);
-        frame.add(settingsButton);
+        this.add(settingsButton);
         
+        // creates a new button to quit the game
         quitButton = new JButton("Quit");
         quitButton.setBounds(390, 525, 500, 50);
-        //mainMenuPanel.add(quitButton);
-        frame.add(quitButton);
+        this.add(quitButton);
+        
+        // set such that the main menu is the visible when this class is created
+        this.setVisible(true);
         
     }
     
@@ -70,11 +66,17 @@ public class ViewMenu implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         
-        ModelFrame mm = ((ModelFrame) o);
+        // changes the observable object into type ModelInterface
+        ModelInterface mi = ((ModelInterface) o);
         
-        if (mm.getCurrScreen() == "Play") {
+        // check whether or not to show this screen
+        if (mi.getCurrScreen() == "Menu") {
             
-            frame.dispose();
+            this.setVisible(true);
+            
+        } else {
+            
+            this.setVisible(false);
             
         }
         

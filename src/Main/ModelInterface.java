@@ -1,36 +1,25 @@
 package Main;
 
 
+import java.awt.Dimension;
 import java.util.Observable;
 
 // Used to store the settings for the game before starting the game
-public class ModelFrame extends Observable {
+public class ModelInterface extends Observable {
 
-    private int width;
-    private int height;
+    private Dimension dimensions;
     private String prevScreen;
     private String currScreen;
     
-    public ModelFrame () {
-        width = 1280;
-        height = 720;
+    public ModelInterface () {
+        // The default window size is 1280 x 720
+        dimensions = new Dimension(1280, 720);
+        // The default screen to show is the menu screen
         this.currScreen = "Menu";
     }
     
-    public int getWidth() {
-        return width;
-    }
-    
-    public void setWidth(int width) {
-        this.width = width;
-    }
-    
-    public int getHeight() {
-        return height;
-    }
-    
-    public void setHeight(int height) {
-        this.height = height;
+    public Dimension getDimensions() {
+        return dimensions;
     }
     
     public String getPrevScreen() {

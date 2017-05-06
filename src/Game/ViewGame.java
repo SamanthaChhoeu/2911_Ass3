@@ -6,18 +6,18 @@ import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Main.ModelFrame;
+import Main.ModelInterface;
 
 public class ViewGame implements Observer {
 
-    private ModelFrame mf;
+    private ModelInterface mi;
     private ModelGame mg;
     private JFrame frame;
     private JPanel gamePanel;
     
-    public ViewGame(ModelFrame mf, ModelGame mg) {
+    public ViewGame(ModelInterface mi, ModelGame mg) {
         
-        this.mf = mf;
+        this.mi = mi;
         this.mg = mg;
         
     }
@@ -25,7 +25,7 @@ public class ViewGame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         
-        ModelFrame mm = ((ModelFrame) o);
+        ModelInterface mm = ((ModelInterface) o);
         
         if (mm.getCurrScreen().equals("Play")) {
             
@@ -38,7 +38,7 @@ public class ViewGame implements Observer {
     private void initialiseGame() {
 
         frame = new JFrame();
-        frame.setSize(mf.getWidth(), mf.getHeight());
+        frame.setSize(mi.getDimensions());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
