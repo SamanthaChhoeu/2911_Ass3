@@ -1,9 +1,9 @@
-package Menu;
+package menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import Main.ModelInterface;
+import main.ModelInterface;
 
 public class ControllerSettings {
 

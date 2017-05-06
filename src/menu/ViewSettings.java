@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -6,11 +6,11 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import Main.ModelInterface;
+import main.ModelInterface;
 
 public class ViewSettings extends JFrame implements Observer {
 
-    private static final long serialVersionUID = -3451639509158630962L;
+    private static final long serialVersionUID = 1L;
     private ModelInterface mi;
     private JButton backButton;
 
