@@ -8,14 +8,14 @@ import javax.swing.JFrame;
 
 import main.ModelInterface;
 
-public class ViewSettings extends JFrame implements Observer {
+public class ViewWinScreen extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
     private ModelInterface mi;
-    private JButton backButton;
+    private JButton backToMainMenuButton;
 
-    public ViewSettings(ModelInterface mi) {
-        
+    public ViewWinScreen(ModelInterface mi) {
+        // the model interface is referenced to allow to view to get details from the model
         this.mi = mi;
         
         // sets the size of the window
@@ -27,15 +27,15 @@ public class ViewSettings extends JFrame implements Observer {
         // sets the window to show in the middle of the screen
         this.setLocationRelativeTo(null);
         
-        // creates a new button to go back to the main menu
-        backButton = new JButton("Back");
-        backButton.setBounds(1025, 600, 200, 50);
-        this.add(backButton);
-    
+        // creates a new button to quit the game
+        backToMainMenuButton = new JButton("Back to Main Menu");
+        backToMainMenuButton.setBounds(390, 525, 500, 50);
+        this.add(backToMainMenuButton);
+        
     }
     
-    public JButton getBackButton() {
-        return backButton;
+    public JButton getBackToMainMenuButton() {
+        return backToMainMenuButton;
     }
 
     @Override
@@ -43,17 +43,15 @@ public class ViewSettings extends JFrame implements Observer {
         
         String command = ((String) arg);
         
-        if (command.equals("ChangeScreenSettings")) {
-            // checks to see whether you should show the settings menu
-                
-                this.setVisible(true);
-
+        if (command.equals("ChangeScreenWin")) {
+            
+            this.setVisible(true);
+            
         } else {
             
             this.setVisible(false);
             
         }
-        
     }
 
 }

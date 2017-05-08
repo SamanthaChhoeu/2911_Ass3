@@ -3,26 +3,30 @@ package menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import game.ModelGame;
 import main.ModelInterface;
 
 public class ControllerMenu {
 
     private ModelInterface mi;
     private ViewMenu vm;
+    private ModelGame mg;
     private ActionListener playGame;
     private ActionListener goToSettings;
     private ActionListener quit;
     
-    public ControllerMenu(ModelInterface mi, ViewMenu vm) {
+    public ControllerMenu(ModelInterface mi, ModelGame mg, ViewMenu vm) {
         
         // reference the model to allow the controller to alter settings
         this.mi = mi;
         // reference the view to allow the controller to change things in the view
         this.vm = vm;
+        this.mg = mg;
         
         // creates the action when the play button is pressed
         playGame = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
+                mg.generateBoard();
                 // when the play button is pressed, sets the current screen being viewed to the game screen
                 mi.setCurrScreen("Play");
             }
@@ -47,10 +51,6 @@ public class ControllerMenu {
         
         vm.getQuitButton().addActionListener(quit);
     
-    }
-
-    public void initController() {
-        
     }
     
 }

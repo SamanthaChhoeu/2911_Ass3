@@ -66,14 +66,13 @@ public class ViewMenu extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         
-        // changes the observable object into type ModelInterface
-        ModelInterface mi = ((ModelInterface) o);
+        String command = ((String) arg);
         
         // check whether or not to show this screen
-        if (mi.getCurrScreen() == "Menu") {
-            
-            this.setVisible(true);
-            
+        if (command.equals("ChangeScreenMenu")) {
+                
+                this.setVisible(true);
+
         } else {
             
             this.setVisible(false);
