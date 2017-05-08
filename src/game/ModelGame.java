@@ -27,6 +27,7 @@ public class ModelGame extends Observable {
         
         // generate the board
         // @Sam @Jath Do the board generation here
+        // Good memes
         // "0"  = free space
         // "p" = player
         // "w"  = wall
@@ -51,16 +52,20 @@ public class ModelGame extends Observable {
         sobokanBoard[p.getYPos()][p.getXPos()] = "p";
         
         // place 2 boxes
-        int noOfBoxes = 2;
+        int noOfBoxes = 3;
         for (int i = 0; i < noOfBoxes; i++) {
-            Box newBox = new Box(noOfBoxes + i, noOfBoxes);
+            Box newBox = new Box(noOfBoxes + i, noOfBoxes);   //who wrote this shit
             sobokanBoard[newBox.getYPos()][newBox.getXPos()] = "b";
             boxes.add(newBox);
         }
         
         // set the goal for the boxes
+<<<<<<< HEAD
         sobokanBoard[7][12] = "g";
         sobokanBoard[7][11] = "g";
+=======
+        sobokanBoard[8][8] = "g";
+>>>>>>> 3b4afc81cbc7b1928eb75033838747a57e202241
         
     }
     
