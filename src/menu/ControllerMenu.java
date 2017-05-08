@@ -21,8 +21,12 @@ public class ControllerMenu {
         this.mi = mi;
         // reference the view to allow the controller to change things in the view
         this.vm = vm;
+        // reference to the game model to reset the game every time play is clicked on
         this.mg = mg;
-        
+    
+    }
+    
+    public void setupController() {
         // creates the action when the play button is pressed
         playGame = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -40,15 +44,14 @@ public class ControllerMenu {
                 mi.setCurrScreen("Settings");
             }
         };
-        
         vm.getSettingsButton().addActionListener(goToSettings);
         
+        // creates the action when the quit button is pressed
         quit = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 System.exit(0);
             }
         };
-        
         vm.getQuitButton().addActionListener(quit);
     
     }

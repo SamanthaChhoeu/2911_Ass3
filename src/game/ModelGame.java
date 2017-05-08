@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 
@@ -20,20 +21,28 @@ public class ModelGame extends Observable {
     
     public void generateBoard() {
         
+        // change this so it changes based on difficulty
+        // keep difficulty on a 3:2 aspect ratio
         this.xSizeOfBoard = 15;
         this.ySizeOfBoard = 10;
         this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
         this.boxes = new ArrayList<Box>();
         
+        // fill the 2d array with walls
+        for (String[] row : sobokanBoard)
+            Arrays.fill(row, "w");
+        
         // generate the board
-        // @Sam @Jath Do the board generation here
-        // Good memes
+        // TODO @Sam @Jath Do the board generation here
+        // Good memes --> Make meme generator here
         // "0"  = free space
         // "p" = player
         // "w"  = wall
         // "b"  = box
         // "g"  = goal
         // "bg" = box at a goal
+        // "pg" = player at a goal
+        // This is just a basic board for testing purposes, change this function here
         String[][] sobokanBoardTest = new String[][]{
         {"w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"},
         {"w", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "w"},
@@ -48,27 +57,27 @@ public class ModelGame extends Observable {
         sobokanBoard = sobokanBoardTest;
         
         // place the player
+        // TODO good starting point: randomly place where the player starts
         p = new Player(1, 1);
         sobokanBoard[p.getYPos()][p.getXPos()] = "p";
         
         // place 2 boxes
+        // TODO good starting point: randomly place where the boxes are placed
         int noOfBoxes = 3;
         for (int i = 0; i < noOfBoxes; i++) {
-            Box newBox = new Box(noOfBoxes + i, noOfBoxes);   //who wrote this shit
+            Box newBox = new Box(noOfBoxes + i, noOfBoxes);
             sobokanBoard[newBox.getYPos()][newBox.getXPos()] = "b";
             boxes.add(newBox);
         }
         
         // set the goal for the boxes
-<<<<<<< HEAD
+        // TODO good starting point: randomly place where the goals for the boxes are
         sobokanBoard[7][12] = "g";
         sobokanBoard[7][11] = "g";
-=======
         sobokanBoard[8][8] = "g";
->>>>>>> 3b4afc81cbc7b1928eb75033838747a57e202241
         
     }
-    
+
     public int getXSizeOfBoard() {
         return xSizeOfBoard;
     }

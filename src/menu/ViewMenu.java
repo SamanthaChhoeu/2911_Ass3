@@ -17,9 +17,15 @@ public class ViewMenu extends JFrame implements Observer {
     private JButton quitButton;
 
     public ViewMenu (ModelInterface mi) {   
+        
         // the model interface is referenced to allow to view to get details from the model
         this.mi = mi;
+        setupMenu();
         
+    }
+    
+    private void setupMenu() {
+
         // sets the size of the window
         this.setSize(mi.getDimensions());
         // sets what happens when the user closes the window
@@ -71,7 +77,7 @@ public class ViewMenu extends JFrame implements Observer {
         // check whether or not to show this screen
         if (command.equals("ChangeScreenMenu")) {
                 
-                this.setVisible(true);
+            this.setVisible(true);
 
         } else {
             

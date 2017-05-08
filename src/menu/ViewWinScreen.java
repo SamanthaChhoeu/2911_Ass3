@@ -15,8 +15,14 @@ public class ViewWinScreen extends JFrame implements Observer {
     private JButton backToMainMenuButton;
 
     public ViewWinScreen(ModelInterface mi) {
+        
         // the model interface is referenced to allow to view to get details from the model
         this.mi = mi;
+        setupWinScreen();
+        
+    }
+    
+    private void setupWinScreen() {
         
         // sets the size of the window
         this.setSize(mi.getDimensions());
@@ -33,7 +39,7 @@ public class ViewWinScreen extends JFrame implements Observer {
         this.add(backToMainMenuButton);
         
     }
-    
+
     public JButton getBackToMainMenuButton() {
         return backToMainMenuButton;
     }

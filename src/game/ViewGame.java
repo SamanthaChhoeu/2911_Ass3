@@ -2,7 +2,6 @@ package game;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,16 +25,21 @@ public class ViewGame extends JFrame implements Observer {
         this.mi = mi;
         this.mg = mg;
         
+        initialiseFrame();
+        initialiseGame();
+        
+    }
+    
+    private void initialiseFrame() {
+        
         this.setSize(mi.getDimensions());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
         //this.setLayout(new FlowLayout());
         this.setLocationRelativeTo(null);
         
-        initialiseGame();
-        
     }
-    
+
     private void initialiseGame() {
         
         setupGamePanel();
@@ -53,7 +57,10 @@ public class ViewGame extends JFrame implements Observer {
             gamePanel.add(tilePanel);
         }
         gamePanel.setBounds(0, 0, 72 * mg.getXSizeOfBoard(), 72 * mg.getYSizeOfBoard());
-        //gamePanel.setSize(72 * mg.getXSizeOfBoard(), 72 * mg.getYSizeOfBoard());
+        
+        gamePanel.setFocusable(true);
+        gamePanel.requestFocusInWindow();
+        
         this.add(gamePanel);
         
     }

@@ -10,20 +10,13 @@ public class ControllerGame {
     private KeyListener playerControls;
     
     public ControllerGame(ModelGame mg, ViewGame vg) {
-<<<<<<< HEAD
         
-=======
-        setMg(mg);
-        setVg(vg);
-    }
-
-    public void setMg(ModelGame mg){
->>>>>>> 3b4afc81cbc7b1928eb75033838747a57e202241
         this.mg = mg;
-    }
-
-    public void setVg(ViewGame vg){
         this.vg = vg;
+        
+    }
+    
+    public void setupController () {
         
         playerControls = new KeyListener() {
 
@@ -54,18 +47,7 @@ public class ControllerGame {
             
         };
         
-        vg.getGamePanel().setFocusable(true);
-        vg.getGamePanel().requestFocusInWindow();
         vg.getGamePanel().addKeyListener(playerControls);
-        
-    }
-
-    public ModelGame getMg(){
-        return this.mg;
-    }
-
-    public ViewGame getVg(){
-        return this.vg;
     }
 
 }

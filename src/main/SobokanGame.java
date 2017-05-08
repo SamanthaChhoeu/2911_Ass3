@@ -59,6 +59,10 @@ public class SobokanGame {
         ControllerGame gm = new ControllerGame(mg, vg);
         ControllerWinScreen cws = new ControllerWinScreen(mi, vws);
         
+        cm.setupController();
+        cs.setupController();
+        gm.setupController();
+        cws.setupController();
         
 	}
 

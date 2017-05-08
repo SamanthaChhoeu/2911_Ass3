@@ -17,6 +17,11 @@ public class ViewSettings extends JFrame implements Observer {
     public ViewSettings(ModelInterface mi) {
         
         this.mi = mi;
+        setupSettings();
+    
+    }
+    
+    private void setupSettings() {
         
         // sets the size of the window
         this.setSize(mi.getDimensions());
@@ -31,9 +36,9 @@ public class ViewSettings extends JFrame implements Observer {
         backButton = new JButton("Back");
         backButton.setBounds(1025, 600, 200, 50);
         this.add(backButton);
-    
+        
     }
-    
+
     public JButton getBackButton() {
         return backButton;
     }
@@ -44,9 +49,8 @@ public class ViewSettings extends JFrame implements Observer {
         String command = ((String) arg);
         
         if (command.equals("ChangeScreenSettings")) {
-            // checks to see whether you should show the settings menu
                 
-                this.setVisible(true);
+            this.setVisible(true);
 
         } else {
             
