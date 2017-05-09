@@ -1,0 +1,131 @@
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+
+public class Front {
+	public static void main(String[] args){
+		new mainFrame();
+	}
+}
+
+class mainFrame extends JFrame implements ActionListener,ItemListener {
+	JComboBox GameMenu = new JComboBox();
+	JButton btnrestart, btnresume, btnhelp, btnquit;
+	
+	
+	MenuItem start = new MenuItem("Start");
+	MenuItem restart = new MenuItem("Restart");
+	MenuItem regret = new MenuItem("Regret One Step");
+	MenuItem last = new MenuItem("Last");
+	MenuItem next = new MenuItem("Next");
+	MenuItem choose = new MenuItem("Select Level");
+	MenuItem exit = new MenuItem("Quit");
+	MenuItem guide = new MenuItem("Guide");
+	MenuItem about = new MenuItem("About");
+	
+	public mainFrame(){
+		setSize(750,750);
+		setTitle("Warehouse Boss – Interactive Puzzle Game");
+		setVisible(true);
+		setResizable(false);//Not implemented yet.
+		setLocation(300,20);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Container cont = getContentPane();
+		cont.setLayout(null);
+		cont.setBackground(Color.white);
+		
+		Menu option = new Menu("Game Option");
+		//option.addSeparator();//Do we even need a seperator?
+		start.addActionListener(this);
+		restart.addActionListener(this);
+		regret.addActionListener(this);
+		last.addActionListener(this);
+		next.addActionListener(this);
+		choose.addActionListener(this);
+		exit.addActionListener(this);
+		option.add(start);
+		option.add(restart);
+		option.add(regret);
+		option.add(last);
+		option.add(next);
+		option.add(choose);
+		option.add(exit);
+		
+		Menu help = new Menu("Help");
+		guide.addActionListener(this);
+		about.addActionListener(this);
+		help.add(guide);
+		help.add(about);
+		
+		MenuBar bar = new MenuBar();
+		bar.add(option);
+		bar.add(help);
+		setMenuBar(bar);
+		
+		JLabel label = new JLabel("Game",SwingConstants.CENTER);
+		add(label);
+		label.setBounds(100,20,400,20);
+		label.setForeground(Color.white);
+		btnrestart = new JButton("Restart");
+		add(btnrestart);
+		btnresume = new JButton("Resume");
+		add(btnresume);
+		btnhelp = new JButton("Help");
+		add(btnhelp);
+		btnquit = new JButton("Quit");
+		add(btnquit);
+		btnrestart.setBounds(625,200,120,30);//x,y,width,height
+		btnrestart.addActionListener(this);
+		btnresume.setBounds(625,260,120,30);
+		btnresume.addActionListener(this);
+		btnhelp.setBounds(625,320,120,30);
+		btnhelp.addActionListener(this);
+		btnquit.setBounds(625,380,120,30);
+		btnquit.addActionListener(this);
+
+		validate();
+	}
+	
+	public void PerformAction(ActionEvent e) {
+		if(e.getSource() == btnrestart || e.getSource() == restart){
+			//TODO
+		}else if(e.getSource() == last){//LAST level
+			//TODO
+		}else if(e.getSource() == next){
+			//TODO
+		}else if(e.getSource() == btnquit || e.getSource()==exit){
+			System.exit(0);
+		}else if(e.getSource() == about){
+			JOptionPane.showMessageDialog(this, "Sokoban v1.0");
+		}else if(e.getSource() == choose){
+			String printoutinfo = JOptionPane.showInputDialog(this,"Enter the level number you want to go to：(1~50)");
+			//TODO
+		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}	
+}
