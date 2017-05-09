@@ -36,7 +36,9 @@ public class ControllerGame {
                     mg.movePlayerUp();
                 } else if (KeyEvent.getKeyText(e.getKeyCode()).equals("Down")) {
                     mg.movePlayerDown();
-                }
+                } /*else if (KeyEvent.getKeyText(e.getKeyCode()).equals("R")) {
+                    mg.resetGame();
+                } */
                 
             }
 

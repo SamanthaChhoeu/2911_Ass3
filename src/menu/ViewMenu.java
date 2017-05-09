@@ -6,8 +6,6 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import main.ModelInterface;
-
 public class ViewMenu extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;

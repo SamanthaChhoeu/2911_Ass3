@@ -226,6 +226,17 @@ public class ModelGame extends Observable {
         
     }
     
+    public void resetGame() {
+        // TODO @Sam @Jath build a function so that the game resets itself when you press r (or JButton press)
+        // HINT Save the original place of the player and box and reset their positions
+    }
+    
+    public void undoMove() {
+        // TODO @Sam @Jath build a function so that the user can undo their last move (no of moves that's saved is up to you)
+        // HINT Maybe consider using states to save the last position the player and boxes were in
+        
+    }
+    
     private void disposeGame() {
         
     }
