@@ -90,8 +90,6 @@ public class ModelGame extends Observable {
         	row [xSizeOfBoard-1] = "w";
         } 
         	
-        	//row[0] = "w";
-        	//row[xSizeOfBoard-1] ="w";
         
         Random rand = new Random();
         
@@ -154,8 +152,6 @@ public class ModelGame extends Observable {
             Box newBox = new Box(xBox, yBox);
             board[newBox.getYPos()][newBox.getXPos()] = "g";
             boxes.add(newBox);
-            
-            
             
             
             
