@@ -92,6 +92,36 @@ public class ViewGame extends JFrame implements Observer {
         
    }
     
+   public void startCounting(){
+        JLabel label;
+        label=new JLabel("",JLabel.CENTER);
+        label.setBounds(1110, 150, 120, 30);
+        final long start = System.currentTimeMillis();
+        Timer timer=new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+            long sub = System.currentTimeMillis() - start;
+            if(sub<0) return;
+            int h = (int) (sub / 1000 / 60 / 60);
+            int m = (int) (sub / 1000 / 60 % 60);
+            int s = (int) (sub / 1000 % 60);
+            String str = h + ":" + m + ":" + s;
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
+            Font font = new Font("Default", Font.PLAIN, 30);
+            label.setFont(font);
+            try{
+                date = sdf.parse(str);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            label.setText(sdf.format(date));
+        }
+    },0,1000);//refresh every second with no delay.
+    add(label);
+   }
+    
+    
     private void setupUtilityPanel() {
 
         utilityPanel = new JPanel();
