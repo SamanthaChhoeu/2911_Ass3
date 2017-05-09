@@ -18,16 +18,18 @@ public class ControllerSettings {
         // reference the view to allow the controller to change things in the view
         this.vs = vs;
         
-        // creates the action when the play button is pressed
+    }
+    
+    public void setupController () {
+        // creates the action when the back to menu button is pressed
         backToMenu = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                // when the play button is pressed, sets the current screen being viewed to the game screen
+                // when the menu button is pressed, sets the current screen being viewed to the main menu screen
                 mi.setCurrScreen("Menu");
             }
         };
-        // adds a listener to the play button so that the action is performed when the play button is pressed
+        // adds a listener to the menu button so that the action is performed when the menu button is pressed
         vs.getBackButton().addActionListener(backToMenu);
-        
     }
 
 }
