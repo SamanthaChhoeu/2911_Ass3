@@ -21,6 +21,8 @@ public class ViewGame extends JFrame implements Observer {
     private JPanel utilityPanel;
     private JButton backButton;
     
+    private JButton btnrestart, btnresume, btnhelp, btnback, btnpause;
+    
     public ViewGame(ModelInterface mi, ModelGame mg) {
         
         this.mi = mi;
@@ -99,6 +101,43 @@ public class ViewGame extends JFrame implements Observer {
         utilityPanel.setLayout(null);
         utilityPanel.setBounds(1080, 0, 200, 720);
         //utilityPanel.setPreferredSize(new Dimension(200, 720));
+        
+        
+        // Can show on the right, but not added to utility yet.
+        utilityPanel = new JPanel();
+        utilityPanel.setBackground(Color.BLACK);
+        utilityPanel.setLayout(null);
+        utilityPanel.setBounds(1080, 0, 200, 720);
+        //utilityPanel.setPreferredSize(new Dimension(200, 720));
+        
+        
+
+		btnrestart = new JButton("Restart");
+		btnresume = new JButton("Resume");
+		btnpause = new JButton("Pause");
+		btnhelp = new JButton("Help");
+		btnback = new JButton("Menu");
+
+		add(btnrestart);
+		add(btnresume);
+		add(btnpause);
+		add(btnhelp);
+		add(btnback);
+
+		/*utilityPanel.add(btnrestart);
+		utilityPanel.add(btnresume);
+		utilityPanel.add(btnpause);
+		utilityPanel.add(btnhelp);
+		utilityPanel.add(btnquit);*/
+		
+		
+		
+		btnrestart.setBounds(1110,350,120,30);//x,y,width,height
+		btnresume.setBounds(1110,410,120,30);
+		btnpause.setBounds(1110,470,120,30);
+		btnhelp.setBounds(1110,530,120,30);
+		btnback.setBounds(1110,590,120,30);
+        
         
         utilityPanel.setVisible(true);
         
