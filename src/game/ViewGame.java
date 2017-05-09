@@ -92,6 +92,8 @@ public class ViewGame extends JFrame implements Observer {
         
    }
     
+   //Function below is timer part, it can run, but not perfectly supports button operations.
+   //Let me know if someone else needs more features to it :)
    public void startCounting(){
         JLabel label;
         label=new JLabel("",JLabel.CENTER);
