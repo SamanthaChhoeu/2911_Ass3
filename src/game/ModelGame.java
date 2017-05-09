@@ -30,10 +30,8 @@ public class ModelGame extends Observable {
         this.boxes = new ArrayList<Box>();
         
         // samantha's generator
-        String[][] generatedBoard = generate(xSizeOfBoard,ySizeOfBoard);
-        
-        
-        
+        String[][] generatedBoard = randomGenerate(xSizeOfBoard,ySizeOfBoard);
+     
         // generate the board
         // TODO @Sam @Jath Do the board generation here
         // Good memes --> Make meme generator here
@@ -44,27 +42,13 @@ public class ModelGame extends Observable {
         // "g"  = goal
         // "bg" = box at a goal
         // "pg" = player at a goal
-        // This is just a basic board for testing purposes, change this function here
-        String[][] sobokanBoardTest = new String[][]{
-        {"w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"},
-        {"w", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "w"},
-        {"w", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "w"},
-        {"w", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "w"},
-        {"w", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "w"},
-        {"w", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "w"},
-        {"w", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "w"},
-        {"w", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "w"},
-        {"w", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "w"},
-        {"w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"}};
-        sobokanBoard = sobokanBoardTest;
-        
-        
+        // This is just a basic board for testing purposes, change this function here        
         sobokanBoard = generatedBoard;
         printBoard(sobokanBoard);
         
     }
     
-    public String[][] generate(int xSizeOfBoard, int ySizeOfBoard){
+    private String[][] randomGenerate(int xSizeOfBoard, int ySizeOfBoard){
 		// generate the board
         // TODO @Sam @Jath Do the board generation here
         // Good memes --> Make meme generator here
@@ -89,8 +73,104 @@ public class ModelGame extends Observable {
         	row [0] = "w";
         	row [xSizeOfBoard-1] = "w";
         } 
-        	
         
+        Random rand = new Random();
+        
+        // place the player
+        // TODO good starting point: randomly place where the player starts
+        
+        int xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
+        int yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
+        p = new Player(xPlayer, yPlayer);
+        board[yPlayer][xPlayer] = "p";
+
+        
+        // place 2 boxes
+        // TODO good starting point: randomly place where the boxes are placed
+        int noOfBoxes = 3;
+        for (int i = 0; i < noOfBoxes; i++) {
+        	// randomly place box - x range(2,x-3) & y range (2,y-3)       	
+        	int xBox = rand.nextInt(xSizeOfBoard-5)+2;
+        	int yBox = rand.nextInt(ySizeOfBoard-5)+2;
+        	while (getSobokanBoardAtXY(xBox, yBox) == "b"|| getSobokanBoardAtXY(xBox, yBox) == "p"){	
+        		xBox = rand.nextInt(xSizeOfBoard-5)+2;
+                yBox = rand.nextInt(ySizeOfBoard-5)+2;
+        	}   
+            Box newBox = new Box(xBox, yBox);
+            board[yBox][xBox] = "b";
+            boxes.add(newBox);
+            
+        }
+        
+        // set the goal for the boxes
+        // TODO good starting point: randomly place where the goals for the boxes are
+        for (int i = 0; i < noOfBoxes; i++) {
+        	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
+        	int xBox = rand.nextInt(xSizeOfBoard-3)+1;
+        	int yBox = rand.nextInt(ySizeOfBoard-3)+1;
+        	while (getSobokanBoardAtXY(xBox, yBox) == "b"|| getSobokanBoardAtXY(xBox, yBox) == "p"||getSobokanBoardAtXY(xBox, yBox) == "g"){	
+        		xBox = rand.nextInt(xSizeOfBoard-3)+1;
+                yBox = rand.nextInt(ySizeOfBoard-3)+1;
+        	}   
+            Box newBox = new Box(xBox, yBox);
+            board[newBox.getYPos()][newBox.getXPos()] = "g";
+            boxes.add(newBox);
+ 
+        }
+        
+        // randomly put in walls
+        int difficulty = 15; // number of walls
+        for (int i = 0; i < difficulty; i++){
+        	int xWall = rand.nextInt(xSizeOfBoard-3)+1;
+        	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
+        	// if its not an important block (player, goal, box) or if it doesnt form a corner. 
+        	while (getSobokanBoardAtXY(xWall, yWall) == "b"|| getSobokanBoardAtXY(xWall, yWall) == "p"||getSobokanBoardAtXY(xWall, yWall) == "g"
+        	// makes sure they dont form corners	
+        	|| board[yWall+1][xWall+1] == "w" || board[yWall-1][xWall-1] == "w"|| board[yWall-1][xWall+1] == "w"|| board[yWall+1][xWall-1] == "w"){	
+        		
+        		xWall = rand.nextInt(xSizeOfBoard-3)+1;
+                yWall = rand.nextInt(ySizeOfBoard-3)+1;
+        	}
+        	board[yWall][xWall] = "w";
+        }
+        
+        
+        return board;
+	}
+    
+    private String[][] treeGenerate(int xSizeOfBoard, int ySizeOfBoard){
+    	// generate the board
+        // TODO @Sam @Jath Do the board generation here
+        // Good memes --> Make meme generator here
+        // "0"  = free space
+        // "p" = player
+        // "w"  = wall
+        // "b"  = box
+        // "g"  = goal
+        // "bg" = box at a goal
+        // "pg" = player at a goal
+        // This is just a basic board for testing purposes, change this function here
+        String[][] board = new String[ySizeOfBoard][xSizeOfBoard];
+        // put in the walls
+        int rowcount = 0;
+        for (String[] row: board){
+        	if (rowcount == 0 || rowcount == ySizeOfBoard-1){
+        		Arrays.fill(row, "w");
+        	} else {
+        		Arrays.fill(row, "0");
+        	}
+        	rowcount++;
+        	row [0] = "w";
+        	row [xSizeOfBoard-1] = "w";
+        } 
+        
+        // fills in all places with a wall
+        /*
+        for (String[] row: board){
+        	
+        		Arrays.fill(row, "w");
+        }
+        */
         Random rand = new Random();
         
         // place the player
@@ -116,27 +196,69 @@ public class ModelGame extends Observable {
             Box newBox = new Box(xBox, yBox);
             board[newBox.getYPos()][newBox.getXPos()] = "b";
             boxes.add(newBox);
-         // boxes cant be cornered so either put two vertically(1), two horizontally(2), 1 randomly(3), or no walls(4)
+         // boxes cant be cornered so either put two vertically(0), two horizontally(1), 1 randomly(2), or no walls(3)
             int surround = rand.nextInt(4); // randomly choose how many walls around the block
             System.out.println(surround);
+            /*
             for (int j = 0; j< surround; j++){
+            	
             	if (surround == 0){
+            		//left
+            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox-1] != "b"){
+            			board[yBox][xBox-1]= "0";
+            		}
+            		//right
+            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox+1] != "b"){
+            			board[yBox][xBox+1]= "0";
+            		}
             		
             	} else if (surround == 1){
-            		
+            		// above
+            		if (board[yBox-1][xBox] != "p" || board[yBox-1][xBox] != "b"){
+            			board[yBox-1][xBox]= "0";
+            		}
+            		// below
+            		if (board[yBox+1][xBox] != "p" || board[yBox+1][xBox] != "b"){
+            			board[yBox+1][xBox]= "0";
+            		}
             	} else if (surround == 2){
+            		// above
+            		if (board[yBox-1][xBox] != "p" || board[yBox-1][xBox] != "b"){
+            			board[yBox-1][xBox]= "0";
+            		}
+            		// below
+            		if (board[yBox+1][xBox] != "p" || board[yBox+1][xBox] != "b"){
+            			board[yBox+1][xBox]= "0";
+            		}
+            		//left
+            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox-1] != "b"){
+            			board[yBox][xBox-1]= "0";
+            		}
+            		//right
+            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox+1] != "b"){
+            			board[yBox][xBox+1]= "0";
+            		}
             		
             	} else {
             		// above
-            		board[yBox-1][xBox]= "0";
+            		if (board[yBox-1][xBox] != "p" || board[yBox-1][xBox] != "b"){
+            			board[yBox-1][xBox]= "0";
+            		}
             		// below
-            		board[yBox+1][xBox]= "0";
+            		if (board[yBox+1][xBox] != "p" || board[yBox+1][xBox] != "b"){
+            			board[yBox+1][xBox]= "0";
+            		}
             		//left
-            		board[yBox][xBox-1]= "0";
+            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox-1] != "b"){
+            			board[yBox][xBox-1]= "0";
+            		}
             		//right
-            		board[yBox][xBox+1]= "0";
+            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox+1] != "b"){
+            			board[yBox][xBox+1]= "0";
+            		}
             	}
             }
+            */
         }
         
         // set the goal for the boxes
@@ -163,8 +285,7 @@ public class ModelGame extends Observable {
         
         
         return board;
-	}
-    
+    }
     // print board for debugging purposes
     private void printBoard(String[][] board){
         for (int i = 0; i < ySizeOfBoard; i++){
