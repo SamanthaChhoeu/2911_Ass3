@@ -1,15 +1,12 @@
 package game;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import menu.ModelInterface;
@@ -39,7 +36,6 @@ public class ViewGame extends JFrame implements Observer {
         this.setSize(mi.getDimensions());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
-        //this.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.setLocationRelativeTo(null);
         
     }
@@ -59,18 +55,12 @@ public class ViewGame extends JFrame implements Observer {
         gameGrid = new JPanel[mg.getYSizeOfBoard()][mg.getXSizeOfBoard()];
         
         for (int y = 0; y < mg.getYSizeOfBoard(); y++) {
-            
             for (int x = 0; x < mg.getXSizeOfBoard(); x++) {
-                
                 gameGrid[y][x] = new JPanel();
                 setPanelAppearance(gameGrid[y][x], x, y);
                 gamePanel.add(gameGrid[y][x]);
-                
             }
-            
         }
-        
-        //gamePanel.add(gameGrid);
         
         gamePanel.setBounds(0, 0, 1080, 720);
         //gamePanel.setPreferredSize(new Dimension(1080, 720));
@@ -103,17 +93,12 @@ public class ViewGame extends JFrame implements Observer {
    }
     
     private void setupUtilityPanel() {
-        
-        // TODO @Nors @Sharon fix this so that the JPanel shows on the right hand side
+
         utilityPanel = new JPanel();
         utilityPanel.setBackground(Color.BLACK);
         utilityPanel.setLayout(null);
         utilityPanel.setBounds(1080, 0, 200, 720);
         //utilityPanel.setPreferredSize(new Dimension(200, 720));
-        
-        // TODO @Nors @Sharon add a timer onto this panel which shows how long a user is taking on a puzzle
-        
-        // TODO @Nors @Sharon add a pause button which pauses the game and allows the user to resume, restart or quit
         
         utilityPanel.setVisible(true);
         
@@ -133,26 +118,43 @@ public class ViewGame extends JFrame implements Observer {
         String command = ((String) arg);
         
         if (command.equals("ChangeScreenPlay")) {
-            
-            //gamePanel.removeAll();
-            initialiseGame();
+
+            refreshGame();
             this.setVisible(true);
             
         } else if (command.equals("MovePlayer")) {
             
-            // TODO @Nors @Sharon fix this so that you don't have to destroy and recreate the gamePanel
-            gamePanel.removeAll();
-            setupGamePanel();
-            //gameGrid[mg.getPlayerYPos()][mg.getPlayerXPos()].revalidate();
-            //gameGrid[mg.getPlayerYPos()][mg.getPlayerXPos()].repaint();
-            gamePanel.revalidate();
-            //gamePanel.repaint();
+            updateGrid(mg.getPlayerXPos(), mg.getPlayerYPos());
+            updateGrid(mg.getPlayerXPos() - 1, mg.getPlayerYPos());
+            updateGrid(mg.getPlayerXPos() + 1, mg.getPlayerYPos());
+            updateGrid(mg.getPlayerXPos(), mg.getPlayerYPos() - 1);
+            updateGrid(mg.getPlayerXPos(), mg.getPlayerYPos() + 1);
             
         } else {
             
             this.setVisible(false);
             
         }
+        
+    }
+
+    private void refreshGame() {
+        
+        for (int y = 0; y < mg.getYSizeOfBoard(); y++) {
+            for (int x = 0; x < mg.getXSizeOfBoard(); x++) {
+                setPanelAppearance(gameGrid[y][x], x, y);
+                gameGrid[y][x].repaint();
+                gameGrid[y][x].revalidate();
+            }
+        }
+        
+    }
+
+    private void updateGrid(int x, int y) {
+        
+        setPanelAppearance(gameGrid[y][x], x, y);
+        gameGrid[y][x].repaint();
+        gameGrid[y][x].revalidate();
         
     }
 
