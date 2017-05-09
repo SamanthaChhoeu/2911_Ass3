@@ -78,11 +78,13 @@ public class ModelGame extends Observable {
         
         // place the player
         // TODO good starting point: randomly place where the player starts
+
         
         int xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
         int yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
         p = new Player(xPlayer, yPlayer);
         board[yPlayer][xPlayer] = "p";
+
 
         
         // place 2 boxes
@@ -104,6 +106,7 @@ public class ModelGame extends Observable {
         
         // set the goal for the boxes
         // TODO good starting point: randomly place where the goals for the boxes are
+
         for (int i = 0; i < noOfBoxes; i++) {
         	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
         	int xBox = rand.nextInt(xSizeOfBoard-3)+1;
@@ -117,6 +120,7 @@ public class ModelGame extends Observable {
             boxes.add(newBox);
  
         }
+
         
         // randomly put in walls
         int difficulty = 15; // number of walls
