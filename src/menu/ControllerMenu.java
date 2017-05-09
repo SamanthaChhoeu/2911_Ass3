@@ -16,7 +16,7 @@ public class ControllerMenu {
     private ActionListener goToSettings;
     private ActionListener quit;
     
-    public ControllerMenu(ModelInterface mi, ModelGame mg, ViewMenu vm) {
+    public ControllerMenu(ViewGame vg, ModelInterface mi, ModelGame mg, ViewMenu vm) {
         
         // reference the model to allow the controller to alter settings
         this.mi = mi;

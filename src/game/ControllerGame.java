@@ -5,11 +5,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import menu.ModelInterface;
+
 public class ControllerGame implements ActionListener{
 
     private ModelGame mg;
     private ViewGame vg;
     private KeyListener playerControls;
+    private ModelInterface mi;
     
     public ControllerGame(ModelInterface mi, ModelGame mg, ViewGame vg) {
 
@@ -52,15 +55,17 @@ public class ControllerGame implements ActionListener{
         };
         
         vg.getGamePanel().addKeyListener(playerControls);
-        
+        /*
         backToMenu = new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            @Override
+			public void actionPerformed(ActionEvent event) {
                 // when the menu button is pressed, sets the current screen being viewed to the main menu screen
                 mi.setCurrScreen("Menu");
             }
         };
         // adds a listener to the menu button so that the action is performed when the menu button is pressed
         vg.getBtnback().addActionListener(backToMenu);
+        */
     }
     
     @Override
