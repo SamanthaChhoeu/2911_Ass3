@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 public class ModelGame extends Observable {
 
@@ -58,7 +59,10 @@ public class ModelGame extends Observable {
         
         // place the player
         // TODO good starting point: randomly place where the player starts
-        p = new Player(1, 1);
+        Random rand = new Random(); //randomization
+        int Px = rand.nextInt(8)+1;
+        int Py = rand.nextInt(8)+1;
+        p = new Player(Px, Py);
         sobokanBoard[p.getYPos()][p.getXPos()] = "p";
         
         // place 2 boxes
@@ -72,9 +76,9 @@ public class ModelGame extends Observable {
         
         // set the goal for the boxes
         // TODO good starting point: randomly place where the goals for the boxes are
-        sobokanBoard[7][12] = "g";
-        sobokanBoard[7][11] = "g";
-        sobokanBoard[8][8] = "g";
+        int EndX = rand.nextInt(8)+1;
+        int EndY = rand.nextInt(8)+1;
+        sobokanBoard[EndX][EndY] = "g";
         
     }
 
