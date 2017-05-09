@@ -197,4 +197,24 @@ public class ViewGame extends JFrame implements Observer {
         
     }
 
+	
+    public JButton getBtnrestart() {
+        return btnrestart;
+    }
+
+    public JButton getBtnresume() {
+        return btnresume;
+    }
+
+    public JButton getBtnhelp() {
+        return btnhelp;
+    }
+
+    public JButton getBtnback() {
+        return btnback;
+    }
+
+    public JButton getBtnpause() {
+        return btnpause;
+    }
 }
