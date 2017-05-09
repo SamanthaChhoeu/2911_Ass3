@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 public class ModelGame extends Observable {
 
@@ -28,9 +29,10 @@ public class ModelGame extends Observable {
         this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
         this.boxes = new ArrayList<Box>();
         
-        // fill the 2d array with walls
-        for (String[] row : sobokanBoard)
-            Arrays.fill(row, "w");
+        // samantha's generator
+        String[][] generatedBoard = generate(xSizeOfBoard,ySizeOfBoard);
+        
+        
         
         // generate the board
         // TODO @Sam @Jath Do the board generation here
@@ -56,26 +58,125 @@ public class ModelGame extends Observable {
         {"w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"}};
         sobokanBoard = sobokanBoardTest;
         
+        
+        sobokanBoard = generatedBoard;
+        printBoard(sobokanBoard);
+        
+    }
+    
+    public String[][] generate(int xSizeOfBoard, int ySizeOfBoard){
+		// generate the board
+        // TODO @Sam @Jath Do the board generation here
+        // Good memes --> Make meme generator here
+        // "0"  = free space
+        // "p" = player
+        // "w"  = wall
+        // "b"  = box
+        // "g"  = goal
+        // "bg" = box at a goal
+        // "pg" = player at a goal
+        // This is just a basic board for testing purposes, change this function here
+        String[][] board = new String[ySizeOfBoard][xSizeOfBoard];
+        // put in the walls
+        int rowcount = 0;
+        for (String[] row: board){
+        	if (rowcount == 0 || rowcount == ySizeOfBoard-1){
+        		Arrays.fill(row, "w");
+        	} else {
+        		Arrays.fill(row, "0");
+        	}
+        	rowcount++;
+        	row [0] = "w";
+        	row [xSizeOfBoard-1] = "w";
+        } 
+        	
+        	//row[0] = "w";
+        	//row[xSizeOfBoard-1] ="w";
+        
+        Random rand = new Random();
+        
         // place the player
         // TODO good starting point: randomly place where the player starts
-        p = new Player(1, 1);
-        sobokanBoard[p.getYPos()][p.getXPos()] = "p";
+        
+        int xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
+        int yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
+        p = new Player(xPlayer, yPlayer);
+        board[yPlayer][xPlayer] = "p";
+
         
         // place 2 boxes
         // TODO good starting point: randomly place where the boxes are placed
         int noOfBoxes = 3;
         for (int i = 0; i < noOfBoxes; i++) {
-            Box newBox = new Box(noOfBoxes + i, noOfBoxes);
-            sobokanBoard[newBox.getYPos()][newBox.getXPos()] = "b";
+        	// randomly place box - x range(2,x-3) & y range (2,y-3)       	
+        	int xBox = rand.nextInt(xSizeOfBoard-5)+2;
+        	int yBox = rand.nextInt(ySizeOfBoard-5)+2;
+        	while (getSobokanBoardAtXY(xBox, yBox) == "b"|| getSobokanBoardAtXY(xBox, yBox) == "p"){	
+        		xBox = rand.nextInt(xSizeOfBoard-5)+2;
+                yBox = rand.nextInt(ySizeOfBoard-5)+2;
+        	}   
+            Box newBox = new Box(xBox, yBox);
+            board[newBox.getYPos()][newBox.getXPos()] = "b";
             boxes.add(newBox);
+         // boxes cant be cornered so either put two vertically(1), two horizontally(2), 1 randomly(3), or no walls(4)
+            int surround = rand.nextInt(4); // randomly choose how many walls around the block
+            System.out.println(surround);
+            for (int j = 0; j< surround; j++){
+            	if (surround == 0){
+            		
+            	} else if (surround == 1){
+            		
+            	} else if (surround == 2){
+            		
+            	} else {
+            		// above
+            		board[yBox-1][xBox]= "0";
+            		// below
+            		board[yBox+1][xBox]= "0";
+            		//left
+            		board[yBox][xBox-1]= "0";
+            		//right
+            		board[yBox][xBox+1]= "0";
+            	}
+            }
         }
         
         // set the goal for the boxes
         // TODO good starting point: randomly place where the goals for the boxes are
-        sobokanBoard[7][12] = "g";
-        sobokanBoard[7][11] = "g";
-        sobokanBoard[8][8] = "g";
+        for (int i = 0; i < noOfBoxes; i++) {
+        	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
+        	int xBox = rand.nextInt(xSizeOfBoard-3)+1;
+        	int yBox = rand.nextInt(ySizeOfBoard-3)+1;
+        	while (getSobokanBoardAtXY(xBox, yBox) == "b"|| getSobokanBoardAtXY(xBox, yBox) == "p"||getSobokanBoardAtXY(xBox, yBox) == "g"){	
+        		xBox = rand.nextInt(xSizeOfBoard-3)+2;
+                yBox = rand.nextInt(ySizeOfBoard-3)+2;
+        	}   
+            Box newBox = new Box(xBox, yBox);
+            board[newBox.getYPos()][newBox.getXPos()] = "g";
+            boxes.add(newBox);
+            
+            
+            
+            
+            
+            
+        }
         
+        // find a random path
+        // TODO figure out the tree search
+        
+        
+        return board;
+	}
+    
+    // print board for debugging purposes
+    private void printBoard(String[][] board){
+        for (int i = 0; i < ySizeOfBoard; i++){
+        	for (int j = 0; j<xSizeOfBoard; j++){
+        		System.out.print(board[i][j]);
+        	}
+        	System.out.print("\n");
+        }
     }
 
     public int getXSizeOfBoard() {
