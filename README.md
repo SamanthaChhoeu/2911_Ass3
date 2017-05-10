@@ -13,3 +13,4 @@
 2. build a function so that the game resets itself when you press r (or JButton press)
 3. build a function so that the user can undo their last move (no of moves that's saved is up to you)
 4. find some unique features which you can implement which affect back end (e.g. ai to chase player, unique game mode)
+5. Fix the timer for when all the blocks are at the goal. 

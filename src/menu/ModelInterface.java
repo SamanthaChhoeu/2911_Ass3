@@ -31,8 +31,8 @@ public class ModelInterface extends Observable {
     }
 
     public void setCurrScreen(String currScreen) {
-        this.prevScreen = this.currScreen;
-        this.currScreen = currScreen;
+        //this.prevScreen = this.currScreen;
+        //this.currScreen = currScreen;
         String changeToScreen = "ChangeScreen" + currScreen;
         setChanged();
         notifyObservers(changeToScreen);

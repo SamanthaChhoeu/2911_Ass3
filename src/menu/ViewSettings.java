@@ -30,10 +30,6 @@ public class ViewSettings extends JFrame implements Observer {
         // sets the window to show in the middle of the screen
         this.setLocationRelativeTo(null);
         
-        // TODO @Nors @Sharon find some settings which you can implement which affect front end (e.g. smoother animations or different view)
-        // TODO @Sam @Jath find some settings which you can implement which affect back end (e.g. ai to chase player, unique game mode)
-        // HINT Better to think of one big front end project that we can do to get extra features mark
-        
         // creates a new button to go back to the main menu
         backButton = new JButton("Back");
         backButton.setBounds(1025, 600, 200, 50);

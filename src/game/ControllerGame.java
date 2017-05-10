@@ -1,35 +1,35 @@
 package game;
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class ControllerGame {
+import menu.ModelInterface;
+
+import menu.ModelInterface;
+
+public class ControllerGame implements ActionListener{
 
     private ModelGame mg;
     private ViewGame vg;
+    private ModelInterface mi;
     private KeyListener playerControls;
+    private ActionListener backToMenu;
+    private Timer gameTimer;
+
     
-    public ControllerGame(ModelGame mg, ViewGame vg) {
+    public ControllerGame(ModelInterface mi, ModelGame mg, ViewGame vg) {
 
-        setMg(mg);
-        setVg(vg);
-        
-    }
-
-    public void setMg(ModelGame mg){
         this.mg = mg;
-    }
-
-    public void setVg(ViewGame vg){
         this.vg = vg;
-    }
-
-    public ModelGame getMg(){
-        return this.mg;
-    }
-
-    public ViewGame getVg(){
-        return this.vg;
+        this.mi = mi;
+        
     }
     
     public void setupController () {
@@ -66,6 +66,32 @@ public class ControllerGame {
         };
         
         vg.getGamePanel().addKeyListener(playerControls);
+        /*
+        backToMenu = new ActionListener() {
+            @Override
+			public void actionPerformed(ActionEvent event) {
+                // when the menu button is pressed, sets the current screen being viewed to the main menu screen
+                mi.setCurrScreen("Menu");
+            }
+        };
+        // adds a listener to the menu button so that the action is performed when the menu button is pressed
+*/
+        vg.getBackButton().addActionListener(backToMenu);
+        
+        gameTimer = new Timer();
+        gameTimer.schedule(new TimerTask() {
+            public void run() {
+                mg.updateTimer();
+            }
+        },0,1000);//refresh every second with no delay.
+        
+
     }
+    
+    @Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

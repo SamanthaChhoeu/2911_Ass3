@@ -1,5 +1,8 @@
 package menu;
 
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -49,6 +52,29 @@ public class ViewMenu extends JFrame implements Observer {
         quitButton = new JButton("Quit");
         quitButton.setBounds(390, 525, 500, 50);
         this.add(quitButton);
+        
+        //Top menu bar.
+        //Feel free to delete if we don't need at the end.
+        MenuItem something = new MenuItem("Something");
+        MenuItem somethingmore = new MenuItem("Something More");
+        MenuItem Guide = new MenuItem("Guide");
+        MenuItem About = new MenuItem("About");
+    	
+    	Menu option = new Menu("Game Option");
+		//option.addSeparator();//Do we even need a seperator?
+		option.add(something);
+		option.add(somethingmore);
+		
+		Menu help = new Menu("Help");
+		help.add(Guide);
+		help.add(About);
+		
+		MenuBar bar = new MenuBar();
+		bar.add(option);
+		bar.add(help);
+		setMenuBar(bar);
+        
+        
         
         // set such that the main menu is the visible when this class is created
         this.setVisible(true);

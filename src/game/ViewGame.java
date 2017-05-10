@@ -1,11 +1,14 @@
 package game;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +26,7 @@ public class ViewGame extends JFrame implements Observer {
     private JPanel[][] gameGrid;
     private JPanel utilityPanel;
     private JButton backButton;
+    private JLabel timerLabel;
     
     public ViewGame(ModelInterface mi, ModelGame mg) {
         
@@ -39,7 +43,6 @@ public class ViewGame extends JFrame implements Observer {
         this.setSize(mi.getDimensions());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
-        //this.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.setLocationRelativeTo(null);
         
     }
@@ -59,18 +62,12 @@ public class ViewGame extends JFrame implements Observer {
         gameGrid = new JPanel[mg.getYSizeOfBoard()][mg.getXSizeOfBoard()];
         
         for (int y = 0; y < mg.getYSizeOfBoard(); y++) {
-            
             for (int x = 0; x < mg.getXSizeOfBoard(); x++) {
-                
                 gameGrid[y][x] = new JPanel();
                 setPanelAppearance(gameGrid[y][x], x, y);
                 gamePanel.add(gameGrid[y][x]);
-                
             }
-            
         }
-        
-        //gamePanel.add(gameGrid);
         
         gamePanel.setBounds(0, 0, 1080, 720);
         //gamePanel.setPreferredSize(new Dimension(1080, 720));
@@ -102,20 +99,29 @@ public class ViewGame extends JFrame implements Observer {
         
    }
     
-    private void setupUtilityPanel() {
+   //Function below is timer part, it can run, but not perfectly supports button operations.
+   //Let me know if someone else needs more features to it :)
+   public void startCounting(){
         
-        // TODO @Nors @Sharon fix this so that the JPanel shows on the right hand side
+    }
+    
+    
+    private void setupUtilityPanel() {
+
         utilityPanel = new JPanel();
         utilityPanel.setBackground(Color.BLACK);
         utilityPanel.setLayout(null);
         utilityPanel.setBounds(1080, 0, 200, 720);
         //utilityPanel.setPreferredSize(new Dimension(200, 720));
         
-        // TODO @Nors @Sharon add a timer onto this panel which shows how long a user is taking on a puzzle
+        timerLabel=new JLabel("",JLabel.CENTER);
+        timerLabel.setBounds(1110, 150, 120, 30);
+        timerLabel.setFont(new Font("Default", Font.PLAIN, 30));
+        this.add(timerLabel);
         
-        // TODO @Nors @Sharon add a pause button which pauses the game and allows the user to resume, restart or quit
+        backButton = new JButton();
         
-        utilityPanel.setVisible(true);
+        //utilityPanel.setVisible(true);
         
     }
     
@@ -133,26 +139,48 @@ public class ViewGame extends JFrame implements Observer {
         String command = ((String) arg);
         
         if (command.equals("ChangeScreenPlay")) {
-            
-            //gamePanel.removeAll();
-            initialiseGame();
+
+            refreshGame();
             this.setVisible(true);
             
         } else if (command.equals("MovePlayer")) {
             
-            // TODO @Nors @Sharon fix this so that you don't have to destroy and recreate the gamePanel
-            gamePanel.removeAll();
-            setupGamePanel();
-            //gameGrid[mg.getPlayerYPos()][mg.getPlayerXPos()].revalidate();
-            //gameGrid[mg.getPlayerYPos()][mg.getPlayerXPos()].repaint();
-            gamePanel.revalidate();
-            //gamePanel.repaint();
+            updateGrid(mg.getPlayerXPos(), mg.getPlayerYPos());
+            updateGrid(mg.getPlayerXPos() - 1, mg.getPlayerYPos());
+            updateGrid(mg.getPlayerXPos() + 1, mg.getPlayerYPos());
+            updateGrid(mg.getPlayerXPos(), mg.getPlayerYPos() - 1);
+            updateGrid(mg.getPlayerXPos(), mg.getPlayerYPos() + 1);
+            
+        } else if (command.equals("UpdateTimer")) {
+        
+            //System.out.println(mg.getCurrTime());
+            timerLabel.setText(mg.getCurrTime());
             
         } else {
             
             this.setVisible(false);
             
         }
+        
+    }
+
+    private void refreshGame() {
+        
+        for (int y = 0; y < mg.getYSizeOfBoard(); y++) {
+            for (int x = 0; x < mg.getXSizeOfBoard(); x++) {
+                setPanelAppearance(gameGrid[y][x], x, y);
+                gameGrid[y][x].repaint();
+                gameGrid[y][x].revalidate();
+            }
+        }
+        
+    }
+
+    private void updateGrid(int x, int y) {
+        
+        setPanelAppearance(gameGrid[y][x], x, y);
+        gameGrid[y][x].repaint();
+        gameGrid[y][x].revalidate();
         
     }
 
