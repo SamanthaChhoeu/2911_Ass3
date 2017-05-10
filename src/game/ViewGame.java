@@ -26,6 +26,7 @@ public class ViewGame extends JFrame implements Observer {
     private JPanel[][] gameGrid;
     private JPanel utilityPanel;
     private JButton backButton;
+    private JLabel timerLabel;
     
     public ViewGame(ModelInterface mi, ModelGame mg) {
         
@@ -101,33 +102,13 @@ public class ViewGame extends JFrame implements Observer {
    //Function below is timer part, it can run, but not perfectly supports button operations.
    //Let me know if someone else needs more features to it :)
    public void startCounting(){
-        JLabel label;
-        label=new JLabel("",JLabel.CENTER);
-        label.setBounds(1110, 150, 120, 30);
-        final long start = System.currentTimeMillis();
-        Timer timer=new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-            long sub = System.currentTimeMillis() - start;
-            if(sub<0) return;
-            int h = (int) (sub / 1000 / 60 / 60);
-            int m = (int) (sub / 1000 / 60 % 60);
-            int s = (int) (sub / 1000 % 60);
-            String str = h + ":" + m + ":" + s;
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-            Date date = new Date();
-            Font font = new Font("Default", Font.PLAIN, 30);
-            label.setFont(font);
-            try{
-                date = sdf.parse(str);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            label.setText(sdf.format(date));
-        }
-    },0,1000);//refresh every second with no delay.
-    add(label);
-   }
+       
+        timerLabel=new JLabel("",JLabel.CENTER);
+        timerLabel.setBounds(1110, 150, 120, 30);
+        timerLabel.setFont(new Font("Default", Font.PLAIN, 30));
+        this.add(timerLabel);
+        
+    }
     
     
     private void setupUtilityPanel() {
@@ -138,7 +119,9 @@ public class ViewGame extends JFrame implements Observer {
         utilityPanel.setBounds(1080, 0, 200, 720);
         //utilityPanel.setPreferredSize(new Dimension(200, 720));
         
-        utilityPanel.setVisible(true);
+        backButton = new JButton();
+        
+        //utilityPanel.setVisible(true);
         
     }
     
@@ -167,6 +150,10 @@ public class ViewGame extends JFrame implements Observer {
             updateGrid(mg.getPlayerXPos() + 1, mg.getPlayerYPos());
             updateGrid(mg.getPlayerXPos(), mg.getPlayerYPos() - 1);
             updateGrid(mg.getPlayerXPos(), mg.getPlayerYPos() + 1);
+            
+        } else if (command.equals("UpdateTimer")) {
+        
+            timerLabel.setText(mg.getCurrTime());
             
         } else {
             

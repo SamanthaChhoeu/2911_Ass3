@@ -26,6 +26,7 @@ public class ControllerMenu {
         this.mg = mg;
         //part below recently added.
         this.vg = vg;
+        
     }
     
     public void setupController() {

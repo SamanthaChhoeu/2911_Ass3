@@ -1,7 +1,10 @@
 package game;
 
+import java.awt.Font;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
@@ -13,6 +16,7 @@ public class ModelGame extends Observable {
     private String[][] sobokanBoard;
     private Player p;
     private List<Box> boxes;
+    private String currTime;
     
     public ModelGame() {
         
@@ -395,12 +399,12 @@ public class ModelGame extends Observable {
         // check if all boxes are in the goal
         for (Box checkBox : boxes) {
             if (!checkBox.isAtGoal()) foundBoxNotAtGoal = true;
+            System.out.println("There are " + boxes.size() + " boxes and is box at (" + checkBox.getXPos() + "," + checkBox.getYPos() + ") at the goal? " + checkBox.isAtGoal());
         }
         setChanged();
         if (foundBoxNotAtGoal) {
             notifyObservers("MovePlayer");
         } else {
-            disposeGame();
             notifyObservers("ChangeScreenWin");
         }
         
@@ -437,6 +441,29 @@ public class ModelGame extends Observable {
         
     }
     
+    public void updateTimer() {
+        
+        final long start = System.currentTimeMillis();
+        long sub = System.currentTimeMillis() - start;
+        if(sub<0) return;
+        int h = (int) (sub / 1000 / 60 / 60);
+        int m = (int) (sub / 1000 / 60 % 60);
+        int s = (int) (sub / 1000 % 60);
+        String str = h + ":" + m + ":" + s;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date();
+        try{
+            date = sdf.parse(str);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        currTime = sdf.format(date);
+        setChanged();
+        notifyObservers("UpdateTimer");
+        //return sdf.format(date);
+        
+    }
+    
     public void resetGame() {
         // TODO @Sam @Jath build a function so that the game resets itself when you press r (or JButton press)
         // HINT Save the original place of the player and box and reset their positions
@@ -458,6 +485,10 @@ public class ModelGame extends Observable {
     
     public int getPlayerYPos() {
         return p.getYPos();
+    }
+    
+    public String getCurrTime() {
+        return this.currTime;
     }
     
 }
