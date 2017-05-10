@@ -125,7 +125,10 @@ public class ModelGame extends Observable {
         	// if its not an important block (player, goal, box) or if it doesnt form a corner. 
         	while (board[yWall][xWall] == "b"|| board[yWall][xWall] == "p"||board[yWall][xWall]== "g"
         	// makes sure they dont form corners	
-        	|| board[yWall+1][xWall+1] == "w" || board[yWall-1][xWall-1] == "w"|| board[yWall-1][xWall+1] == "w"|| board[yWall+1][xWall-1] == "w"){	
+        	|| board[yWall+1][xWall+1] == "w" || board[yWall-1][xWall-1] == "w"|| board[yWall-1][xWall+1] == "w"|| board[yWall+1][xWall-1] == "w"
+        	// make sure the goal isnt fully surrounded
+        	|| board[yWall+1][xWall] == "g" || board[yWall-1][xWall] == "g"
+        	){	
         		
         		xWall = rand.nextInt(xSizeOfBoard-3)+1;
                 yWall = rand.nextInt(ySizeOfBoard-3)+1;
@@ -407,6 +410,7 @@ public class ModelGame extends Observable {
         if (foundBoxNotAtGoal) {
             notifyObservers("MovePlayer");
         } else {
+        	//TODO stop the timer
             notifyObservers("ChangeScreenWin");
         }
         
