@@ -110,9 +110,9 @@ public class ModelGame extends Observable {
         		xBox = rand.nextInt(xSizeOfBoard-3)+1;
                 yBox = rand.nextInt(ySizeOfBoard-3)+1;
         	}   
-            Box newBox = new Box(xBox, yBox);
-            board[newBox.getYPos()][newBox.getXPos()] = "g";
-            boxes.add(newBox);
+
+            board[yBox][xBox] = "g";
+
  
         }
 
