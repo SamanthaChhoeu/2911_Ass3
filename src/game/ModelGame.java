@@ -37,18 +37,7 @@ public class ModelGame extends Observable {
         
         // samantha's generator
         String[][] generatedBoard = randomGenerate(xSizeOfBoard,ySizeOfBoard);
-     
-        // generate the board
-        // TODO @Sam @Jath Do the board generation here
-        // Good memes --> Make meme generator here
-        // "0"  = free space
-        // "p" = player
-        // "w"  = wall
-        // "b"  = box
-        // "g"  = goal
-        // "bg" = box at a goal
-        // "pg" = player at a goal
-        // This is just a basic board for testing purposes, change this function here        
+       
         sobokanBoard = generatedBoard;
         printBoard(sobokanBoard);
         
@@ -121,9 +110,9 @@ public class ModelGame extends Observable {
         		xBox = rand.nextInt(xSizeOfBoard-3)+1;
                 yBox = rand.nextInt(ySizeOfBoard-3)+1;
         	}   
-            Box newBox = new Box(xBox, yBox);
-            board[newBox.getYPos()][newBox.getXPos()] = "g";
-            boxes.add(newBox);
+
+            board[yBox][xBox] = "g";
+
  
         }
 
@@ -134,7 +123,7 @@ public class ModelGame extends Observable {
         	int xWall = rand.nextInt(xSizeOfBoard-3)+1;
         	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
         	// if its not an important block (player, goal, box) or if it doesnt form a corner. 
-        	while (getSobokanBoardAtXY(xWall, yWall) == "b"|| getSobokanBoardAtXY(xWall, yWall) == "p"||getSobokanBoardAtXY(xWall, yWall) == "g"
+        	while (board[yWall][xWall] == "b"|| board[yWall][xWall] == "p"||board[yWall][xWall]== "g"
         	// makes sure they dont form corners	
         	|| board[yWall+1][xWall+1] == "w" || board[yWall-1][xWall-1] == "w"|| board[yWall-1][xWall+1] == "w"|| board[yWall+1][xWall-1] == "w"){	
         		

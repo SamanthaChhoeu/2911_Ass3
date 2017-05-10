@@ -153,7 +153,7 @@ public class ViewGame extends JFrame implements Observer {
             
         } else if (command.equals("UpdateTimer")) {
         
-            System.out.println(mg.getCurrTime());
+            //System.out.println(mg.getCurrTime());
             timerLabel.setText(mg.getCurrTime());
             
         } else {
