@@ -1,15 +1,18 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import main.ModelInterface;
+import menu.ModelInterface;
 
 public class ViewGame extends JFrame implements Observer {
 
@@ -17,6 +20,7 @@ public class ViewGame extends JFrame implements Observer {
     private ModelInterface mi;
     private ModelGame mg;
     private JPanel gamePanel;
+    private JPanel[][] gameGrid;
     private JPanel utilityPanel;
     private JButton backButton;
     
@@ -35,7 +39,7 @@ public class ViewGame extends JFrame implements Observer {
         this.setSize(mi.getDimensions());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
-        //this.setLayout(new FlowLayout());
+        //this.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.setLocationRelativeTo(null);
         
     }
@@ -51,12 +55,25 @@ public class ViewGame extends JFrame implements Observer {
         
         gamePanel = new JPanel();
         gamePanel.setLayout(new GridLayout(mg.getYSizeOfBoard(), mg.getXSizeOfBoard()));
-        for (int i = 0; i < mg.getXSizeOfBoard()*mg.getYSizeOfBoard(); i++) {
-            JPanel tilePanel = new JPanel();
-            setPanelAppearance(i, tilePanel);
-            gamePanel.add(tilePanel);
+        
+        gameGrid = new JPanel[mg.getYSizeOfBoard()][mg.getXSizeOfBoard()];
+        
+        for (int y = 0; y < mg.getYSizeOfBoard(); y++) {
+            
+            for (int x = 0; x < mg.getXSizeOfBoard(); x++) {
+                
+                gameGrid[y][x] = new JPanel();
+                setPanelAppearance(gameGrid[y][x], x, y);
+                gamePanel.add(gameGrid[y][x]);
+                
+            }
+            
         }
-        gamePanel.setBounds(0, 0, 72 * mg.getXSizeOfBoard(), 72 * mg.getYSizeOfBoard());
+        
+        //gamePanel.add(gameGrid);
+        
+        gamePanel.setBounds(0, 0, 1080, 720);
+        //gamePanel.setPreferredSize(new Dimension(1080, 720));
         
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
@@ -64,37 +81,41 @@ public class ViewGame extends JFrame implements Observer {
         this.add(gamePanel);
         
     }
-
-    private void setPanelAppearance(int i, JPanel tilePanel) {
+    
+   private void setPanelAppearance(JPanel tilePanel, int i, int j) {
         
-        if (mg.getSobokanBoardAtXY(i%mg.getXSizeOfBoard(), i/mg.getXSizeOfBoard()) == "bg") {
+        if (mg.getSobokanBoardAtXY(i,j) == "bg") {
             tilePanel.setBackground(Color.GREEN);
-        } else if (mg.getSobokanBoardAtXY(i%mg.getXSizeOfBoard(), i/mg.getXSizeOfBoard()) == "pg") {
+        } else if (mg.getSobokanBoardAtXY(i,j) == "pg") {
             tilePanel.setBackground(Color.RED);
-        } else if (mg.getSobokanBoardAtXY(i%mg.getXSizeOfBoard(), i/mg.getXSizeOfBoard()) == "w") {
+        } else if (mg.getSobokanBoardAtXY(i,j) == "w") {
             tilePanel.setBackground(Color.BLACK);
-        } else if (mg.getSobokanBoardAtXY(i%mg.getXSizeOfBoard(), i/mg.getXSizeOfBoard()) == "p") {
+        } else if (mg.getSobokanBoardAtXY(i,j) == "p") {
             tilePanel.setBackground(Color.RED);
-        } else if (mg.getSobokanBoardAtXY(i%mg.getXSizeOfBoard(), i/mg.getXSizeOfBoard()) == "b") {
+        } else if (mg.getSobokanBoardAtXY(i,j) == "b") {
             tilePanel.setBackground(Color.YELLOW);
-        } else if (mg.getSobokanBoardAtXY(i%mg.getXSizeOfBoard(), i/mg.getXSizeOfBoard()) == "g") {
+        } else if (mg.getSobokanBoardAtXY(i,j) == "g") {
             tilePanel.setBackground(Color.BLUE);
         } else {
             tilePanel.setBackground(Color.WHITE);
         }
         
-    }
+   }
     
     private void setupUtilityPanel() {
         
+        // TODO @Nors @Sharon fix this so that the JPanel shows on the right hand side
         utilityPanel = new JPanel();
+        utilityPanel.setBackground(Color.BLACK);
         utilityPanel.setLayout(null);
-        //utilityPanel.setBounds(1080, 0, 200, 720);
-        utilityPanel.setBounds(0, 0, 200, 720);
+        utilityPanel.setBounds(1080, 0, 200, 720);
+        //utilityPanel.setPreferredSize(new Dimension(200, 720));
         
-        backButton = new JButton("Back");
-        backButton.setBounds(10, 10, 10, 10);
-        utilityPanel.add(backButton);
+        // TODO @Nors @Sharon add a timer onto this panel which shows how long a user is taking on a puzzle
+        
+        // TODO @Nors @Sharon add a pause button which pauses the game and allows the user to resume, restart or quit
+        
+        utilityPanel.setVisible(true);
         
     }
     
@@ -113,15 +134,19 @@ public class ViewGame extends JFrame implements Observer {
         
         if (command.equals("ChangeScreenPlay")) {
             
+            //gamePanel.removeAll();
             initialiseGame();
             this.setVisible(true);
             
         } else if (command.equals("MovePlayer")) {
             
+            // TODO @Nors @Sharon fix this so that you don't have to destroy and recreate the gamePanel
             gamePanel.removeAll();
             setupGamePanel();
+            //gameGrid[mg.getPlayerYPos()][mg.getPlayerXPos()].revalidate();
+            //gameGrid[mg.getPlayerYPos()][mg.getPlayerXPos()].repaint();
             gamePanel.revalidate();
-            gamePanel.repaint();
+            //gamePanel.repaint();
             
         } else {
             
