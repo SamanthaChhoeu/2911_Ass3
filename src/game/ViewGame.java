@@ -102,11 +102,6 @@ public class ViewGame extends JFrame implements Observer {
    //Function below is timer part, it can run, but not perfectly supports button operations.
    //Let me know if someone else needs more features to it :)
    public void startCounting(){
-       
-        timerLabel=new JLabel("",JLabel.CENTER);
-        timerLabel.setBounds(1110, 150, 120, 30);
-        timerLabel.setFont(new Font("Default", Font.PLAIN, 30));
-        this.add(timerLabel);
         
     }
     
@@ -118,6 +113,11 @@ public class ViewGame extends JFrame implements Observer {
         utilityPanel.setLayout(null);
         utilityPanel.setBounds(1080, 0, 200, 720);
         //utilityPanel.setPreferredSize(new Dimension(200, 720));
+        
+        timerLabel=new JLabel("",JLabel.CENTER);
+        timerLabel.setBounds(1110, 150, 120, 30);
+        timerLabel.setFont(new Font("Default", Font.PLAIN, 30));
+        this.add(timerLabel);
         
         backButton = new JButton();
         
@@ -153,6 +153,7 @@ public class ViewGame extends JFrame implements Observer {
             
         } else if (command.equals("UpdateTimer")) {
         
+            System.out.println(mg.getCurrTime());
             timerLabel.setText(mg.getCurrTime());
             
         } else {

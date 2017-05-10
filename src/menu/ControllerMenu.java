@@ -36,7 +36,7 @@ public class ControllerMenu {
                 mg.generateBoard();
                 // when the play button is pressed, sets the current screen being viewed to the game screen
                 mi.setCurrScreen("Play");
-                vg.startCounting();
+                //vg.startCounting();
             }
         };
         // adds a listener to the play button so that the action is performed when the play button is pressed
