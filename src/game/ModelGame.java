@@ -31,18 +31,7 @@ public class ModelGame extends Observable {
         
         // samantha's generator
         String[][] generatedBoard = randomGenerate(xSizeOfBoard,ySizeOfBoard);
-     
-        // generate the board
-        // TODO @Sam @Jath Do the board generation here
-        // Good memes --> Make meme generator here
-        // "0"  = free space
-        // "p" = player
-        // "w"  = wall
-        // "b"  = box
-        // "g"  = goal
-        // "bg" = box at a goal
-        // "pg" = player at a goal
-        // This is just a basic board for testing purposes, change this function here        
+       
         sobokanBoard = generatedBoard;
         printBoard(sobokanBoard);
         
