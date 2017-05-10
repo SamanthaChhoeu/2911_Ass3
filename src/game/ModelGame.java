@@ -17,6 +17,7 @@ public class ModelGame extends Observable {
     private Player p;
     private List<Box> boxes;
     private String currTime;
+    private long start;
     
     public ModelGame() {
         
@@ -32,6 +33,7 @@ public class ModelGame extends Observable {
         this.ySizeOfBoard = 10;
         this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
         this.boxes = new ArrayList<Box>();
+        start = System.currentTimeMillis();
         
         // samantha's generator
         String[][] generatedBoard = randomGenerate(xSizeOfBoard,ySizeOfBoard);
@@ -442,8 +444,7 @@ public class ModelGame extends Observable {
     }
     
     public void updateTimer() {
-        
-        final long start = System.currentTimeMillis();
+
         long sub = System.currentTimeMillis() - start;
         if(sub<0) return;
         int h = (int) (sub / 1000 / 60 / 60);
