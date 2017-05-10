@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,7 +16,7 @@ import menu.ModelInterface;
 
 import menu.ModelInterface;
 
-public class ControllerGame implements ActionListener{
+public class ControllerGame implements Observer {
 
     private ModelGame mg;
     private ViewGame vg;
@@ -52,9 +54,9 @@ public class ControllerGame implements ActionListener{
                     mg.movePlayerUp();
                 } else if (KeyEvent.getKeyText(e.getKeyCode()).equals("Down")) {
                     mg.movePlayerDown();
-                } /*else if (KeyEvent.getKeyText(e.getKeyCode()).equals("R")) {
+                } else if (KeyEvent.getKeyText(e.getKeyCode()).equals("R")) {
                     mg.resetGame();
-                } */
+                }
                 
             }
 
@@ -87,11 +89,18 @@ public class ControllerGame implements ActionListener{
         
 
     }
-    
+
     @Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void update(Observable o, Object arg) {
+       
+        String command = ((String) arg);
+        
+        if (command.equals("ChangeScreenWin")) {
+
+            gameTimer.cancel();
+            
+        }
+        
+    }
 
 }

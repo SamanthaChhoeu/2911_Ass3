@@ -470,17 +470,35 @@ public class ModelGame extends Observable {
     }
     
     public void resetGame() {
-        // TODO @Sam @Jath build a function so that the game resets itself when you press r (or JButton press)
-        // HINT Save the original place of the player and box and reset their positions
+        
+        for (Box checkBox : boxes) {
+            
+            if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "bg") {
+                checkBox.setAtGoal(false);
+                sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "g";
+            } else {
+                sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "0";
+            }
+            checkBox.resetBox();
+            sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "b";
+            
+        }
+        
+        if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
+            sobokanBoard[p.getYPos()][p.getXPos()] = "g";
+        } else {
+            sobokanBoard[p.getYPos()][p.getXPos()] = "0";
+        }
+        p.resetPlayer();
+        sobokanBoard[p.getYPos()][p.getXPos()] = "p";
+        setChanged();
+        notifyObservers("ResetGame");
+        
     }
     
     public void undoMove() {
         // TODO @Sam @Jath build a function so that the user can undo their last move (no of moves that's saved is up to you)
         // HINT Maybe consider using states to save the last position the player and boxes were in
-        
-    }
-    
-    private void disposeGame() {
         
     }
     

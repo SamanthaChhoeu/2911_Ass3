@@ -116,7 +116,7 @@ public class ViewGame extends JFrame implements Observer {
         
         timerLabel=new JLabel("",JLabel.CENTER);
         timerLabel.setBounds(1110, 150, 120, 30);
-        timerLabel.setFont(new Font("Default", Font.PLAIN, 30));
+        timerLabel.setFont(new Font("Default", Font.PLAIN, 15));
         this.add(timerLabel);
         
         backButton = new JButton();
@@ -143,6 +143,10 @@ public class ViewGame extends JFrame implements Observer {
             refreshGame();
             this.setVisible(true);
             
+        } else if (command.equals("ResetGame")) {
+            
+            refreshGame();
+            
         } else if (command.equals("MovePlayer")) {
             
             updateGrid(mg.getPlayerXPos(), mg.getPlayerYPos());
@@ -153,7 +157,6 @@ public class ViewGame extends JFrame implements Observer {
             
         } else if (command.equals("UpdateTimer")) {
         
-            //System.out.println(mg.getCurrTime());
             timerLabel.setText(mg.getCurrTime());
             
         } else {

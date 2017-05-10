@@ -4,12 +4,21 @@ public class Box {
 
     private int xPos;
     private int yPos;
+    private int xPosStart;
+    private int yPosStart;
     private boolean atGoal;
     
     public Box(int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
+        this.xPosStart = xPos;
+        this.yPosStart = yPos;
         this.atGoal = false;
+    }
+    
+    public void resetBox() {
+        xPos = xPosStart;
+        yPos = yPosStart;
     }
 
     public int getXPos() {
