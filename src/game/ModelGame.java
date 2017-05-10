@@ -123,7 +123,7 @@ public class ModelGame extends Observable {
         	int xWall = rand.nextInt(xSizeOfBoard-3)+1;
         	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
         	// if its not an important block (player, goal, box) or if it doesnt form a corner. 
-        	while (getSobokanBoardAtXY(xWall, yWall) == "b"|| getSobokanBoardAtXY(xWall, yWall) == "p"||getSobokanBoardAtXY(xWall, yWall) == "g"
+        	while (board[yWall][xWall] == "b"|| board[yWall][xWall] == "p"||board[yWall][xWall]== "g"
         	// makes sure they dont form corners	
         	|| board[yWall+1][xWall+1] == "w" || board[yWall-1][xWall-1] == "w"|| board[yWall-1][xWall+1] == "w"|| board[yWall+1][xWall-1] == "w"){	
         		
