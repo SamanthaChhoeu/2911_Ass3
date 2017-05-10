@@ -1,21 +1,32 @@
 package game;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import menu.ModelInterface;
 
 public class ControllerGame implements ActionListener{
 
     private ModelGame mg;
     private ViewGame vg;
+    private ModelInterface mi;
     private KeyListener playerControls;
+    private ActionListener backToMenu;
+    private Timer gameTimer;
     
     public ControllerGame(ModelInterface mi, ModelGame mg, ViewGame vg) {
 
         this.mg = mg;
         this.vg = vg;
         this.mi = mi;
+        
     }
     
     public void setupController () {
@@ -60,7 +71,15 @@ public class ControllerGame implements ActionListener{
             }
         };
         // adds a listener to the menu button so that the action is performed when the menu button is pressed
-        vg.getBtnback().addActionListener(backToMenu);
+        vg.getBackButton().addActionListener(backToMenu);
+        
+        gameTimer = new Timer();
+        gameTimer.schedule(new TimerTask() {
+            public void run() {
+                mg.updateTimer();
+            }
+        },0,1000);//refresh every second with no delay.
+        
     }
     
     @Override

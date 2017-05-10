@@ -1,5 +1,8 @@
 package menu;
 
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.util.Observable;
 import java.util.Observer;
 
