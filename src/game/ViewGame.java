@@ -26,6 +26,7 @@ public class ViewGame extends JFrame implements Observer {
     private JPanel[][] gameGrid;
     private JPanel utilityPanel;
     private JButton backButton;
+    private JButton resetButton;
     private JLabel timerLabel;
     
     public ViewGame(ModelInterface mi, ModelGame mg) {
@@ -121,6 +122,10 @@ public class ViewGame extends JFrame implements Observer {
         
         backButton = new JButton();
         
+        // reset button
+        resetButton = new JButton("Reset");
+        resetButton.setBounds(1110, 250, 120, 30);
+        this.add(resetButton);
         //utilityPanel.setVisible(true);
         
     }
