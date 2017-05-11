@@ -17,6 +17,7 @@ public class ModelGame extends Observable {
     private List<Box> boxes;
     private String currTime;
     private long start;
+    private Player prev;
     
     public ModelGame() {
         
@@ -375,7 +376,11 @@ public class ModelGame extends Observable {
     }
     
     private void movePlayer(int xPos, int yPos, String direction) {
-        
+
+        // storing current location of player before moving.
+        int currentPlayerX = p.getXPos();
+        int currentPlayerY = p.getYPos();
+
         // return to just goal if player leaves a goal square
         if (sobokanBoard[yPos][xPos] == "pg") {
             sobokanBoard[yPos][xPos] = "g";
@@ -413,6 +418,7 @@ public class ModelGame extends Observable {
         	//TODO stop the timer
             notifyObservers("ChangeScreenWin");
         }
+        p.setPrev(currentPlayerX, currentPlayerY);
         
     }
 
@@ -443,7 +449,7 @@ public class ModelGame extends Observable {
                 }
                 return;
             }
-        }a
+        }
         
     }
     
@@ -499,6 +505,9 @@ public class ModelGame extends Observable {
     public void undoMove() {
         // TODO @Sam @Jath build a function so that the user can undo their last move (no of moves that's saved is up to you)
         // HINT Maybe consider using states to save the last position the player and boxes were in
+        p.setXPos(p.getPrevX());
+        p.setYPos(p.getPrevY());
+
         
     }
     
