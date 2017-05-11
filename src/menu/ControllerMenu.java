@@ -11,7 +11,6 @@ public class ControllerMenu {
     private ModelInterface mi;
     private ViewMenu vm;
     private ModelGame mg;
-    private ViewGame vg;
     private ActionListener playGame;
     private ActionListener goToSettings;
     private ActionListener quit;
@@ -24,8 +23,6 @@ public class ControllerMenu {
         this.vm = vm;
         // reference to the game model to reset the game every time play is clicked on
         this.mg = mg;
-        //part below recently added.
-        this.vg = vg;
         
     }
     
@@ -36,7 +33,6 @@ public class ControllerMenu {
                 mg.generateBoard();
                 // when the play button is pressed, sets the current screen being viewed to the game screen
                 mi.setCurrScreen("Play");
-                //vg.startCounting();
             }
         };
         // adds a listener to the play button so that the action is performed when the play button is pressed
