@@ -24,7 +24,7 @@ public class ControllerGame implements Observer {
     private KeyListener playerControls;
     private ActionListener backToMenu;
     private Timer gameTimer;
-
+    private ActionListener remake; 
     
     public ControllerGame(ModelInterface mi, ModelGame mg, ViewGame vg) {
 
@@ -78,7 +78,7 @@ public class ControllerGame implements Observer {
         };
         // adds a listener to the menu button so that the action is performed when the menu button is pressed
 */
-        vg.getBackButton().addActionListener(backToMenu);
+        
         
         gameTimer = new Timer();
         gameTimer.schedule(new TimerTask() {
@@ -87,7 +87,15 @@ public class ControllerGame implements Observer {
             }
         },0,1000);//refresh every second with no delay.
         
-
+        remake = new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                mg.generateBoard();
+                // when the play button is pressed, sets the current screen being viewed to the game screen
+                mi.setCurrScreen("Remake");
+            }
+        };
+        vg.getRemakeButton().addActionListener(remake);
+        
     }
 
     @Override
