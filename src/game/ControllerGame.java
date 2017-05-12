@@ -29,7 +29,7 @@ public class ControllerGame {
         this.mi = mi;
         
     }
-    
+
     public void setupController () {
         
         playerControls = new KeyListener() {
@@ -52,6 +52,8 @@ public class ControllerGame {
                     mg.movePlayerDown();
                 } else if (KeyEvent.getKeyText(e.getKeyCode()).equals("R")) {
                     mg.resetGame();
+                } else if (KeyEvent.getKeyText(e.getKeyCode()).equals("U")) {
+                    mg.undoMove();
                 }
                 
             }

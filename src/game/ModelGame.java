@@ -397,7 +397,7 @@ public class ModelGame extends Observable {
             p.setXPos(xPos + 1);
         } else if (direction == "Up") {
             p.setYPos(yPos - 1);
-        } else {
+        } else if (direction == "Down"){
             p.setYPos(yPos + 1);
         }
         
@@ -429,6 +429,7 @@ public class ModelGame extends Observable {
         
         for (Box checkBox : boxes) {
             if (checkBox.getXPos() == xPos && checkBox.getYPos() == yPos) {
+                checkBox.setPrev(checkBox.getXPos(), checkBox.getYPos());
                 if (sobokanBoard[yPos][xPos] == "bg") {
                     checkBox.setAtGoal(false);
                     sobokanBoard[yPos][xPos] = "g";
@@ -512,9 +513,16 @@ public class ModelGame extends Observable {
     public void undoMove() {
         // TODO @Sam @Jath build a function so that the user can undo their last move (no of moves that's saved is up to you)
         // HINT Maybe consider using states to save the last position the player and boxes were in
+        if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
+            sobokanBoard[p.getYPos()][p.getXPos()] = "g";
+        } else {
+            sobokanBoard[p.getYPos()][p.getXPos()] = "0";
+        }
         p.setXPos(p.getPrevX());
         p.setYPos(p.getPrevY());
-        
+        sobokanBoard[p.getYPos()][p.getXPos()] = "p";
+        setChanged();
+        notifyObservers("ResetGame"); // don't know much about this line so change it thanks
     }
     
     public int getPlayerXPos() {
