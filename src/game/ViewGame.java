@@ -1,15 +1,14 @@
 package game;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,31 +19,30 @@ import menu.ModelInterface;
 public class ViewGame extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
-    private ModelInterface mi;
+    //private ModelInterface mi;
     private ModelGame mg;
     private JPanel gamePanel;
     private JPanel[][] gameGrid;
     private JPanel utilityPanel;
-    private JButton backButton;
+    private JButton undoButton;
     private JButton remakeButton;
     private JLabel timerLabel;
+    private JButton soundButton;
+    private JButton quitButton;
     
     public ViewGame(ModelInterface mi, ModelGame mg) {
         
-        this.mi = mi;
+        //this.mi = mi;
         this.mg = mg;
-        
-        initialiseFrame();
-        initialiseGame();
-        
-    }
-    
-    private void initialiseFrame() {
         
         this.setSize(mi.getDimensions());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(null);
+        //this.setLayout(new FlowLayout());
+        //this.setLayout(new GridBagLayout());
+        this.setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
+        
+        initialiseGame();
         
     }
 
@@ -70,13 +68,13 @@ public class ViewGame extends JFrame implements Observer {
             }
         }
         
-        gamePanel.setBounds(0, 0, 1080, 720);
-        //gamePanel.setPreferredSize(new Dimension(1080, 720));
+        //gamePanel.setBounds(0, 0, 1080, 720);
+        gamePanel.setPreferredSize(new Dimension(1080, 720));
         
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
         
-        this.add(gamePanel);
+        this.add(gamePanel, BorderLayout.LINE_START);
         
     }
     
@@ -100,37 +98,42 @@ public class ViewGame extends JFrame implements Observer {
         
    }
     
-   //Function below is timer part, it can run, but not perfectly supports button operations.
-   //Let me know if someone else needs more features to it :)
-   public void startCounting(){
-        
-    }
-    
-    
     private void setupUtilityPanel() {
 
         utilityPanel = new JPanel();
-        utilityPanel.setBackground(Color.BLACK);
+        utilityPanel.setBackground(Color.PINK);
         utilityPanel.setLayout(null);
-        utilityPanel.setBounds(1080, 0, 200, 720);
-        //utilityPanel.setPreferredSize(new Dimension(200, 720));
+        //utilityPanel.setBounds(1080, 0, 200, 720);
+        utilityPanel.setPreferredSize(new Dimension(200, 720));
+        this.add(utilityPanel, BorderLayout.LINE_END);
         
         timerLabel=new JLabel("",JLabel.CENTER);
-        timerLabel.setBounds(1110, 150, 120, 30);
+        timerLabel.setBounds(50, 150, 120, 30);
         timerLabel.setFont(new Font("Default", Font.PLAIN, 15));
-        this.add(timerLabel);
-        
-       
+        utilityPanel.add(timerLabel);
         
         // remake button
         remakeButton = new JButton("Remake");
-        remakeButton.setBounds(1110, 250, 120, 30);
-        this.add(remakeButton);
-        //utilityPanel.setVisible(true);
+        //remakeButton.setBounds(1110, 250, 120, 30);
+        remakeButton.setBounds(50, 250, 120, 30);
+        utilityPanel.add(remakeButton);
+
+        undoButton = new JButton("Undo");
+        //remakeButton.setBounds(1110, 250, 120, 30);
+        undoButton.setBounds(50, 350, 120, 30);
+        utilityPanel.add(undoButton);
+
+        soundButton = new JButton("Set Sound");
+        //remakeButton.setBounds(1110, 250, 120, 30);
+        soundButton.setBounds(50, 450, 120, 30);
+        utilityPanel.add(soundButton);
+        
+        quitButton = new JButton("Quit");
+        //remakeButton.setBounds(1110, 250, 120, 30);
+        quitButton.setBounds(50, 550, 120, 30);
+        utilityPanel.add(quitButton);
         
     }
-    
-    
     
     public JPanel getGamePanel() {
         return gamePanel;
@@ -138,6 +141,18 @@ public class ViewGame extends JFrame implements Observer {
     
     public JButton getRemakeButton() {
         return remakeButton;
+    }
+    
+    public JButton getUndoButton() {
+        return undoButton;
+    }
+    
+    public JButton getSoundButton() {
+        return soundButton;
+    }
+    
+    public JButton getQuitButton() {
+        return quitButton;
     }
 
     @Override
@@ -156,6 +171,8 @@ public class ViewGame extends JFrame implements Observer {
             
         } else if (command.equals("ChangeScreenRemake")) {
             
+            gamePanel.setFocusable(true);
+            gamePanel.requestFocusInWindow();
             refreshGame();
             
         } else if (command.equals("MovePlayer")) {
