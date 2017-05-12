@@ -17,6 +17,7 @@ public class ModelGame extends Observable {
     private List<Box> boxes;
     private String currTime;
     private long start;
+    private Player prev;
     
     public ModelGame() {
         
@@ -88,7 +89,7 @@ public class ModelGame extends Observable {
         	// randomly place box - x range(2,x-3) & y range (2,y-3)       	
         	int xBox = rand.nextInt(xSizeOfBoard-5)+2;
         	int yBox = rand.nextInt(ySizeOfBoard-5)+2;
-        	while (getSobokanBoardAtXY(xBox, yBox) == "b"|| getSobokanBoardAtXY(xBox, yBox) == "p"){	
+        	while (board[yBox][xBox]  == "b"|| board[yBox][xBox] == "p"){	
         		xBox = rand.nextInt(xSizeOfBoard-5)+2;
                 yBox = rand.nextInt(ySizeOfBoard-5)+2;
         	}   
@@ -100,24 +101,27 @@ public class ModelGame extends Observable {
         
         // set the goal for the boxes
         // TODO good starting point: randomly place where the goals for the boxes are
-
+        int goal = 0;
         for (int i = 0; i < noOfBoxes; i++) {
         	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
         	int xBox = rand.nextInt(xSizeOfBoard-3)+1;
         	int yBox = rand.nextInt(ySizeOfBoard-3)+1;
-        	while (getSobokanBoardAtXY(xBox, yBox) == "b"|| getSobokanBoardAtXY(xBox, yBox) == "p"||getSobokanBoardAtXY(xBox, yBox) == "g"){	
+        	while (board[yBox][xBox]  == "b"|| board[yBox][xBox] == "p"|| board[yBox][xBox] == "g"){	
         		xBox = rand.nextInt(xSizeOfBoard-3)+1;
                 yBox = rand.nextInt(ySizeOfBoard-3)+1;
         	}   
 
             board[yBox][xBox] = "g";
+            goal++;
 
  
         }
+        System.out.println(goal);
 
         
         // randomly put in walls
-        int difficulty = 15; // number of walls
+        // i upped the number of walls to see where theres errors
+        int difficulty = 20; // number of walls
         for (int i = 0; i < difficulty; i++){
         	int xWall = rand.nextInt(xSizeOfBoard-3)+1;
         	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
@@ -174,11 +178,10 @@ public class ModelGame extends Observable {
         */
         Random rand = new Random();
         
-        // place the player
-        // TODO good starting point: randomly place where the player starts
-        
-        int xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
-        int yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
+        // place the player at a random location
+        	// can be placed anywhere except 
+        int xPlayer = rand.nextInt(xSizeOfBoard-2)+1;
+        int yPlayer = rand.nextInt(ySizeOfBoard-2)+1;
         p = new Player(xPlayer, yPlayer);
         board[yPlayer][xPlayer] = "p";
 
@@ -264,6 +267,7 @@ public class ModelGame extends Observable {
         
         // set the goal for the boxes
         // TODO good starting point: randomly place where the goals for the boxes are
+        int goal = 0;
         for (int i = 0; i < noOfBoxes; i++) {
         	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
         	int xBox = rand.nextInt(xSizeOfBoard-3)+1;
@@ -272,10 +276,8 @@ public class ModelGame extends Observable {
         		xBox = rand.nextInt(xSizeOfBoard-3)+2;
                 yBox = rand.nextInt(ySizeOfBoard-3)+2;
         	}   
-            Box newBox = new Box(xBox, yBox);
-            board[newBox.getYPos()][newBox.getXPos()] = "g";
-            boxes.add(newBox);
-            
+            board[yBox][xBox] = "g";
+
             
             
             
@@ -374,7 +376,11 @@ public class ModelGame extends Observable {
     }
     
     private void movePlayer(int xPos, int yPos, String direction) {
-        
+
+        // storing current location of player before moving.
+        int currentPlayerX = p.getXPos();
+        int currentPlayerY = p.getYPos();
+
         // return to just goal if player leaves a goal square
         if (sobokanBoard[yPos][xPos] == "pg") {
             sobokanBoard[yPos][xPos] = "g";
@@ -412,6 +418,7 @@ public class ModelGame extends Observable {
         	//TODO stop the timer
             notifyObservers("ChangeScreenWin");
         }
+        p.setPrev(currentPlayerX, currentPlayerY);
         
     }
 
@@ -498,6 +505,9 @@ public class ModelGame extends Observable {
     public void undoMove() {
         // TODO @Sam @Jath build a function so that the user can undo their last move (no of moves that's saved is up to you)
         // HINT Maybe consider using states to save the last position the player and boxes were in
+        p.setXPos(p.getPrevX());
+        p.setYPos(p.getPrevY());
+
         
     }
     

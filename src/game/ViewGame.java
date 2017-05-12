@@ -26,6 +26,7 @@ public class ViewGame extends JFrame implements Observer {
     private JPanel[][] gameGrid;
     private JPanel utilityPanel;
     private JButton backButton;
+    private JButton remakeButton;
     private JLabel timerLabel;
     
     public ViewGame(ModelInterface mi, ModelGame mg) {
@@ -119,18 +120,24 @@ public class ViewGame extends JFrame implements Observer {
         timerLabel.setFont(new Font("Default", Font.PLAIN, 15));
         this.add(timerLabel);
         
-        backButton = new JButton();
+       
         
+        // remake button
+        remakeButton = new JButton("Remake");
+        remakeButton.setBounds(1110, 250, 120, 30);
+        this.add(remakeButton);
         //utilityPanel.setVisible(true);
         
     }
+    
+    
     
     public JPanel getGamePanel() {
         return gamePanel;
     }
     
-    public JButton getBackButton() {
-        return backButton;
+    public JButton getRemakeButton() {
+        return remakeButton;
     }
 
     @Override
@@ -144,6 +151,10 @@ public class ViewGame extends JFrame implements Observer {
             this.setVisible(true);
             
         } else if (command.equals("ResetGame")) {
+            
+            refreshGame();
+            
+        } else if (command.equals("ChangeScreenRemake")) {
             
             refreshGame();
             
