@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ModelGame extends Observable {
 
@@ -14,10 +16,11 @@ public class ModelGame extends Observable {
     private int ySizeOfBoard;
     private String[][] sobokanBoard;
     private Player p;
+    private Timer gameTimer;
     private List<Box> boxes;
     private String currTime;
     private long start;
-    private Player prev;
+
     
     public ModelGame() {
         
@@ -415,7 +418,7 @@ public class ModelGame extends Observable {
         if (foundBoxNotAtGoal) {
             notifyObservers("MovePlayer");
         } else {
-        	//TODO stop the timer
+        	gameTimer.cancel();
             notifyObservers("ChangeScreenWin");
         }
         p.setPrev(currentPlayerX, currentPlayerY);
@@ -453,25 +456,29 @@ public class ModelGame extends Observable {
         
     }
     
-    public void updateTimer() {
+    public void startTimer() {
 
-        long sub = System.currentTimeMillis() - start;
-        if(sub<0) return;
-        int h = (int) (sub / 1000 / 60 / 60);
-        int m = (int) (sub / 1000 / 60 % 60);
-        int s = (int) (sub / 1000 % 60);
-        String str = h + ":" + m + ":" + s;
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        Date date = new Date();
-        try{
-            date = sdf.parse(str);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        currTime = sdf.format(date);
-        setChanged();
-        notifyObservers("UpdateTimer");
-        //return sdf.format(date);
+        gameTimer = new Timer();
+        gameTimer.schedule(new TimerTask() {
+            public void run() {
+                long sub = System.currentTimeMillis() - start;
+                if(sub<0) return;
+                int h = (int) (sub / 1000 / 60 / 60);
+                int m = (int) (sub / 1000 / 60 % 60);
+                int s = (int) (sub / 1000 % 60);
+                String str = h + ":" + m + ":" + s;
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                Date date = new Date();
+                try{
+                    date = sdf.parse(str);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                currTime = sdf.format(date);
+                setChanged();
+                notifyObservers("UpdateTimer");
+            }
+        },0,1000);//refresh every second with no delay.
         
     }
     
@@ -507,7 +514,6 @@ public class ModelGame extends Observable {
         // HINT Maybe consider using states to save the last position the player and boxes were in
         p.setXPos(p.getPrevX());
         p.setYPos(p.getPrevY());
-
         
     }
     

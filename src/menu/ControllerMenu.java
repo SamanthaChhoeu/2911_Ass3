@@ -31,6 +31,7 @@ public class ControllerMenu {
         playGame = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 mg.generateBoard();
+                mg.startTimer();
                 // when the play button is pressed, sets the current screen being viewed to the game screen
                 mi.setCurrScreen("Play");
             }
