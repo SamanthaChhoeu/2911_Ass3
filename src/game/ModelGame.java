@@ -457,7 +457,7 @@ public class ModelGame extends Observable {
         
     }
     
-    public void startTimer() {
+    /*public void startTimer() {
 
         gameTimer = new Timer();
         gameTimer.schedule(new TimerTask() {
@@ -480,7 +480,7 @@ public class ModelGame extends Observable {
                 notifyObservers("UpdateTimer");
             }
         },0,1000);//refresh every second with no delay.
-        
+        */
     }
     
     public void resetGame() {
