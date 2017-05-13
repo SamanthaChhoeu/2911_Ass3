@@ -480,8 +480,8 @@ public class ModelGame extends Observable {
                 notifyObservers("UpdateTimer");
             }
         },0,1000);//refresh every second with no delay.
-        */
-    }
+        
+    }*/
     
     public void resetGame() {
         
