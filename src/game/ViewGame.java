@@ -117,8 +117,8 @@ public class ViewGame extends JFrame implements Observer {
         pause_resumeButton.setBounds(50, 200, 120, 50);
         utilityPanel.add(pause_resumeButton);*/
         
-        //need to be mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-        TimerFrame t = new TimerFrame("");
+        //need to be mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+        TimerPanel t = new TimerPanel();
         t.setBounds(10, 150, 200, 100);
         utilityPanel.add(t);
         
