@@ -108,14 +108,19 @@ public class ViewGame extends JFrame implements Observer {
         utilityPanel.setPreferredSize(new Dimension(200, 720));
         this.add(utilityPanel, BorderLayout.LINE_END);
         
-        timerLabel=new JLabel("",JLabel.CENTER);
+        /*timerLabel=new JLabel("",JLabel.CENTER);
         timerLabel.setBounds(50, 150, 120, 30);
         timerLabel.setFont(new Font("Default", Font.PLAIN, 15));
         utilityPanel.add(timerLabel);
         
         pause_resumeButton = new JButton("Pause");
         pause_resumeButton.setBounds(50, 200, 120, 50);
-        utilityPanel.add(pause_resumeButton);
+        utilityPanel.add(pause_resumeButton);*/
+        
+        //need to be mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+        TimerFrame t = new TimerFrame("");
+        t.setBounds(10, 150, 200, 100);
+        utilityPanel.add(t);
         
         // remake button
         remakeButton = new JButton("Remake");
@@ -140,7 +145,7 @@ public class ViewGame extends JFrame implements Observer {
         
     }
     
-    public void setPRButton() {
+    /*public void setPRButton() {
     	if(pause_resumeButton.getText().equals("Pause")){
     		pause_resumeButton.setText("Resume");
     		//TODO pause the timer.
@@ -152,7 +157,7 @@ public class ViewGame extends JFrame implements Observer {
     
     public JButton getPause_resumeButton() {
     	return pause_resumeButton;
-    }
+    }*/
     
     public JPanel getGamePanel() {
         return gamePanel;
