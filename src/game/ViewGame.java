@@ -29,6 +29,7 @@ public class ViewGame extends JFrame implements Observer {
     private JLabel timerLabel;
     private JButton soundButton;
     private JButton quitButton;
+    private JButton pause_resumeButton;
     
     public ViewGame(ModelInterface mi, ModelGame mg) {
         
@@ -112,27 +113,45 @@ public class ViewGame extends JFrame implements Observer {
         timerLabel.setFont(new Font("Default", Font.PLAIN, 15));
         utilityPanel.add(timerLabel);
         
+        pause_resumeButton = new JButton("Pause");
+        pause_resumeButton.setBounds(50, 200, 120, 50);
+        utilityPanel.add(pause_resumeButton);
+        
         // remake button
         remakeButton = new JButton("Remake");
         //remakeButton.setBounds(1110, 250, 120, 30);
-        remakeButton.setBounds(50, 250, 120, 30);
+        remakeButton.setBounds(50, 300, 120, 30);
         utilityPanel.add(remakeButton);
 
         undoButton = new JButton("Undo");
         //remakeButton.setBounds(1110, 250, 120, 30);
-        undoButton.setBounds(50, 350, 120, 30);
+        undoButton.setBounds(50, 400, 120, 30);
         utilityPanel.add(undoButton);
 
         soundButton = new JButton("Set Sound");
         //remakeButton.setBounds(1110, 250, 120, 30);
-        soundButton.setBounds(50, 450, 120, 30);
+        soundButton.setBounds(50, 500, 120, 30);
         utilityPanel.add(soundButton);
         
         quitButton = new JButton("Quit");
         //remakeButton.setBounds(1110, 250, 120, 30);
-        quitButton.setBounds(50, 550, 120, 30);
+        quitButton.setBounds(50, 600, 120, 30);
         utilityPanel.add(quitButton);
         
+    }
+    
+    public void setPRButton() {
+    	if(pause_resumeButton.getText().equals("Pause")){
+    		pause_resumeButton.setText("Resume");
+    		//TODO pause the timer.
+    	} else {
+    		pause_resumeButton.setText("Pause");
+    		//TODO continue the timer.
+    	}
+    }
+    
+    public JButton getPause_resumeButton() {
+    	return pause_resumeButton;
     }
     
     public JPanel getGamePanel() {
