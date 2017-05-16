@@ -29,6 +29,7 @@ public class ViewGame extends JFrame implements Observer {
     private JLabel timerLabel;
     private JButton soundButton;
     private JButton quitButton;
+    private JButton saveButton;
     private JButton pause_resumeButton;
     
     public ViewGame(ModelInterface mi, ModelGame mg) {
@@ -123,24 +124,28 @@ public class ViewGame extends JFrame implements Observer {
         utilityPanel.add(t);
         
         // remake button
-        remakeButton = new JButton("Remake");
+         remakeButton = new JButton("Remake");
         //remakeButton.setBounds(1110, 250, 120, 30);
         remakeButton.setBounds(50, 300, 120, 30);
         utilityPanel.add(remakeButton);
 
         undoButton = new JButton("Undo");
         //remakeButton.setBounds(1110, 250, 120, 30);
-        undoButton.setBounds(50, 400, 120, 30);
+        undoButton.setBounds(50, 360, 120, 30);
         utilityPanel.add(undoButton);
 
         soundButton = new JButton("Set Sound");
         //remakeButton.setBounds(1110, 250, 120, 30);
-        soundButton.setBounds(50, 500, 120, 30);
+        soundButton.setBounds(50, 420, 120, 30);
         utilityPanel.add(soundButton);
+        
+        saveButton = new JButton("Save");
+        saveButton.setBounds(50, 480, 120, 30);
+        utilityPanel.add(saveButton);
         
         quitButton = new JButton("Quit");
         //remakeButton.setBounds(1110, 250, 120, 30);
-        quitButton.setBounds(50, 600, 120, 30);
+        quitButton.setBounds(50, 540, 120, 30);
         utilityPanel.add(quitButton);
         
     }
@@ -173,6 +178,10 @@ public class ViewGame extends JFrame implements Observer {
     
     public JButton getSoundButton() {
         return soundButton;
+    }
+    
+     public JButton getSaveButton() {
+        return saveButton;
     }
     
     public JButton getQuitButton() {
