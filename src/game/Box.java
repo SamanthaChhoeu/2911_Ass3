@@ -7,9 +7,7 @@ public class Box {
     private int xPosStart;
     private int yPosStart;
     private boolean atGoal;
-
-    private int xPevPos;
-    private int yPevPos;
+    private Box prev;
     
     public Box(int xPos, int yPos) {
         this.xPos = xPos;
@@ -17,7 +15,7 @@ public class Box {
         this.xPosStart = xPos;
         this.yPosStart = yPos;
         this.atGoal = false;
-        setPrev(xPos, yPos);
+        this.prev = null;
     }
     
     public void resetBox() {
@@ -25,17 +23,16 @@ public class Box {
         yPos = yPosStart;
     }
 
-    public void setPrev(int xPevPos, int yPevPos){
-        this.xPevPos = xPevPos;
-        this.yPevPos = yPevPos;
+    public void setStartPos(int x, int y){
+        this.xPosStart = x;
+        this.yPosStart = y;
     }
 
-    public int getPrevX(){
-        return this.xPevPos;
+    public void setPrevBox(Box prev){
+        this.prev = prev;
     }
-
-    public int getPrevY(){
-        return this.yPevPos;
+    public Box getPrevBox(){
+        return this.prev;
     }
 
     public int getXPos() {
@@ -60,6 +57,13 @@ public class Box {
 
     public void setAtGoal(boolean atGoal) {
         this.atGoal = atGoal;
+    }
+
+    public Box clone(){
+        Box copy = new Box(this.xPos, this.yPos);
+        copy.setPrevBox(this.prev);
+        copy.setStartPos(this.xPosStart, this.yPosStart);
+        return copy;
     }
     
 }
