@@ -97,7 +97,7 @@ public class ControllerGame {
          save = new ActionListener(){
         	public void actionPerformed(ActionEvent event) {
         		Object[] options ={ "Save", "Cancel" };
-        		JOptionPane.showInputDialog(null,"Enter your Username：\n","Save",JOptionPane.PLAIN_MESSAGE,null,null,null);  
+        		JOptionPane.showInputDialog(null,"Enter your Username: ","Save",JOptionPane.PLAIN_MESSAGE,null,null,null);  
             }
         	
         };
