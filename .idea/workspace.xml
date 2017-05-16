@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f339ccd-bcda-4411-8da2-433ba5e6c66a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/game/ModelGame.java" afterPath="$PROJECT_DIR$/src/game/ModelGame.java" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -91,8 +92,8 @@
       <file leaf-file-name="ModelGame.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/game/ModelGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="554" column="79" lean-forward="true" selection-start-line="554" selection-start-column="79" selection-end-line="554" selection-end-column="79" />
+            <state relative-caret-position="69">
+              <caret line="540" column="18" lean-forward="false" selection-start-line="540" selection-start-column="18" selection-end-line="540" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -510,7 +511,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1102" extended-state="6" />
+    <frame x="-11" y="-11" width="1942" height="1102" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -879,8 +880,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game/ModelGame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="554" column="79" lean-forward="true" selection-start-line="554" selection-start-column="79" selection-end-line="554" selection-end-column="79" />
+        <state relative-caret-position="69">
+          <caret line="540" column="18" lean-forward="false" selection-start-line="540" selection-start-column="18" selection-end-line="540" selection-end-column="18" />
           <folding />
         </state>
       </provider>

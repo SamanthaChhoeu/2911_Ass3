@@ -428,33 +428,34 @@ public class ModelGame extends Observable {
         
         for (Box checkBox : boxes) {
             if (checkBox.getXPos() == xPos && checkBox.getYPos() == yPos) {
-
+                Box current  = checkBox.clone();
                 Box previous = checkBox.clone();
-                checkBox.setPrevBox(previous);
+                current.setPrevBox(previous);
 
                 if (sobokanBoard[yPos][xPos] == "bg") {
-                    checkBox.setAtGoal(false);
+                    current.setAtGoal(false);
                     sobokanBoard[yPos][xPos] = "g";
                 } else {
                     sobokanBoard[yPos][xPos] = "0";
                 }
                 if (direction == "Left") {
-                    checkBox.setXPos(xPos - 1);
+                    current.setXPos(xPos - 1);
                 } else if (direction == "Right") {
-                    checkBox.setXPos(xPos + 1);
+                    current.setXPos(xPos + 1);
                 } else if (direction == "Up") {
-                    checkBox.setYPos(yPos - 1);
+                    current.setYPos(yPos - 1);
                 } else {
-                    checkBox.setYPos(yPos + 1);
+                    current.setYPos(yPos + 1);
                 }
 
-                if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "g") {
-                    checkBox.setAtGoal(true);
-                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "bg";
+                if (sobokanBoard[current.getYPos()][current.getXPos()] == "g") {
+                    current.setAtGoal(true);
+                    sobokanBoard[current.getYPos()][current.getXPos()] = "bg";
                 } else {
-                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "b";
+                    sobokanBoard[current.getYPos()][current.getXPos()] = "b";
                 }
-
+                boxes.remove(checkBox);
+                boxes.add(current);
                 return;
             }
         }
@@ -519,7 +520,6 @@ public class ModelGame extends Observable {
 
         // undo player position
         if(p.getPrevPlayer() != null) {
-
             if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
                 sobokanBoard[p.getYPos()][p.getXPos()] = "g";
             } else {
@@ -538,22 +538,27 @@ public class ModelGame extends Observable {
         //undo box position
         for (Box checkBox : boxes) {
             if(checkBox.getPrevBox() != null) {
+                //boolean was = true;
 
-                if (sobokanBoard[checkBox.getYPos()][checkBox.getYPos()] == "bg") {
+                if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "bg") {
                     checkBox.setAtGoal(false);
                     sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "g";
                 } else {
                     sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "0";
                 }
 
-                checkBox = checkBox.getPrevBox();
+                Box previous = checkBox.getPrevBox();
 
-                if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "g") {
-                    checkBox.setAtGoal(true);
-                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "bg";
+                if (sobokanBoard[previous.getYPos()][previous.getXPos()] == "g") {
+                    previous.setAtGoal(true);
+                    sobokanBoard[previous.getYPos()][previous.getXPos()] = "bg";
                 } else {
-                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "b";
+                    sobokanBoard[previous.getYPos()][previous.getXPos()] = "b";
                 }
+
+                boxes.remove(checkBox);
+                boxes.add(previous);
+                break;
             }
         }
         setChanged();
