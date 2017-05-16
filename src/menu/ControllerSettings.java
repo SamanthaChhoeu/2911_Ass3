@@ -8,7 +8,7 @@ public class ControllerSettings {
     private ModelInterface mi;
     private ViewSettings vs;
     private ActionListener backToMenu;
-    private ActionListener musicSwitch；
+    private ActionListener musicSwitch;
     private ActionListener music01;
     private ActionListener music02;
     
