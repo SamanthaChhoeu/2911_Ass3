@@ -429,10 +429,8 @@ public class ModelGame extends Observable {
         for (Box checkBox : boxes) {
             if (checkBox.getXPos() == xPos && checkBox.getYPos() == yPos) {
 
-                Box current = checkBox.clone();
                 Box previous = checkBox.clone();
-                current.setPrevBox(previous);
-                //checkBox = current;
+                checkBox.setPrevBox(previous);
 
                 if (sobokanBoard[yPos][xPos] == "bg") {
                     checkBox.setAtGoal(false);
@@ -449,12 +447,14 @@ public class ModelGame extends Observable {
                 } else {
                     checkBox.setYPos(yPos + 1);
                 }
+
                 if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "g") {
                     checkBox.setAtGoal(true);
                     sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "bg";
                 } else {
                     sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "b";
                 }
+
                 return;
             }
         }
@@ -499,8 +499,7 @@ public class ModelGame extends Observable {
             }
             checkBox.resetBox();
             sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "b";
-            
-        }
+            }
         
         if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
             sobokanBoard[p.getYPos()][p.getXPos()] = "g";
@@ -517,24 +516,46 @@ public class ModelGame extends Observable {
     public void undoMove() {
         // TODO @Sam @Jath build a function so that the user can undo their last move (no of moves that's saved is up to you)
         // HINT Maybe consider using states to save the last position the player and boxes were in
-        if(p.getPrevPlayer() == null){
-            System.out.println("Can't Undo");
-            return;
-        }
 
-        if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
-            sobokanBoard[p.getYPos()][p.getXPos()] = "g";
-        } else {
-            sobokanBoard[p.getYPos()][p.getXPos()] = "0";
-        }
-        p = p.getPrevPlayer();
-        if (sobokanBoard[p.getYPos()][p.getXPos()] == "g") {
-            sobokanBoard[p.getYPos()][p.getXPos()] = "pg";
-        } else {
-            sobokanBoard[p.getYPos()][p.getXPos()] = "p";
+        // undo player position
+        if(p.getPrevPlayer() != null) {
+
+            if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
+                sobokanBoard[p.getYPos()][p.getXPos()] = "g";
+            } else {
+                sobokanBoard[p.getYPos()][p.getXPos()] = "0";
+            }
+            p = p.getPrevPlayer();
+            if (sobokanBoard[p.getYPos()][p.getXPos()] == "g") {
+                sobokanBoard[p.getYPos()][p.getXPos()] = "pg";
+            } else {
+                sobokanBoard[p.getYPos()][p.getXPos()] = "p";
+            }
         }
         //p.setXPos(p.getPrevX());
         //p.setYPos(p.getPrevY());
+
+        //undo box position
+        for (Box checkBox : boxes) {
+            if(checkBox.getPrevBox() != null) {
+
+                if (sobokanBoard[checkBox.getYPos()][checkBox.getYPos()] == "bg") {
+                    checkBox.setAtGoal(false);
+                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "g";
+                } else {
+                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "0";
+                }
+
+                checkBox = checkBox.getPrevBox();
+
+                if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "g") {
+                    checkBox.setAtGoal(true);
+                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "bg";
+                } else {
+                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "b";
+                }
+            }
+        }
         setChanged();
         notifyObservers("ResetGame"); // don't know much about this line so change it thanks
     }
