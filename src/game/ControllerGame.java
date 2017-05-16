@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JOptionPane;
 
 import menu.ModelInterface;
 
@@ -20,7 +21,9 @@ public class ControllerGame {
     private ActionListener remake;
     private ActionListener undo;
     private ActionListener triggerSound;
-    private ActionListener quit;
+    private ActionListener quit;  
+    private ActionListener save;
+  
     //private ActionListener pause_resume;
     
     public ControllerGame(ModelInterface mi, ModelGame mg, ViewGame vg) {
@@ -90,6 +93,15 @@ public class ControllerGame {
             }
         };
         vg.getSoundButton().addActionListener(triggerSound);
+        
+         save = new ActionListener(){
+        	public void actionPerformed(ActionEvent event) {
+        		Object[] options ={ "Save", "Cancel" };
+        		JOptionPane.showInputDialog(null,"Enter your Username：\n","Save",JOptionPane.PLAIN_MESSAGE,null,null,null);  
+            }
+        	
+        };
+        vg.getSaveButton().addActionListener(save);
         
         quit = new ActionListener() {
             @Override
