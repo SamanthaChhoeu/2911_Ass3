@@ -47,7 +47,7 @@ public class ViewSettings extends JFrame implements Observer {
         lb.setBounds(98,100,100,100);
         
         //create below buttons to control and select music
-    	
+    	btnSwitch = new JButton("On");
     	btnMusic1 = new JButton("Music1");
     	btnMusic2 = new JButton("Music2");
         btnSwitch.setBounds(100, 180, 100, 50);
