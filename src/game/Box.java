@@ -7,6 +7,9 @@ public class Box {
     private int xPosStart;
     private int yPosStart;
     private boolean atGoal;
+
+    private int xPevPos;
+    private int yPevPos;
     
     public Box(int xPos, int yPos) {
         this.xPos = xPos;
@@ -14,11 +17,25 @@ public class Box {
         this.xPosStart = xPos;
         this.yPosStart = yPos;
         this.atGoal = false;
+        setPrev(xPos, yPos);
     }
     
     public void resetBox() {
         xPos = xPosStart;
         yPos = yPosStart;
+    }
+
+    public void setPrev(int xPevPos, int yPevPos){
+        this.xPevPos = xPevPos;
+        this.yPevPos = yPevPos;
+    }
+
+    public int getPrevX(){
+        return this.xPevPos;
+    }
+
+    public int getPrevY(){
+        return this.yPevPos;
     }
 
     public int getXPos() {
