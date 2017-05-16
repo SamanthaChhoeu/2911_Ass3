@@ -8,8 +8,7 @@ public class ControllerSettings {
     private ModelInterface mi;
     private ViewSettings vs;
     private ActionListener backToMenu;
-    private ActionListener musicOn;
-    private ActionListener musicOff;
+    private ActionListener musicswitch；
     private ActionListener music01;
     private ActionListener music02;
     
@@ -33,21 +32,19 @@ public class ControllerSettings {
         // adds a listener to the menu button so that the action is performed when the menu button is pressed
         vs.getBackButton().addActionListener(backToMenu);
         
-        musicOn = new ActionListener() {
+        musicSwitch = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
             //performance after music on
-               
+             if(vs.getbtnswitch().getText().equals("On")){
+            		vs.getbtnswitch().setText("Off");
+            	}else if(vs.getbtnswitch().getText().equals("Off")){
+            		vs.getbtnswitch().setText("On");
+            	}  
             }
         };
-        vs.getbtnon().addActionListener(musicOn);
+        vs.getbtnon().addActionListener(musicSwitch);
         
-        musicOff = new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-            //performance after music off	
-                
-            }
-        };
-        vs.getbtnoff().addActionListener(musicOff);
+       
         
         music01 = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
