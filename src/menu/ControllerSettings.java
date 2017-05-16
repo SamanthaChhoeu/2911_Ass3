@@ -8,7 +8,7 @@ public class ControllerSettings {
     private ModelInterface mi;
     private ViewSettings vs;
     private ActionListener backToMenu;
-    private ActionListener musicswitch；
+    private ActionListener musicSwitch；
     private ActionListener music01;
     private ActionListener music02;
     
@@ -35,14 +35,14 @@ public class ControllerSettings {
         musicSwitch = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
             //performance after music on
-             if(vs.getbtnswitch().getText().equals("On")){
-            		vs.getbtnswitch().setText("Off");
-            	}else if(vs.getbtnswitch().getText().equals("Off")){
-            		vs.getbtnswitch().setText("On");
+             if(vs.getbtnSwitch().getText().equals("On")){
+            		vs.getbtnSwitch().setText("Off");
+            	}else if(vs.getbtnSwitch().getText().equals("Off")){
+            		vs.getbtnSwitch().setText("On");
             	}  
             }
         };
-        vs.getbtnon().addActionListener(musicSwitch);
+        vs.getbtnSwitch().addActionListener(musicSwitch);
         
        
         
