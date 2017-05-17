@@ -1,5 +1,9 @@
 package game;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,12 +20,13 @@ public class ModelGame extends Observable {
     private int ySizeOfBoard;
     private String[][] sobokanBoard;
     private Player p;
-    private Timer gameTimer;
+    //private Timer gameTimer;
     private List<Box> boxes;
     private String currTime;
     private long start;
     private int moveCounter;
-    private int scoreCounter;
+    private int scoreCounter = 1000;
+    private String Name = "Triggered";
 
     
     public ModelGame() {
@@ -37,6 +42,7 @@ public class ModelGame extends Observable {
         this.xSizeOfBoard = 15;
         this.ySizeOfBoard = 10;
         this.moveCounter = 0;
+        this.scoreCounter = 1000;
         this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
         this.boxes = new ArrayList<Box>();
         start = System.currentTimeMillis();
@@ -384,6 +390,7 @@ public class ModelGame extends Observable {
     private void movePlayer(int xPos, int yPos, String direction) {
 
         moveCounter++;
+        scoreCounter--;
         // storing current location of player before moving.
         Player current = p.clone();
         Player previous = p.clone();
@@ -424,7 +431,17 @@ public class ModelGame extends Observable {
         if (foundBoxNotAtGoal) {
             notifyObservers("MovePlayer");
         } else {
-        	gameTimer.cancel();
+        	//gameTimer.cancel();
+            //notifyObservers("UpdateTimer");
+            System.out.println(this.scoreCounter + " is your score.");
+            try(FileWriter fw = new FileWriter("leaderboard.txt", true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter out = new PrintWriter(bw))
+            {
+                out.println(this.Name + " " +this.scoreCounter);
+            } catch (IOException e) {
+                //exception handling left as an exercise for the reader
+            }
             notifyObservers("ChangeScreenWin");
         }
     }
@@ -542,7 +559,6 @@ public class ModelGame extends Observable {
             for (Box checkBox : boxes) {
                 if (checkBox.getMove() == p.getMove() ) {
                     if (checkBox.getPrevBox() != null) {
-                        //boolean was = true;
 
                         if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "bg") {
                             checkBox.setAtGoal(false);
@@ -582,5 +598,8 @@ public class ModelGame extends Observable {
     public String getCurrTime() {
         return this.currTime;
     }
-    
+
+    public void setName(String n){
+        this.Name = n;
+    }
 }
