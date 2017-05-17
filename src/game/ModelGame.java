@@ -20,6 +20,8 @@ public class ModelGame extends Observable {
     private List<Box> boxes;
     private String currTime;
     private long start;
+    private int moveCounter;
+    private int scoreCounter;
 
     
     public ModelGame() {
@@ -34,6 +36,7 @@ public class ModelGame extends Observable {
         // keep difficulty on a 3:2 aspect ratio
         this.xSizeOfBoard = 15;
         this.ySizeOfBoard = 10;
+        this.moveCounter = 0;
         this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
         this.boxes = new ArrayList<Box>();
         start = System.currentTimeMillis();
@@ -380,6 +383,7 @@ public class ModelGame extends Observable {
     
     private void movePlayer(int xPos, int yPos, String direction) {
 
+        moveCounter++;
         // storing current location of player before moving.
         Player current = p.clone();
         Player previous = p.clone();
@@ -408,6 +412,7 @@ public class ModelGame extends Observable {
         } else {
             sobokanBoard[current.getYPos()][current.getXPos()] = "p";
         }
+        current.setMove(moveCounter);
         p = current;
         boolean foundBoxNotAtGoal = false;
         // check if all boxes are in the goal
@@ -431,6 +436,7 @@ public class ModelGame extends Observable {
                 Box current  = checkBox.clone();
                 Box previous = checkBox.clone();
                 current.setPrevBox(previous);
+                current.setMove(moveCounter);
 
                 if (sobokanBoard[yPos][xPos] == "bg") {
                     current.setAtGoal(false);
@@ -520,6 +526,7 @@ public class ModelGame extends Observable {
 
         // undo player position
         if(p.getPrevPlayer() != null) {
+            moveCounter--;
             if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
                 sobokanBoard[p.getYPos()][p.getXPos()] = "g";
             } else {
@@ -531,34 +538,33 @@ public class ModelGame extends Observable {
             } else {
                 sobokanBoard[p.getYPos()][p.getXPos()] = "p";
             }
-        }
-        //p.setXPos(p.getPrevX());
-        //p.setYPos(p.getPrevY());
 
-        //undo box position
-        for (Box checkBox : boxes) {
-            if(checkBox.getPrevBox() != null) {
-                //boolean was = true;
+            for (Box checkBox : boxes) {
+                if (checkBox.getMove() == p.getMove() ) {
+                    if (checkBox.getPrevBox() != null) {
+                        //boolean was = true;
 
-                if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "bg") {
-                    checkBox.setAtGoal(false);
-                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "g";
-                } else {
-                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "0";
+                        if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "bg") {
+                            checkBox.setAtGoal(false);
+                            sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "g";
+                        } else {
+                            sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "0";
+                        }
+
+                        Box previous = checkBox.getPrevBox();
+
+                        if (sobokanBoard[previous.getYPos()][previous.getXPos()] == "g") {
+                            previous.setAtGoal(true);
+                            sobokanBoard[previous.getYPos()][previous.getXPos()] = "bg";
+                        } else {
+                            sobokanBoard[previous.getYPos()][previous.getXPos()] = "b";
+                        }
+
+                        boxes.remove(checkBox);
+                        boxes.add(previous);
+                        break;
+                    }
                 }
-
-                Box previous = checkBox.getPrevBox();
-
-                if (sobokanBoard[previous.getYPos()][previous.getXPos()] == "g") {
-                    previous.setAtGoal(true);
-                    sobokanBoard[previous.getYPos()][previous.getXPos()] = "bg";
-                } else {
-                    sobokanBoard[previous.getYPos()][previous.getXPos()] = "b";
-                }
-
-                boxes.remove(checkBox);
-                boxes.add(previous);
-                break;
             }
         }
         setChanged();
