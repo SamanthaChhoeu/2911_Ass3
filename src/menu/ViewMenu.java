@@ -15,6 +15,7 @@ public class ViewMenu extends JFrame implements Observer {
     private ModelInterface mi;
     private JButton playButton;
     private JButton settingsButton;
+    private JButton signupButton;
     private JButton quitButton;
 
     public ViewMenu (ModelInterface mi) {   
@@ -36,6 +37,10 @@ public class ViewMenu extends JFrame implements Observer {
         // sets the window to show in the middle of the screen
         this.setLocationRelativeTo(null);
 
+	signupButton = new JButton("signup");
+        signupButton.setBounds(390, 300, 500, 50);
+        this.add(signupButton);
+	    
         // creates a new button to start playing the game
         playButton = new JButton("Play");
         // sets the size and the position of the buttons (only works for null layout)
@@ -79,6 +84,9 @@ public class ViewMenu extends JFrame implements Observer {
         // set such that the main menu is the visible when this class is created
         this.setVisible(true);
         
+    }
+    public JButton getSignupButton(){
+    	return signupButton;
     }
     
     public JButton getPlayButton() {
