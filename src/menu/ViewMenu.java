@@ -37,7 +37,7 @@ public class ViewMenu extends JFrame implements Observer {
         // sets the window to show in the middle of the screen
         this.setLocationRelativeTo(null);
 
-	signupButton = new JButton("signup");
+	signupButton = new JButton("Sign up");
         signupButton.setBounds(390, 300, 500, 50);
         this.add(signupButton);
 	    
