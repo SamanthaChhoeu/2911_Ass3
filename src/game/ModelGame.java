@@ -395,8 +395,9 @@ public class ModelGame extends Observable {
     private void movePlayer(int xPos, int yPos, String direction) {
 
         // storing current location of player before moving.
-        int currentPlayerX = p.getXPos();
-        int currentPlayerY = p.getYPos();
+        Player current = p.clone();
+        Player previous = p.clone();
+        current.setPrevPlayer(previous);
 
         // return to just goal if player leaves a goal square
         if (sobokanBoard[yPos][xPos] == "pg") {
@@ -406,22 +407,22 @@ public class ModelGame extends Observable {
         }
         
         if (direction == "Left") {
-            p.setXPos(xPos - 1);
+            current.setXPos(xPos - 1);
         } else if (direction == "Right") {
-            p.setXPos(xPos + 1);
+            current.setXPos(xPos + 1);
         } else if (direction == "Up") {
-            p.setYPos(yPos - 1);
+            current.setYPos(yPos - 1);
         } else if (direction == "Down"){
-            p.setYPos(yPos + 1);
+            current.setYPos(yPos + 1);
         }
         
         // go to player in goal square if player is entering a goal square
-        if (sobokanBoard[p.getYPos()][p.getXPos()] == "g") {
-            sobokanBoard[p.getYPos()][p.getXPos()] = "pg";
+        if (sobokanBoard[current.getYPos()][current.getXPos()] == "g") {
+            sobokanBoard[current.getYPos()][current.getXPos()] = "pg";
         } else {
-            sobokanBoard[p.getYPos()][p.getXPos()] = "p";
+            sobokanBoard[current.getYPos()][current.getXPos()] = "p";
         }
-        
+        p = current;
         boolean foundBoxNotAtGoal = false;
         // check if all boxes are in the goal
         for (Box checkBox : boxes) {
@@ -435,36 +436,40 @@ public class ModelGame extends Observable {
         	gameTimer.cancel();
             notifyObservers("ChangeScreenWin");
         }
-        p.setPrev(currentPlayerX, currentPlayerY);
-        
     }
 
     private void moveBox(int xPos, int yPos, String direction) {
         
         for (Box checkBox : boxes) {
             if (checkBox.getXPos() == xPos && checkBox.getYPos() == yPos) {
-                checkBox.setPrev(checkBox.getXPos(), checkBox.getYPos());
+                Box current  = checkBox.clone();
+                Box previous = checkBox.clone();
+                current.setPrevBox(previous);
+
                 if (sobokanBoard[yPos][xPos] == "bg") {
-                    checkBox.setAtGoal(false);
+                    current.setAtGoal(false);
                     sobokanBoard[yPos][xPos] = "g";
                 } else {
                     sobokanBoard[yPos][xPos] = "0";
                 }
                 if (direction == "Left") {
-                    checkBox.setXPos(xPos - 1);
+                    current.setXPos(xPos - 1);
                 } else if (direction == "Right") {
-                    checkBox.setXPos(xPos + 1);
+                    current.setXPos(xPos + 1);
                 } else if (direction == "Up") {
-                    checkBox.setYPos(yPos - 1);
+                    current.setYPos(yPos - 1);
                 } else {
-                    checkBox.setYPos(yPos + 1);
+                    current.setYPos(yPos + 1);
                 }
-                if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "g") {
-                    checkBox.setAtGoal(true);
-                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "bg";
+
+                if (sobokanBoard[current.getYPos()][current.getXPos()] == "g") {
+                    current.setAtGoal(true);
+                    sobokanBoard[current.getYPos()][current.getXPos()] = "bg";
                 } else {
-                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "b";
+                    sobokanBoard[current.getYPos()][current.getXPos()] = "b";
                 }
+                boxes.remove(checkBox);
+                boxes.add(current);
                 return;
             }
         }
@@ -509,8 +514,7 @@ public class ModelGame extends Observable {
             }
             checkBox.resetBox();
             sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "b";
-            
-        }
+            }
         
         if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
             sobokanBoard[p.getYPos()][p.getXPos()] = "g";
@@ -527,14 +531,50 @@ public class ModelGame extends Observable {
     public void undoMove() {
         // TODO @Sam @Jath build a function so that the user can undo their last move (no of moves that's saved is up to you)
         // HINT Maybe consider using states to save the last position the player and boxes were in
-        if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
-            sobokanBoard[p.getYPos()][p.getXPos()] = "g";
-        } else {
-            sobokanBoard[p.getYPos()][p.getXPos()] = "0";
+
+        // undo player position
+        if(p.getPrevPlayer() != null) {
+            if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
+                sobokanBoard[p.getYPos()][p.getXPos()] = "g";
+            } else {
+                sobokanBoard[p.getYPos()][p.getXPos()] = "0";
+            }
+            p = p.getPrevPlayer();
+            if (sobokanBoard[p.getYPos()][p.getXPos()] == "g") {
+                sobokanBoard[p.getYPos()][p.getXPos()] = "pg";
+            } else {
+                sobokanBoard[p.getYPos()][p.getXPos()] = "p";
+            }
         }
-        p.setXPos(p.getPrevX());
-        p.setYPos(p.getPrevY());
-        sobokanBoard[p.getYPos()][p.getXPos()] = "p";
+        //p.setXPos(p.getPrevX());
+        //p.setYPos(p.getPrevY());
+
+        //undo box position
+        for (Box checkBox : boxes) {
+            if(checkBox.getPrevBox() != null) {
+                //boolean was = true;
+
+                if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "bg") {
+                    checkBox.setAtGoal(false);
+                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "g";
+                } else {
+                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "0";
+                }
+
+                Box previous = checkBox.getPrevBox();
+
+                if (sobokanBoard[previous.getYPos()][previous.getXPos()] == "g") {
+                    previous.setAtGoal(true);
+                    sobokanBoard[previous.getYPos()][previous.getXPos()] = "bg";
+                } else {
+                    sobokanBoard[previous.getYPos()][previous.getXPos()] = "b";
+                }
+
+                boxes.remove(checkBox);
+                boxes.add(previous);
+                break;
+            }
+        }
         setChanged();
         notifyObservers("ResetGame"); // don't know much about this line so change it thanks
     }

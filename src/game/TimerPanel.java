@@ -48,6 +48,11 @@ public class TimerPanel extends JPanel {
             pauseCount = 0;  
             thread.stopped = true;  
             label.setText(INITIAL_LABEL_TEXT);   
+		
+	    //When we click "reset", the timer should run again from 0!
+            pauseCount += (System.currentTimeMillis() - pauseStart);  
+            thread.stopped = false;  
+            startPauseButton.setText("Pause");  
         }  
     };  
    
@@ -57,7 +62,7 @@ public class TimerPanel extends JPanel {
         setupButtonsPanel();  
         startPauseButton.addActionListener(startPauseButtonListener);  
         resetButton.addActionListener(resetButtonListener);  
-        thread.start(); 
+        thread.start(); //counting thread runs.
     }  
    
     
