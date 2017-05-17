@@ -45,8 +45,7 @@ public class TimerPanel extends JPanel {
     private ActionListener resetButtonListener = new ActionListener() {  
         public void actionPerformed(ActionEvent e) {  
             pauseStart = programStart;  
-            pauseCount = 0;  
-            thread.stopped = true;  
+            pauseCount = 0;   
             label.setText(INITIAL_LABEL_TEXT);   
 		
 	    //When we click "reset", the timer should run again from 0!
