@@ -20,6 +20,9 @@ public class ModelGame extends Observable {
     private List<Box> boxes;
     private String currTime;
     private long start;
+    // coords to generate map 
+    private int x;
+    private int y;
 
     
     public ModelGame() {
@@ -189,7 +192,7 @@ public class ModelGame extends Observable {
         }
         
         // choose random locations for the goal
-        int noOfBoxes = 3;
+        int noOfBoxes = 1; // should be 3 its changed for debugging
         int goal = 0;
         for (int i = 0; i < noOfBoxes; i++) {
         	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
@@ -208,29 +211,61 @@ public class ModelGame extends Observable {
             //	 box2 is pulled and always tries to turn
             //   box3 is pulled and uses a mix of both?
             
-            int x = xGoal;
-            int y = yGoal;
             
-            for (int turns=0; turns < 4; i++){
+            x = xGoal;
+            y = yGoal;
+            int turns = 0;
+            int vert = -1; // records if last move was vertical or horizontal (-1 initially, 0 if horizontal, 1 if vertical)
+            
+            while (turns < 4){
+
             	// if box is free to be pulled downwards
-                if (board[y+1][x] == "0" && board[y+2][x] == "0"){
+                if (board[y+1][x] != "w" && board[y+2][x] != "w" && vert != 1){
                 	board[y+1][x] = "x";
+                	board = goStraight(2,board);
+                	vert = 1;
+                	turns++;
+      
+                	
                 // if box is free to be pulled upwards
-                } else if (board[y-1][x] == "0" && board[y-2][x] == "0"){
+                } else if (board[y-1][x] != "w" && board[y-2][x] != "w" && vert != 1){
                 	board[y-1][x] = "x";
+                	board = goStraight(0,board);
+                	turns ++;
+                	vert = 1;
+    
                 // if box is free to be pulled right
-                } else if (board[y][x+1] == "0" && board[y][x+2] == "0"){
+                } else if (board[y][x+1] != "w" && board[y][x+2] != "w" && vert != 0){
                 	board[y][x+1] = "x";
+                	board = goStraight(1,board);
+                	vert = 0;
+                	turns++;
                 // if box is free to be pulled left
-                } else if (board[y][x-1] == "0" && board[y][x-2] == "0"){
+                } else if (board[y][x-1] != "w" && board[y][x-2] != "w" && vert != 0){
                 	board[y+1][x-1] = "x";
+                	board = goStraight(3,board);
+                	vert = 0;
+                	turns++;
+                } else {
+                	turns = 4;
                 }
-                goal++;
             }
-            
+            Box newBox = new Box(x, y);
+            board[y][x] = "b";
+            boxes.add(newBox);
 
  
         }
+        
+        // add player
+        int xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
+        int yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
+        while (board[yPlayer][xPlayer] == "w" || board[yPlayer][xPlayer] == "g" || board[yPlayer][xPlayer] == "b"){
+        	xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
+            yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
+        }
+        p = new Player(xPlayer, yPlayer);
+        board[yPlayer][xPlayer] = "p";
         
         return board;
     }
@@ -238,18 +273,33 @@ public class ModelGame extends Observable {
     // function for going straight until you can't and then turning
     // x coord, y coord
     // direction up-0, right-1, down-2, left-3
-    private void goStraight(int x, int y, int direction, String[][] board){
+    private String[][] goStraight(int direction, String[][] board){
+    	// up
     	if (direction == 0){
-    		while (board[y+1][x] == "0" && board[y+2][x] == "0"){
-    			
+    		while (board[y-1][x] != "w" && board[y-2][x] != "w"){
+    			y--;
     		}
+    		board[y][x] = "x";
+    	// right
     	} else if (direction == 1){
-    		
+    		while (board[y][x+1] != "w" && board[y][x+2] != "w"){
+    			x++;
+    		}
+    		board[y][x] = "x";
+    	// down
     	} else if (direction == 2){
-    		
+    		while (board[y+1][x] != "w" && board[y+2][x] != "w"){
+    			y++;
+    		}
+    		board[y][x] = "x";
+    	// left
     	} else if (direction == 3){
-    		
+    		while (board[y][x-1] != "w" && board[y][x-2] != "w"){
+    			x--;
+    		}
+    		board[y][x] = "x";
     	}
+    	return board;
     }
     
     // function for always try to turn
@@ -322,18 +372,20 @@ public class ModelGame extends Observable {
     
     private String checkMovable(int xPos, int yPos) {
         
-        if (sobokanBoard[yPos][xPos] == "w") {
+        if (sobokanBoard[yPos][xPos] == "w" ) {
             return "Wall";
         } else if (sobokanBoard[yPos][xPos] == "b" || sobokanBoard[yPos][xPos] == "bg") {
             return "Box";
-        } else {
+        } else if (sobokanBoard[yPos][xPos] == "0"|| sobokanBoard[yPos][xPos] == "x"){
             return "Free";
+        } else {
+        	return "Free";
         }
         
     }
     
     private boolean checkMovableBox(int xPos, int yPos) {
-        if (sobokanBoard[yPos][xPos] == "0" || sobokanBoard[yPos][xPos] == "g") {
+        if (sobokanBoard[yPos][xPos] == "0" || sobokanBoard[yPos][xPos] == "g" ||  sobokanBoard[yPos][xPos] == "x") {
             return true;
         } else {
             return false;
