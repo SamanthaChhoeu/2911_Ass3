@@ -93,6 +93,9 @@ public class ViewGame extends JFrame implements Observer {
             tilePanel.setBackground(Color.YELLOW);
         } else if (mg.getSobokanBoardAtXY(i,j) == "g") {
             tilePanel.setBackground(Color.BLUE);
+        // for debugging purposes, can comment out later
+        } else if (mg.getSobokanBoardAtXY(i,j) == "x") {
+            tilePanel.setBackground(Color.PINK);
         } else {
             tilePanel.setBackground(Color.WHITE);
         }

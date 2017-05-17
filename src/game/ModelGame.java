@@ -39,7 +39,7 @@ public class ModelGame extends Observable {
         start = System.currentTimeMillis();
         
         // samantha's generator
-        String[][] generatedBoard = randomGenerate(xSizeOfBoard,ySizeOfBoard);
+        String[][] generatedBoard = reverseGenerate(xSizeOfBoard,ySizeOfBoard);
        
         sobokanBoard = generatedBoard;
         printBoard(sobokanBoard);
@@ -180,10 +180,80 @@ public class ModelGame extends Observable {
         
         Random rand = new Random();
         
+        // randomly put in walls. 
+        int difficulty = 20; // difficulty affects number of walls
+        for (int i = 0; i < difficulty; i++){
+        	int xWall = rand.nextInt(xSizeOfBoard-3)+1;
+        	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
+        	board[yWall][xWall] = "w";
+        }
         
+        // choose random locations for the goal
+        int noOfBoxes = 3;
+        int goal = 0;
+        for (int i = 0; i < noOfBoxes; i++) {
+        	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
+        	int xGoal = rand.nextInt(xSizeOfBoard-3)+1;
+        	int yGoal = rand.nextInt(ySizeOfBoard-3)+1;
+        	while (board[yGoal][xGoal]  == "b"|| board[yGoal][xGoal] == "p"|| board[yGoal][xGoal] == "g"){	
+        		xGoal = rand.nextInt(xSizeOfBoard-3)+1;
+                yGoal = rand.nextInt(ySizeOfBoard-3)+1;
+        	}   
+
+            board[yGoal][xGoal] = "g";
+            
+            // move in random directions with a 2x1 block and 
+            // can make it so that each block gets a random algorithm
+            // 	 box1 is pulled until it reaches a wall and then turns -- trying to implement this first
+            //	 box2 is pulled and always tries to turn
+            //   box3 is pulled and uses a mix of both?
+            
+            int x = xGoal;
+            int y = yGoal;
+            
+            for (int turns=0; turns < 4; i++){
+            	// if box is free to be pulled downwards
+                if (board[y+1][x] == "0" && board[y+2][x] == "0"){
+                	board[y+1][x] = "x";
+                // if box is free to be pulled upwards
+                } else if (board[y-1][x] == "0" && board[y-2][x] == "0"){
+                	board[y-1][x] = "x";
+                // if box is free to be pulled right
+                } else if (board[y][x+1] == "0" && board[y][x+2] == "0"){
+                	board[y][x+1] = "x";
+                // if box is free to be pulled left
+                } else if (board[y][x-1] == "0" && board[y][x-2] == "0"){
+                	board[y+1][x-1] = "x";
+                }
+                goal++;
+            }
+            
+
+ 
+        }
         
         return board;
     }
+    
+    // function for going straight until you can't and then turning
+    // x coord, y coord
+    // direction up-0, right-1, down-2, left-3
+    private void goStraight(int x, int y, int direction, String[][] board){
+    	if (direction == 0){
+    		while (board[y+1][x] == "0" && board[y+2][x] == "0"){
+    			
+    		}
+    	} else if (direction == 1){
+    		
+    	} else if (direction == 2){
+    		
+    	} else if (direction == 3){
+    		
+    	}
+    }
+    
+    // function for always try to turn
+    
     // print board for debugging purposes
     private void printBoard(String[][] board){
         for (int i = 0; i < ySizeOfBoard; i++){
