@@ -2,6 +2,7 @@ package menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 import game.ModelGame;
 import game.ViewGame;
@@ -12,6 +13,7 @@ public class ControllerMenu {
     private ViewMenu vm;
     private ModelGame mg;
     private ActionListener playGame;
+    private ActionListener signUp;
     private ActionListener goToSettings;
     private ActionListener quit;
     
@@ -28,6 +30,14 @@ public class ControllerMenu {
     
     public void setupController() {
         // creates the action when the play button is pressed
+        
+        signUp = new ActionListener() {
+    		public void actionPerformed(ActionEvent event) {
+    			JOptionPane.showInputDialog(null,"Enter your Username:","Sign up",JOptionPane.PLAIN_MESSAGE,null,null,null);  
+    		}
+    	};
+    	vm.getSignupButton().addActionListener(signUp);
+        
         playGame = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 mg.generateBoard();
