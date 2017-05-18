@@ -429,6 +429,10 @@ public class ModelGame extends Observable {
     private void storeScore(){
         int lines = getAmountOfLines("leaderBoard.txt");
 
+        if(this.Name == null){
+            this.Name = ("UnNamed" + lines);
+        }
+
         //writes appends to file
         try(FileWriter fw = new FileWriter("leaderBoard.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -461,7 +465,6 @@ public class ModelGame extends Observable {
             if (sc != null) sc.close();
         }
         Collections.sort(users);
-        int lines = getAmountOfLines(filename);
         try {
             PrintWriter writer = new PrintWriter(filename);
             writer.print("");
