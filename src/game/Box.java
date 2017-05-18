@@ -8,6 +8,7 @@ public class Box {
     private int yPosStart;
     private boolean atGoal;
     private Box prev;
+    private int move;
     
     public Box(int xPos, int yPos) {
         this.xPos = xPos;
@@ -16,6 +17,15 @@ public class Box {
         this.yPosStart = yPos;
         this.atGoal = false;
         this.prev = null;
+        this.move = 0;
+    }
+
+    public void setMove(int move){
+        this.move = move;
+    }
+
+    public int getMove(){
+        return this.move;
     }
     
     public void resetBox() {
@@ -63,6 +73,7 @@ public class Box {
         Box copy = new Box(this.xPos, this.yPos);
         copy.setPrevBox(this.prev);
         copy.setStartPos(this.xPosStart, this.yPosStart);
+        copy.setMove(this.move);
         return copy;
     }
     

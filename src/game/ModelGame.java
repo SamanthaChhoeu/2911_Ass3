@@ -1,14 +1,8 @@
 package game;
 
+import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Observable;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class ModelGame extends Observable {
 
@@ -16,13 +10,19 @@ public class ModelGame extends Observable {
     private int ySizeOfBoard;
     private String[][] sobokanBoard;
     private Player p;
-    private Timer gameTimer;
+    //private Timer gameTimer;
     private List<Box> boxes;
     private String currTime;
     private long start;
+<<<<<<< HEAD
     // coords to generate map 
     private int x;
     private int y;
+=======
+    private int moveCounter;
+    private int scoreCounter = 1000;
+    private String Name;
+>>>>>>> refs/remotes/origin/master
 
     
     public ModelGame() {
@@ -37,6 +37,8 @@ public class ModelGame extends Observable {
         // keep difficulty on a 3:2 aspect ratio
         this.xSizeOfBoard = 15;
         this.ySizeOfBoard = 10;
+        this.moveCounter = 0;
+        this.scoreCounter = 1000;
         this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
         this.boxes = new ArrayList<Box>();
         start = System.currentTimeMillis();
@@ -480,6 +482,8 @@ public class ModelGame extends Observable {
     
     private void movePlayer(int xPos, int yPos, String direction) {
 
+        moveCounter++;
+        scoreCounter--;
         // storing current location of player before moving.
         Player current = p.clone();
         Player previous = p.clone();
@@ -508,6 +512,7 @@ public class ModelGame extends Observable {
         } else {
             sobokanBoard[current.getYPos()][current.getXPos()] = "p";
         }
+        current.setMove(moveCounter);
         p = current;
         boolean foundBoxNotAtGoal = false;
         // check if all boxes are in the goal
@@ -519,8 +524,81 @@ public class ModelGame extends Observable {
         if (foundBoxNotAtGoal) {
             notifyObservers("MovePlayer");
         } else {
-        	gameTimer.cancel();
+            storeScore();
             notifyObservers("ChangeScreenWin");
+        }
+    }
+
+    private void storeScore(){
+        int lines = getAmountOfLines("leaderBoard.txt");
+
+        if(this.Name == null){
+            this.Name = ("UnNamed" + lines);
+        }
+
+        //writes appends to file
+        try(FileWriter fw = new FileWriter("leaderBoard.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.println(lines + "//" +this.Name + "//" +this.scoreCounter);
+        } catch (IOException e) {
+            System.out.println("Issue with writing out talk to ---> Jathurson");
+
+        }
+
+        //order score
+        orderFile("leaderBoard.txt");
+    }
+
+    private void orderFile(String filename){
+        ArrayList<User> users = new ArrayList<>();
+        Scanner sc = null;
+        try {
+            sc = new Scanner(new FileReader(filename));
+            while (sc.hasNext()) {
+                String line = sc.nextLine();
+                String[] l = line.split("//");
+                User curr = new User(l[1], Integer.parseInt(l[2]));
+                users.add(curr);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Issue with reading and or sorting out talk to ---> Jathurson");
+        } finally {
+            if (sc != null) sc.close();
+        }
+        Collections.sort(users);
+        try {
+            PrintWriter writer = new PrintWriter(filename);
+            writer.print("");
+            writer.close();
+        }catch (FileNotFoundException e){
+            System.out.println("Issue with reading and or sorting out talk to ---> Jathurson");
+        }
+        int i =0;
+        for(User u : users) {
+            i++;
+            try (FileWriter fw = new FileWriter("leaderBoard.txt", true);
+                 BufferedWriter bw = new BufferedWriter(fw);
+                 PrintWriter out = new PrintWriter(bw)) {
+                out.println(i + "//" + u.getName() + "//" + u.getScore());
+            } catch (IOException e) {
+                System.out.println("Issue with writing out talk to ---> Jathurson");
+            }
+        }
+    }
+
+    private int getAmountOfLines(String filename){
+        try(FileReader fr = new FileReader(filename))
+        {
+            LineNumberReader lnr = new LineNumberReader(fr);
+            lnr.skip(Long.MAX_VALUE);
+            int length = lnr.getLineNumber()+1;
+            lnr.close();
+            return length;
+        }catch (IOException e){
+            System.out.println("Issue with writing out talk to ---> Jathurson");
+            return 0;
         }
     }
 
@@ -531,6 +609,7 @@ public class ModelGame extends Observable {
                 Box current  = checkBox.clone();
                 Box previous = checkBox.clone();
                 current.setPrevBox(previous);
+                current.setMove(moveCounter);
 
                 if (sobokanBoard[yPos][xPos] == "bg") {
                     current.setAtGoal(false);
@@ -620,6 +699,7 @@ public class ModelGame extends Observable {
 
         // undo player position
         if(p.getPrevPlayer() != null) {
+            moveCounter--;
             if (sobokanBoard[p.getYPos()][p.getXPos()] == "pg") {
                 sobokanBoard[p.getYPos()][p.getXPos()] = "g";
             } else {
@@ -631,34 +711,32 @@ public class ModelGame extends Observable {
             } else {
                 sobokanBoard[p.getYPos()][p.getXPos()] = "p";
             }
-        }
-        //p.setXPos(p.getPrevX());
-        //p.setYPos(p.getPrevY());
 
-        //undo box position
-        for (Box checkBox : boxes) {
-            if(checkBox.getPrevBox() != null) {
-                //boolean was = true;
+            for (Box checkBox : boxes) {
+                if (checkBox.getMove() == p.getMove() ) {
+                    if (checkBox.getPrevBox() != null) {
 
-                if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "bg") {
-                    checkBox.setAtGoal(false);
-                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "g";
-                } else {
-                    sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "0";
+                        if (sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] == "bg") {
+                            checkBox.setAtGoal(false);
+                            sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "g";
+                        } else {
+                            sobokanBoard[checkBox.getYPos()][checkBox.getXPos()] = "0";
+                        }
+
+                        Box previous = checkBox.getPrevBox();
+
+                        if (sobokanBoard[previous.getYPos()][previous.getXPos()] == "g") {
+                            previous.setAtGoal(true);
+                            sobokanBoard[previous.getYPos()][previous.getXPos()] = "bg";
+                        } else {
+                            sobokanBoard[previous.getYPos()][previous.getXPos()] = "b";
+                        }
+
+                        boxes.remove(checkBox);
+                        boxes.add(previous);
+                        break;
+                    }
                 }
-
-                Box previous = checkBox.getPrevBox();
-
-                if (sobokanBoard[previous.getYPos()][previous.getXPos()] == "g") {
-                    previous.setAtGoal(true);
-                    sobokanBoard[previous.getYPos()][previous.getXPos()] = "bg";
-                } else {
-                    sobokanBoard[previous.getYPos()][previous.getXPos()] = "b";
-                }
-
-                boxes.remove(checkBox);
-                boxes.add(previous);
-                break;
             }
         }
         setChanged();
@@ -676,5 +754,8 @@ public class ModelGame extends Observable {
     public String getCurrTime() {
         return this.currTime;
     }
-    
+
+    public void setName(String n){
+        this.Name = n;
+    }
 }
