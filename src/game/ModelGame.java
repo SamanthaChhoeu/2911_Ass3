@@ -1,18 +1,8 @@
 package game;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Observable;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class ModelGame extends Observable {
 
@@ -26,7 +16,7 @@ public class ModelGame extends Observable {
     private long start;
     private int moveCounter;
     private int scoreCounter = 1000;
-    private String Name = "Triggered";
+    private String Name;
 
     
     public ModelGame() {
@@ -431,18 +421,78 @@ public class ModelGame extends Observable {
         if (foundBoxNotAtGoal) {
             notifyObservers("MovePlayer");
         } else {
-        	//gameTimer.cancel();
-            //notifyObservers("UpdateTimer");
-            System.out.println(this.scoreCounter + " is your score.");
-            try(FileWriter fw = new FileWriter("leaderboard.txt", true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                PrintWriter out = new PrintWriter(bw))
-            {
-                out.println(this.Name + " " +this.scoreCounter);
-            } catch (IOException e) {
-                //exception handling left as an exercise for the reader
-            }
+            storeScore();
             notifyObservers("ChangeScreenWin");
+        }
+    }
+
+    private void storeScore(){
+        int lines = getAmountOfLines("leaderBoard.txt");
+
+        //writes appends to file
+        try(FileWriter fw = new FileWriter("leaderBoard.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.println(lines + "//" +this.Name + "//" +this.scoreCounter);
+        } catch (IOException e) {
+            System.out.println("Issue with writing out talk to ---> Jathurson");
+
+        }
+
+        //order score
+        orderFile("leaderBoard.txt");
+    }
+
+    private void orderFile(String filename){
+        ArrayList<User> users = new ArrayList<>();
+        Scanner sc = null;
+        try {
+            sc = new Scanner(new FileReader(filename));
+            while (sc.hasNext()) {
+                String line = sc.nextLine();
+                String[] l = line.split("//");
+                User curr = new User(l[1], Integer.parseInt(l[2]));
+                users.add(curr);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Issue with reading and or sorting out talk to ---> Jathurson");
+        } finally {
+            if (sc != null) sc.close();
+        }
+        Collections.sort(users);
+        int lines = getAmountOfLines(filename);
+        try {
+            PrintWriter writer = new PrintWriter(filename);
+            writer.print("");
+            writer.close();
+        }catch (FileNotFoundException e){
+            System.out.println("Issue with reading and or sorting out talk to ---> Jathurson");
+        }
+        int i =0;
+        for(User u : users) {
+            i++;
+            try (FileWriter fw = new FileWriter("leaderBoard.txt", true);
+                 BufferedWriter bw = new BufferedWriter(fw);
+                 PrintWriter out = new PrintWriter(bw)) {
+                out.println(i + "//" + u.getName() + "//" + u.getScore());
+            } catch (IOException e) {
+                System.out.println("Issue with writing out talk to ---> Jathurson");
+            }
+        }
+    }
+
+    private int getAmountOfLines(String filename){
+        try(FileReader fr = new FileReader(filename))
+        {
+            LineNumberReader lnr = new LineNumberReader(fr);
+            lnr.skip(Long.MAX_VALUE);
+            int length = lnr.getLineNumber()+1;
+            lnr.close();
+            return length;
+        }catch (IOException e){
+            System.out.println("Issue with writing out talk to ---> Jathurson");
+            return 0;
         }
     }
 

@@ -33,7 +33,8 @@ public class ControllerMenu {
         
         signUp = new ActionListener() {
     		public void actionPerformed(ActionEvent event) {
-    			JOptionPane.showInputDialog(null,"Enter your Username:","Sign up",JOptionPane.PLAIN_MESSAGE,null,null,null);  
+    			String name = (String)JOptionPane.showInputDialog(null,"Enter your Username:","Sign up",JOptionPane.PLAIN_MESSAGE,null,null,null);
+    		    mg.setName(name);
     		}
     	};
     	vm.getSignupButton().addActionListener(signUp);
