@@ -217,11 +217,7 @@ public class ModelGame extends Observable {
             int vert = -1; // records if last move was vertical or horizontal (-1 initially, 0 if horizontal, 1 if vertical)
             
             while (turns < 4){
-            	// randomise the direction
-            	if (vert == -1){
-            		vert = rand.nextInt(1);
-            	}
-
+            	
             	// if box is free to be pulled downwards
                 if (board[y+1][x] != "w" && board[y+2][x] != "w" &&  vert != 1){
                 	//board[y+1][x] = "x";
@@ -281,8 +277,62 @@ public class ModelGame extends Observable {
             	board[yGoal][xGoal] = "g";
             	Box newBox = new Box(x, y);
                 board[y][x] = "b";
-                
                 boxes.add(newBox);
+                
+                // check space on each side of box
+                // if there are more than 3 walls, move one of them away from the box.
+                
+                
+                // move left 0 or right 1
+                int rng = rand.nextInt(1);
+                //up  
+                if (board[y-1][x] == "w"){
+                	if (board[y-1][x+1] == "w" && board[y-1][x-1] == "w" && board[y-2][x] == "w"){
+                		if (rng == 0){
+                			board[y-1][x-1] = "0";
+                			board[y-2][x-1] = "w";
+                		} else {
+                			board[y-1][x+1] = "0";
+                			board[y-2][x+1] = "w";
+                		}
+                	}
+                
+                //down
+                } else if (board[y+1][x] == "w"){
+                	if (board[y+1][x+1] == "w" && board[y+1][x-1] == "w" && board[y+2][x] == "w"){
+                		if (rng == 0){
+                			board[y+1][x-1] = "0";
+                			board[y+2][x-1] = "w";
+                		} else {
+                			board[y+1][x+1] = "0";
+                			board[y+2][x+1] = "w";
+                		}
+                	}
+                
+                
+                //left
+        		} else if (board[y][x-1] == "w"){
+                	if (board[y+1][x-1] == "w" && board[y-1][x-1] == "w" && board[y][x-2] == "w"){
+                		if (rng == 0){
+                			board[y+1][x-1] = "0";
+                			board[y+1][x-1] = "w";
+                		} else {
+                			board[y-1][x-1] = "0";
+                			board[y-1][x-1] = "w";
+                		}
+                	}
+                //right
+        		} else if (board[y+1][x] == "w"){
+                	if (board[y+1][x+1] == "w" && board[y-1][x+1] == "w" && board[y][x+2] == "w"){
+                		if (rng == 0){
+                			board[y+1][x+1] = "0";
+                			board[y+1][x+1] = "w";
+                		} else {
+                			board[y-1][x+1] = "0";
+                			board[y-1][x+1] = "w";
+                		}
+                	}
+        		}
             }
             
         
