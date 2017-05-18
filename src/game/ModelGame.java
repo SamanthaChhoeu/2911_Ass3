@@ -26,7 +26,7 @@ public class ModelGame extends Observable {
     private long start;
     private int moveCounter;
     private int scoreCounter = 1000;
-    private String Name = "Triggered";
+    private String Name;
 
     
     public ModelGame() {
@@ -433,7 +433,7 @@ public class ModelGame extends Observable {
         } else {
         	//gameTimer.cancel();
             //notifyObservers("UpdateTimer");
-            System.out.println(this.scoreCounter + " is your score.");
+            System.out.println(this.Name + ", " +this.scoreCounter + " is your score.");
             try(FileWriter fw = new FileWriter("leaderboard.txt", true);
                 BufferedWriter bw = new BufferedWriter(fw);
                 PrintWriter out = new PrintWriter(bw))
