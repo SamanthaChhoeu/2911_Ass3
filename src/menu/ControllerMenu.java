@@ -17,14 +17,13 @@ public class ControllerMenu {
     private ModelInterface mi;
     private ViewMenu vm;
     private ModelGame mg;
-    private ViewGame vg;
     private ActionListener playGame;
     private ActionListener signUp;
     private ActionListener goToSettings;
     private ActionListener quit;
     private ArrayList<User> rank = new ArrayList<>(5);
     
-    public ControllerMenu(ViewGame vg, ModelInterface mi, ModelGame mg, ViewMenu vm) {
+    public ControllerMenu(ModelInterface mi, ModelGame mg, ViewMenu vm) {
         
         // reference the model to allow the controller to alter settings
         this.mi = mi;
@@ -33,7 +32,6 @@ public class ControllerMenu {
         // reference to the game model to reset the game every time play is clicked on
         this.mg = mg;
         //setting the top 5 ranks of users in rank array list
-        this.vg = vg;
         setRankList();
     }
 
