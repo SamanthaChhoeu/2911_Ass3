@@ -186,7 +186,7 @@ public class ModelGame extends Observable {
         Random rand = new Random();
         
         // randomly put in walls. 
-        int difficulty = 25; // difficulty affects number of walls
+        int difficulty = 20; // difficulty affects number of walls
         for (int i = 0; i < difficulty; i++){
         	int xWall = rand.nextInt(xSizeOfBoard-3)+1;
         	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
@@ -202,21 +202,25 @@ public class ModelGame extends Observable {
         		board[yWall+1][xWall] = "w";
         	// bottom right
         	} else if (board[yWall-1][xWall-1] == "w" && board[yWall][xWall-1] == "0" && board[yWall-1][xWall] == "0"){
-        		board[yWall][xWall-1] = "0";
-        		board[yWall-1][xWall] = "0";
+        		board[yWall][xWall-1] = "w";
+        		board[yWall-1][xWall] = "w";
         	//0w
         	//w0
         	// top right
         	} else if (board[yWall+1][xWall-1] == "w" && board[yWall][xWall-1] == "0" && board[yWall+1][xWall] == "0"){
-        		board[yWall][xWall-1] = "0";
-        		board[yWall+1][xWall] = "0";
+        		board[yWall][xWall-1] = "w";
+        		board[yWall+1][xWall] = "w";
         		
         	
         	// bottom left
         	} else if (board[yWall-1][xWall+1] == "w" && board[yWall][xWall+1] == "0" && board[yWall-1][xWall] == "0"){ 
-        		board[yWall][xWall+1] = "0";
-        		board[yWall-1][xWall] = "0";
+        		board[yWall][xWall+1] = "w";
+        		board[yWall-1][xWall] = "w";
         	}
+        	
+        	// avoid 
+        	
+        	
         }
         
         // choose random locations for the goal
@@ -244,7 +248,7 @@ public class ModelGame extends Observable {
             int turns = 0;
             int vert = -1; // records if last move was vertical or horizontal (-1 initially, 0 if horizontal, 1 if vertical)
             
-            while (turns < 4){
+            while (turns < 3){
             	
             	// if box is free to be pulled downwards
                 if (board[y+1][x] != "w" && board[y+2][x] != "w" &&  vert != 1){
@@ -290,14 +294,15 @@ public class ModelGame extends Observable {
                 	vert = 0;
                 	turns++;
                 } else {
-                	turns = 4;
+                	turns = 3;
                 }
             }
+            System.out.println("TEST goal coords"+"x: "+xGoal+" y: "+yGoal);
+        	System.out.println("TEST box coords"+"x: "+x+" y: "+y);
             // if the new box is on an existing goal then ignore and try to find a new goal plus start box location
-            if (board[y][x] == "b" || board[y][x] == "g"){
+            if (board[y][x] == "b" || board[y][x] == "g"||board[yGoal][xGoal]=="b"||board[yGoal][xGoal]=="g"){
             	i--;
-            // if the box and goal end up in the same spot
-            } else if (y == yGoal && x == xGoal){
+            } else if (y == yGoal && x==xGoal){	
             	i--;
         	} else {
             	System.out.println("goal coords"+"x: "+xGoal+" y: "+yGoal);
@@ -391,29 +396,59 @@ public class ModelGame extends Observable {
     private String[][] goStraight(int direction, String[][] board){
     	// up
     	if (direction == 0){
-    		while (board[y-1][x] != "w" && board[y-2][x] != "w"  && board[y-2][x] != "b"){
+    		
+    		// avoid this situation
+        	// owo
+        	// wow
+    		while (board[y-1][x] != "w" && board[y-2][x] != "w" && !(board[y-2][x] == "w"  && (board[y-1][x+1] == "w" && board[y-1][x-1] ==  "w")) && board[y-2][x] != "b"){
+    			System.out.println("up");
     			y--;
     		}
     		//board[y][x] = "x";
     	// right
     	} else if (direction == 1){
-    		while (board[y][x+1] != "w" && board[y][x+2] != "w"  && board[y][x+2] != "b"){
+    		
+    		// avoid this situation
+    		// w0
+        	// 0w
+        	// w0
+        	
+        	
+    		while (board[y][x+1] != "w" && board[y][x+2] != "w" && !(board[y][x+2] == "w"  && !(board[y+1][x+1] == "w" && board[y-1][x+1] == "w")) && board[y][x+2] != "b"){
+    			System.out.println("right");
     			x++;
     		}
     		//board[y][x] = "x";
     	// down
+    		
     	} else if (direction == 2){
-    		while (board[y+1][x] != "w" && board[y+2][x] != "w"  && board[y+2][x] != "b"){
+    		
+    		// avoid this situation
+        	
+        	// wow
+        	// owo
+    		while (board[y+1][x] != "w" && board[y+2][x] != "w" && !(board[y+2][x] == "w" && (board[y+1][x-1] == "w" && board[y+1][x+1] == "w")) 
+    				&& board[y+2][x] != "b"){
+    			System.out.println("down");
+    			//System.out.println(board[y+2][x] + board[y+3][x] + board[y+2][x-1] + board[y+2][x+1]);
     			y++;
     		}
     		//board[y][x] = "x";
     	// left
     	} else if (direction == 3){
-    		while (board[y][x-1] != "w" && board[y][x-2] != "w" && board[y][x-1] != "b"){
+    		
+    		// avoid this situation
+
+        	// 0w
+        	// w0
+        	// 0w
+    		while (board[y][x-1] != "w" && board[y][x-2] != "w" && !(board[y][x-2] == "w"&& (board[y+1][x-1] == "w"&& board[y-1][x-1] == "w" ))&& board[y][x-1] != "b"){
+    			System.out.println("left");
     			x--;
     		}
     		//board[y][x] = "x";
     	}
+    	System.out.println("calc coords"+x+"and"+y);
 		return board;
     	
     }
@@ -768,7 +803,7 @@ public class ModelGame extends Observable {
             }
         }
         setChanged();
-        notifyObservers("ResetGame"); // don't know much about this line so change it thanks
+        notifyObservers("UndoMove"); // don't know much about this line so change it thanks
     }
     
     public int getPlayerXPos() {
