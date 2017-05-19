@@ -1,18 +1,23 @@
 package game;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import menu.ModelInterface;
 
@@ -30,6 +35,7 @@ public class ViewGame extends JFrame implements Observer {
     private JButton soundButton;
     private JButton quitButton;
     private JButton saveButton;
+
     private JButton pause_resumeButton;
     
     public ViewGame(ModelInterface mi, ModelGame mg) {
@@ -112,19 +118,18 @@ public class ViewGame extends JFrame implements Observer {
         utilityPanel.setPreferredSize(new Dimension(200, 720));
         this.add(utilityPanel, BorderLayout.LINE_END);
         
-        /*timerLabel=new JLabel("",JLabel.CENTER);
+        timerLabel=new JLabel("",JLabel.CENTER);
         timerLabel.setBounds(50, 150, 120, 30);
-        timerLabel.setFont(new Font("Default", Font.PLAIN, 15));
+        timerLabel.setFont(new Font("Default", Font.PLAIN, 30));
         utilityPanel.add(timerLabel);
         
         pause_resumeButton = new JButton("Pause");
         pause_resumeButton.setBounds(50, 200, 120, 50);
-        utilityPanel.add(pause_resumeButton);*/
+        utilityPanel.add(pause_resumeButton);
         
-        //need to be mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-        TimerPanel t = new TimerPanel();
+        /*TimerPanel t = new TimerPanel();
         t.setBounds(10, 150, 200, 100);
-        utilityPanel.add(t);
+        utilityPanel.add(t);*/
         
         // remake button
          remakeButton = new JButton("Remake");
@@ -153,19 +158,25 @@ public class ViewGame extends JFrame implements Observer {
         
     }
     
-    /*public void setPRButton() {
+    public void setPRButton() {
     	if(pause_resumeButton.getText().equals("Pause")){
     		pause_resumeButton.setText("Resume");
-    		//TODO pause the timer.
     	} else {
     		pause_resumeButton.setText("Pause");
-    		//TODO continue the timer.
     	}
     }
     
     public JButton getPause_resumeButton() {
     	return pause_resumeButton;
-    }*/
+    }
+    
+    public String getMode() {
+    	return pause_resumeButton.getText();
+    }
+    
+    public JPanel getUtilityPanel() {
+    	return utilityPanel;
+    }
     
     public JPanel getGamePanel() {
         return gamePanel;
@@ -222,7 +233,12 @@ public class ViewGame extends JFrame implements Observer {
             updateGrid(mg.getPlayerXPos(), mg.getPlayerYPos() + 1);
             
         } else if (command.equals("UpdateTimer")) {
-        
+        	mg.setMode(getMode());
+        	if(getMode().equals("Resume")){
+        		gamePanel.setVisible(false);
+        	} else {
+        		gamePanel.setVisible(true);
+        	}
             timerLabel.setText(mg.getCurrTime());
             
         } else if (command.equals("UndoMove")) {
@@ -259,4 +275,113 @@ public class ViewGame extends JFrame implements Observer {
         
     }
 
+    
+    
+    
+    
+    
+    /*
+    class TimerPanel extends JPanel {  
+    	private static final long serialVersionUID = 1L;
+    	private static final String INITIAL_LABEL_TEXT = "00:00:00";  
+        private CountingThread thread = new CountingThread();  
+        private JLabel label = new JLabel(INITIAL_LABEL_TEXT);  
+        private JButton startPauseButton = new JButton("Pause"); 
+        private JButton resetButton = new JButton("Reset");  
+        
+        private ActionListener startPauseButtonListener = new ActionListener() {  
+            public void actionPerformed(ActionEvent e) {  
+                if (thread.stopped) {  
+                    pauseCount += (System.currentTimeMillis() - pauseStart);  
+                    thread.stopped = false;  
+                    startPauseButton.setText("Pause");  
+                } else {  
+                    pauseStart = System.currentTimeMillis();  
+                    thread.stopped = true;  
+                    startPauseButton.setText("Resume");  
+                }  
+            }  
+        };  
+       
+        private ActionListener resetButtonListener = new ActionListener() {  
+            public void actionPerformed(ActionEvent e) {  
+                pauseStart = programStart;  
+                pauseCount = 0;   
+                label.setText(INITIAL_LABEL_TEXT);   
+    	    //When we click "reset", the timer should run again from 0!
+                //pauseCount += (System.currentTimeMillis() - pauseStart);
+                setTimer();
+                thread.stopped = false;  
+                startPauseButton.setText("Pause");
+            }  
+        };  
+       
+        public TimerPanel() throws HeadlessException {  
+        	setTimer();
+            setupLabel();  
+            setupButtonsPanel();  
+            startPauseButton.addActionListener(startPauseButtonListener);  
+            resetButton.addActionListener(resetButtonListener);  
+            thread.start(); //counting thread runs.
+            
+        }  
+       
+        public void setTimer() {
+            programStart = System.currentTimeMillis();
+    		pauseStart = programStart;
+    		pauseCount = 0;
+        }
+        
+        private void setupButtonsPanel() {  
+            JPanel panel = new JPanel(new FlowLayout());  
+            panel.add(startPauseButton);  
+            panel.add(resetButton);  
+            add(panel, BorderLayout.SOUTH);  
+        }  
+       
+        private void setupLabel() {  
+            label.setHorizontalAlignment(SwingConstants.CENTER);  
+            label.setFont(new Font(label.getFont().getName(), label.getFont().getStyle(), 30));  
+            this.add(label, BorderLayout.CENTER);  
+        }  
+       
+        private class CountingThread extends Thread {  
+            public boolean stopped = false;  
+            private CountingThread() {  
+                setDaemon(true);  
+            }  
+       
+            @Override  
+            public void run() {  
+                while (true) {  
+                    if (!stopped) {  
+                        long elapsed = System.currentTimeMillis() - programStart - pauseCount;  
+                        label.setText(format(elapsed));  
+                    } 
+                    try {
+    					sleep(0);
+    				} catch (InterruptedException e) {
+    					e.printStackTrace();
+    				}
+                }  
+            }  
+       
+            private String format(long elapsed) {  
+                int hour, minute, second;  
+       
+                elapsed = elapsed / 1000;  
+       
+                second = (int) (elapsed % 60);  
+                elapsed = elapsed / 60;  
+       
+                minute = (int) (elapsed % 60);  
+                elapsed = elapsed / 60;  
+       
+                hour = (int) (elapsed % 60);  
+       
+                return String.format("%02d:%02d:%02d", hour, minute, second);  
+            }  
+        }  
+    }   
+    */
 }
