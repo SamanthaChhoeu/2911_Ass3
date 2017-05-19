@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import game.ModelGame;
 import game.ViewGame;
@@ -23,7 +24,7 @@ public class ControllerMenu {
     private ActionListener quit;
     private ActionListener rankingList;
     private ArrayList<User> rank = new ArrayList<>(5);
-    private String str = "Rank \tName \tScore\n";
+    private String str = "Rank\tName\tScore\n";
     
     public ControllerMenu(ModelInterface mi, ModelGame mg, ViewMenu vm) {
         
@@ -79,7 +80,7 @@ public class ControllerMenu {
     			for (User u : rank){
     	            str += u.getString() + "\n"; 
     	       }
-    			JOptionPane.showMessageDialog(null,str,"Ranking List",JOptionPane.PLAIN_MESSAGE);
+    			JOptionPane.showMessageDialog(null,new JTextArea(str),"Ranking List",JOptionPane.PLAIN_MESSAGE);
     		  
     		}
     	};
