@@ -203,6 +203,8 @@ public class ViewGame extends JFrame implements Observer {
             
         } else if (command.equals("ResetGame")) {
             
+            gamePanel.setFocusable(true);
+            gamePanel.requestFocusInWindow();
             refreshGame();
             
         } else if (command.equals("ChangeScreenRemake")) {
@@ -223,6 +225,12 @@ public class ViewGame extends JFrame implements Observer {
         
             timerLabel.setText(mg.getCurrTime());
             
+        } else if (command.equals("UndoMove")) {
+            
+            gamePanel.setFocusable(true);
+            gamePanel.requestFocusInWindow();
+            refreshGame();
+        	
         } else {
             
             this.setVisible(false);
