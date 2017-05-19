@@ -17,6 +17,7 @@ public class ControllerMenu {
     private ModelInterface mi;
     private ViewMenu vm;
     private ModelGame mg;
+    private ViewGame vg;
     private ActionListener playGame;
     private ActionListener signUp;
     private ActionListener goToSettings;
@@ -32,8 +33,8 @@ public class ControllerMenu {
         // reference to the game model to reset the game every time play is clicked on
         this.mg = mg;
         //setting the top 5 ranks of users in rank array list
+        this.vg = vg;
         setRankList();
-        
     }
 
     public void setRankList(){
@@ -78,7 +79,7 @@ public class ControllerMenu {
         playGame = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 mg.generateBoard();
-                //mg.startTimer();
+                mg.startTimer();
                 // when the play button is pressed, sets the current screen being viewed to the game screen
                 mi.setCurrScreen("Play");
             }
