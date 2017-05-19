@@ -24,7 +24,8 @@ public class ControllerGame {
     private ActionListener quit;  
     private ActionListener save;
   
-    //private ActionListener pause_resume;
+    private ActionListener pause_resume;
+    private long pauseStart;
     
     public ControllerGame(ModelInterface mi, ModelGame mg, ViewGame vg) {
 
@@ -113,14 +114,16 @@ public class ControllerGame {
         // adds a listener to the menu button so that the action is performed when the menu button is pressed
         vg.getQuitButton().addActionListener(quit);
         
-        /*pause_resume = new ActionListener() {
+        pause_resume = new ActionListener() {
         	public void actionPerformed(ActionEvent event) {
         		vg.setPRButton();
         	}
         };
-        vg.getPause_resumeButton().addActionListener(pause_resume);*/
+        vg.getPause_resumeButton().addActionListener(pause_resume);
     }
     
-    
+    public long getPauseStart() {
+    	return pauseStart;
+    }
 
 }
