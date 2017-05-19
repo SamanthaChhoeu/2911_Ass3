@@ -14,15 +14,15 @@ public class ModelGame extends Observable {
     private List<Box> boxes;
     private String currTime;
     private long start;
-<<<<<<< HEAD
+
     // coords to generate map 
     private int x;
     private int y;
-=======
+
     private int moveCounter;
     private int scoreCounter = 1000;
     private String Name;
->>>>>>> refs/remotes/origin/master
+
 
     
     public ModelGame() {
@@ -186,11 +186,37 @@ public class ModelGame extends Observable {
         Random rand = new Random();
         
         // randomly put in walls. 
-        int difficulty = 20; // difficulty affects number of walls
+        int difficulty = 25; // difficulty affects number of walls
         for (int i = 0; i < difficulty; i++){
         	int xWall = rand.nextInt(xSizeOfBoard-3)+1;
         	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
         	board[yWall][xWall] = "w";
+        	
+        	// if this creates a checkerboard then fill in the other gaps.
+        	
+        	//w0
+        	//0w
+        	// top left
+        	if (board[yWall+1][xWall+1] == "w" && board[yWall][xWall+1] == "0" && board[yWall+1][xWall] == "0"){
+        		board[yWall][xWall+1] = "w";
+        		board[yWall+1][xWall] = "w";
+        	// bottom right
+        	} else if (board[yWall-1][xWall-1] == "w" && board[yWall][xWall-1] == "0" && board[yWall-1][xWall] == "0"){
+        		board[yWall][xWall-1] = "0";
+        		board[yWall-1][xWall] = "0";
+        	//0w
+        	//w0
+        	// top right
+        	} else if (board[yWall+1][xWall-1] == "w" && board[yWall][xWall-1] == "0" && board[yWall+1][xWall] == "0"){
+        		board[yWall][xWall-1] = "0";
+        		board[yWall+1][xWall] = "0";
+        		
+        	
+        	// bottom left
+        	} else if (board[yWall-1][xWall+1] == "w" && board[yWall][xWall+1] == "0" && board[yWall-1][xWall] == "0"){ 
+        		board[yWall][xWall+1] = "0";
+        		board[yWall-1][xWall] = "0";
+        	}
         }
         
         // choose random locations for the goal
@@ -284,8 +310,9 @@ public class ModelGame extends Observable {
                 // check space on each side of box
                 // if there are more than 3 walls, move one of them away from the box.
                 
-                
+                // if x or y is less than 
                 // move left 0 or right 1
+                /*
                 int rng = rand.nextInt(1);
                 //up  
                 if (board[y-1][x] == "w"){
@@ -335,6 +362,7 @@ public class ModelGame extends Observable {
                 		}
                 	}
         		}
+        		*/
             }
             
         
