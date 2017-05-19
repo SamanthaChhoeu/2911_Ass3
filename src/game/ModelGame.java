@@ -405,6 +405,14 @@ public class ModelGame extends Observable {
         p = new Player(xPlayer, yPlayer);
         board[yPlayer][xPlayer] = "p";
         
+        // fill in walls for spaces we don't use
+        for (int i = 0; i<xPlayer-1; i++){
+        	for (int j=0; j<yPlayer-1; j++){
+        		//board[j][i] = "w";
+        	}
+        	
+        }
+        
         return board;
     }
     
