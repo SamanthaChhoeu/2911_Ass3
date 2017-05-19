@@ -40,7 +40,7 @@ public class User implements Comparable<User> {
     }
 
     public String getString(){
-        return (this.rank + ". " + this.name + " " + this.score);
+       return ("No." + this.rank + " \t" + this.name + " \t" + this.score);
     }
 
 }
