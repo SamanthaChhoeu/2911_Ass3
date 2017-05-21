@@ -24,7 +24,7 @@ public class ControllerMenu {
     private ActionListener quit;
     private ActionListener rankingList;
     private ArrayList<User> rank = new ArrayList<>(5);
-    private String str = "Rank\tName\tScore\n";
+
     
     public ControllerMenu(ModelInterface mi, ModelGame mg, ViewMenu vm) {
         
@@ -57,15 +57,12 @@ public class ControllerMenu {
             if (sc != null) sc.close();
         }
     }
-        // use something like this to print out into the frame somewhere
-        
+
         
     
     public void setupController() {
         // creates the action when the play button is pressed
-        /*for (User u : rank){
-            System.out.println(u.getString());
-        }*/
+
 
         signUp = new ActionListener() {
     		public void actionPerformed(ActionEvent event) {
@@ -76,9 +73,11 @@ public class ControllerMenu {
     	vm.getSignupButton().addActionListener(signUp);
     	
     	rankingList = new ActionListener() {
+             String str = "Rank\tName\tScore\n";
     		public void actionPerformed(ActionEvent event) {
     			for (User u : rank){
-    	            str += u.getString() + "\n"; 
+    	            str += u.getString() + "\n";
+    	            System.out.println(str);
     	       }
     			JOptionPane.showMessageDialog(null,new JTextArea(str),"Ranking List",JOptionPane.PLAIN_MESSAGE);
     		  

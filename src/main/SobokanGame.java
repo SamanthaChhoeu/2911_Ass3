@@ -57,7 +57,7 @@ public class SobokanGame {
         mg.addObserver(vws);
         
         // cm controls what happens to the model when a user interacts with the interface
-        ControllerMenu cm = new ControllerMenu(vg, mi, mg, vm);
+        ControllerMenu cm = new ControllerMenu(mi, mg, vm);
         ControllerSettings cs = new ControllerSettings(mi, vs);
         ControllerGame cg = new ControllerGame(mi, mg, vg);
         ControllerWinScreen cws = new ControllerWinScreen(mi, vws);
