@@ -14,10 +14,16 @@ public class ModelGame extends Observable {
     private List<Box> boxes;
     private String currTime;
     private long start;
+
+    // coords to generate map 
+    private int x;
+    private int y;
+
     private int moveCounter;
     private int scoreCounter = 1000;
     private String Name;
 
+    private Timer gameTimer;
     
     public ModelGame() {
         
@@ -38,7 +44,7 @@ public class ModelGame extends Observable {
         start = System.currentTimeMillis();
         
         // samantha's generator
-        String[][] generatedBoard = randomGenerate(xSizeOfBoard,ySizeOfBoard);
+        String[][] generatedBoard = reverseGenerate(xSizeOfBoard,ySizeOfBoard);
        
         sobokanBoard = generatedBoard;
         printBoard(sobokanBoard);
@@ -145,7 +151,12 @@ public class ModelGame extends Observable {
         return board;
 	}
     
-    private String[][] treeGenerate(int xSizeOfBoard, int ySizeOfBoard){
+    // generates walls randomly
+    // then puts a goal at a random locations.
+    // pretends to put a block there (2x1 to represent block and player) and then reverse to a random location
+    // the new location is now where the block starts.
+    // this works because we reverse which is the opposite of pushing
+    private String[][] reverseGenerate(int xSizeOfBoard, int ySizeOfBoard){
     	// generate the board
         // TODO @Sam @Jath Do the board generation here
         // Good memes --> Make meme generator here
@@ -171,126 +182,279 @@ public class ModelGame extends Observable {
         	row [xSizeOfBoard-1] = "w";
         } 
         
-        // fills in all places with a wall
-        /*
-        for (String[] row: board){
-        	
-        		Arrays.fill(row, "w");
-        }
-        */
+        
         Random rand = new Random();
         
-        // place the player at a random location
-        	// can be placed anywhere except 
-        int xPlayer = rand.nextInt(xSizeOfBoard-2)+1;
-        int yPlayer = rand.nextInt(ySizeOfBoard-2)+1;
-        p = new Player(xPlayer, yPlayer);
-        board[yPlayer][xPlayer] = "p";
-
-        
-        // place 2 boxes
-        // TODO good starting point: randomly place where the boxes are placed
-        int noOfBoxes = 3;
-        for (int i = 0; i < noOfBoxes; i++) {
-        	// randomly place box - x range(2,x-3) & y range (2,y-3)       	
-        	int xBox = rand.nextInt(xSizeOfBoard-5)+2;
-        	int yBox = rand.nextInt(ySizeOfBoard-5)+2;
-        	while (getSobokanBoardAtXY(xBox, yBox) == "b"|| getSobokanBoardAtXY(xBox, yBox) == "p"){	
-        		xBox = rand.nextInt(xSizeOfBoard-5)+2;
-                yBox = rand.nextInt(ySizeOfBoard-5)+2;
-        	}   
-            Box newBox = new Box(xBox, yBox);
-            board[newBox.getYPos()][newBox.getXPos()] = "b";
-            boxes.add(newBox);
-         // boxes cant be cornered so either put two vertically(0), two horizontally(1), 1 randomly(2), or no walls(3)
-            int surround = rand.nextInt(4); // randomly choose how many walls around the block
-            System.out.println(surround);
-            /*
-            for (int j = 0; j< surround; j++){
-            	
-            	if (surround == 0){
-            		//left
-            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox-1] != "b"){
-            			board[yBox][xBox-1]= "0";
-            		}
-            		//right
-            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox+1] != "b"){
-            			board[yBox][xBox+1]= "0";
-            		}
-            		
-            	} else if (surround == 1){
-            		// above
-            		if (board[yBox-1][xBox] != "p" || board[yBox-1][xBox] != "b"){
-            			board[yBox-1][xBox]= "0";
-            		}
-            		// below
-            		if (board[yBox+1][xBox] != "p" || board[yBox+1][xBox] != "b"){
-            			board[yBox+1][xBox]= "0";
-            		}
-            	} else if (surround == 2){
-            		// above
-            		if (board[yBox-1][xBox] != "p" || board[yBox-1][xBox] != "b"){
-            			board[yBox-1][xBox]= "0";
-            		}
-            		// below
-            		if (board[yBox+1][xBox] != "p" || board[yBox+1][xBox] != "b"){
-            			board[yBox+1][xBox]= "0";
-            		}
-            		//left
-            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox-1] != "b"){
-            			board[yBox][xBox-1]= "0";
-            		}
-            		//right
-            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox+1] != "b"){
-            			board[yBox][xBox+1]= "0";
-            		}
-            		
-            	} else {
-            		// above
-            		if (board[yBox-1][xBox] != "p" || board[yBox-1][xBox] != "b"){
-            			board[yBox-1][xBox]= "0";
-            		}
-            		// below
-            		if (board[yBox+1][xBox] != "p" || board[yBox+1][xBox] != "b"){
-            			board[yBox+1][xBox]= "0";
-            		}
-            		//left
-            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox-1] != "b"){
-            			board[yBox][xBox-1]= "0";
-            		}
-            		//right
-            		if (board[yBox][xBox+1] != "p" || board[yBox][xBox+1] != "b"){
-            			board[yBox][xBox+1]= "0";
-            		}
-            	}
-            }
-            */
+        // randomly put in walls. 
+        int difficulty = 20; // difficulty affects number of walls
+        for (int i = 0; i < difficulty; i++){
+        	int xWall = rand.nextInt(xSizeOfBoard-3)+1;
+        	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
+        	board[yWall][xWall] = "w";
+        	
+        	// if this creates a checkerboard then fill in the other gaps.
+        	
+        	//w0
+        	//0w
+        	// top left
+        	if (board[yWall+1][xWall+1] == "w" && board[yWall][xWall+1] == "0" && board[yWall+1][xWall] == "0"){
+        		board[yWall][xWall+1] = "w";
+        		board[yWall+1][xWall] = "w";
+        	// bottom right
+        	} else if (board[yWall-1][xWall-1] == "w" && board[yWall][xWall-1] == "0" && board[yWall-1][xWall] == "0"){
+        		board[yWall][xWall-1] = "w";
+        		board[yWall-1][xWall] = "w";
+        	//0w
+        	//w0
+        	// top right
+        	} else if (board[yWall+1][xWall-1] == "w" && board[yWall][xWall-1] == "0" && board[yWall+1][xWall] == "0"){
+        		board[yWall][xWall-1] = "w";
+        		board[yWall+1][xWall] = "w";
+        		
+        	
+        	// bottom left
+        	} else if (board[yWall-1][xWall+1] == "w" && board[yWall][xWall+1] == "0" && board[yWall-1][xWall] == "0"){ 
+        		board[yWall][xWall+1] = "w";
+        		board[yWall-1][xWall] = "w";
+        	}
+        	
+        	// avoid 
+        	
+        	
         }
         
-        // set the goal for the boxes
-        // TODO good starting point: randomly place where the goals for the boxes are
-        int goal = 0;
+        // choose random locations for the goal
+        int noOfBoxes = 3; // should be 3 its changed for debugging
         for (int i = 0; i < noOfBoxes; i++) {
         	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
-        	int xBox = rand.nextInt(xSizeOfBoard-3)+1;
-        	int yBox = rand.nextInt(ySizeOfBoard-3)+1;
-        	while (getSobokanBoardAtXY(xBox, yBox) == "b"|| getSobokanBoardAtXY(xBox, yBox) == "p"||getSobokanBoardAtXY(xBox, yBox) == "g"){	
-        		xBox = rand.nextInt(xSizeOfBoard-3)+2;
-                yBox = rand.nextInt(ySizeOfBoard-3)+2;
+        	int xGoal = rand.nextInt(xSizeOfBoard-3)+1;
+        	int yGoal = rand.nextInt(ySizeOfBoard-3)+1;
+        	while (board[yGoal][xGoal]  == "b"|| board[yGoal][xGoal] == "g"){	
+        		xGoal = rand.nextInt(xSizeOfBoard-3)+1;
+                yGoal = rand.nextInt(ySizeOfBoard-3)+1;
         	}   
-            board[yBox][xBox] = "g";
 
             
             
+            // move in random directions with a 2x1 block and 
+            // can make it so that each block gets a random algorithm
+            // 	 box1 is pulled until it reaches a wall and then turns -- trying to implement this first
+            //	 box2 is pulled and always tries to turn
+            //   box3 is pulled and uses a mix of both?
             
+            
+            x = xGoal;
+            y = yGoal;
+            int turns = 0;
+            int vert = -1; // records if last move was vertical or horizontal (-1 initially, 0 if horizontal, 1 if vertical)
+            
+            while (turns < 3){
+            	
+            	// if box is free to be pulled downwards
+                if (board[y+1][x] != "w" && board[y+2][x] != "w" &&  vert != 1){
+                	//board[y+1][x] = "x";
+                	board = goStraight(2,board);
+                	// if end of straight is unreachable then iterate upwards
+                	while (board[y+1][x] == "w" && board[y][x-1] == "w" && board[y][x+1] == "w" ){
+                		y--;
+                	}
+                	vert = 1;
+                	turns++;
+      
+                	
+                // if box is free to be pulled upwards
+                } else if (board[y-1][x] != "w" && board[y-2][x] != "w"  && vert != 1){
+                	//board[y-1][x] = "x";
+                	board = goStraight(0,board);
+                	// if end of straight is unreachable then iterate back down one
+                	while (board[y-1][x] == "w" && board[y][x-1] == "w" && board[y][x+1] == "w" ){
+                		y++;
+                	}
+                	turns ++;
+                	vert = 1;
+    
+                // if box is free to be pulled right
+                } else if (board[y][x+1] != "w" && board[y][x+2] != "w" && vert != 0){
+                	//board[y][x+1] = "x";
+                	board = goStraight(1,board);
+                	// if end of straight is unreachable then iterate back to the left
+                	while (board[y-1][x] == "w" && board[y][x+1] == "w" && board[y+1][x] == "w" ){
+                		x--;
+                	}
+                	vert = 0;
+                	turns++;
+                // if box is free to be pulled left
+                } else if (board[y][x-1] != "w" && board[y][x-2] != "w" && vert != 0 ){
+                	//board[y+1][x-1] = "x";
+                	board = goStraight(3,board);
+                	// if end of straight is unreachable then iterate back to te right
+                	while (board[y-1][x] == "w" && board[y][x-1] == "w" && board[y+1][x] == "w" ){
+                		x++;
+                	}
+                	vert = 0;
+                	turns++;
+                } else {
+                	turns = 3;
+                }
+            }
+            System.out.println("TEST goal coords"+"x: "+xGoal+" y: "+yGoal);
+        	System.out.println("TEST box coords"+"x: "+x+" y: "+y);
+            // if the new box is on an existing goal then ignore and try to find a new goal plus start box location
+            if (board[y][x] == "b" || board[y][x] == "g"||board[yGoal][xGoal]=="b"||board[yGoal][xGoal]=="g"){
+            	i--;
+            } else if (y == yGoal && x==xGoal){	
+            	i--;
+        	} else {
+            	System.out.println("goal coords"+"x: "+xGoal+" y: "+yGoal);
+            	System.out.println("box coords"+"x: "+x+" y: "+y);
+            	board[yGoal][xGoal] = "g";
+            	Box newBox = new Box(x, y);
+                board[y][x] = "b";
+                boxes.add(newBox);
+                
+                // check space on each side of box
+                // if there are more than 3 walls, move one of them away from the box.
+                
+                // if x or y is less than 
+                // move left 0 or right 1
+                /*
+                int rng = rand.nextInt(1);
+                //up  
+                if (board[y-1][x] == "w"){
+                	if (board[y-1][x+1] == "w" && board[y-1][x-1] == "w" && board[y-2][x] == "w"){
+                		if (rng == 0){
+                			board[y-1][x-1] = "0";
+                			board[y-2][x-1] = "w";
+                		} else {
+                			board[y-1][x+1] = "0";
+                			board[y-2][x+1] = "w";
+                		}
+                	}
+                
+                //down
+                } else if (board[y+1][x] == "w"){
+                	if (board[y+1][x+1] == "w" && board[y+1][x-1] == "w" && board[y+2][x] == "w"){
+                		if (rng == 0){
+                			board[y+1][x-1] = "0";
+                			board[y+2][x-1] = "w";
+                		} else {
+                			board[y+1][x+1] = "0";
+                			board[y+2][x+1] = "w";
+                		}
+                	}
+                
+                
+                //left
+        		} else if (board[y][x-1] == "w"){
+                	if (board[y+1][x-1] == "w" && board[y-1][x-1] == "w" && board[y][x-2] == "w"){
+                		if (rng == 0){
+                			board[y+1][x-1] = "0";
+                			board[y+1][x-1] = "w";
+                		} else {
+                			board[y-1][x-1] = "0";
+                			board[y-1][x-1] = "w";
+                		}
+                	}
+                //right
+        		} else if (board[y+1][x] == "w"){
+                	if (board[y+1][x+1] == "w" && board[y-1][x+1] == "w" && board[y][x+2] == "w"){
+                		if (rng == 0){
+                			board[y+1][x+1] = "0";
+                			board[y+1][x+1] = "w";
+                		} else {
+                			board[y-1][x+1] = "0";
+                			board[y-1][x+1] = "w";
+                		}
+                	}
+        		}
+        		*/
+            }
+            
+        
+            
+
+ 
         }
         
-        // find a random path
-        // TODO figure out the tree search
         
+        // add player
+        int xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
+        int yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
+        while (board[yPlayer][xPlayer] == "w" || board[yPlayer][xPlayer] == "g" || board[yPlayer][xPlayer] == "b"){
+        	xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
+            yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
+        }
+        p = new Player(xPlayer, yPlayer);
+        board[yPlayer][xPlayer] = "p";
         
         return board;
     }
+    
+    // function for going straight until you can't and then turning
+    // x coord, y coord
+    // direction up-0, right-1, down-2, left-3
+    private String[][] goStraight(int direction, String[][] board){
+    	// up
+    	if (direction == 0){
+    		
+    		// avoid this situation
+        	// owo
+        	// wow
+    		while (board[y-1][x] != "w" && board[y-2][x] != "w" && !(board[y-2][x] == "w"  && (board[y-1][x+1] == "w" && board[y-1][x-1] ==  "w")) && board[y-2][x] != "b"){
+    			System.out.println("up");
+    			y--;
+    		}
+    		//board[y][x] = "x";
+    	// right
+    	} else if (direction == 1){
+    		
+    		// avoid this situation
+    		// w0
+        	// 0w
+        	// w0
+        	
+        	
+    		while (board[y][x+1] != "w" && board[y][x+2] != "w" && !(board[y][x+2] == "w"  && !(board[y+1][x+1] == "w" && board[y-1][x+1] == "w")) && board[y][x+2] != "b"){
+    			System.out.println("right");
+    			x++;
+    		}
+    		//board[y][x] = "x";
+    	// down
+    		
+    	} else if (direction == 2){
+    		
+    		// avoid this situation
+        	
+        	// wow
+        	// owo
+    		while (board[y+1][x] != "w" && board[y+2][x] != "w" && !(board[y+2][x] == "w" && (board[y+1][x-1] == "w" && board[y+1][x+1] == "w")) 
+    				&& board[y+2][x] != "b"){
+    			System.out.println("down");
+    			//System.out.println(board[y+2][x] + board[y+3][x] + board[y+2][x-1] + board[y+2][x+1]);
+    			y++;
+    		}
+    		//board[y][x] = "x";
+    	// left
+    	} else if (direction == 3){
+    		
+    		// avoid this situation
+
+        	// 0w
+        	// w0
+        	// 0w
+    		while (board[y][x-1] != "w" && board[y][x-2] != "w" && !(board[y][x-2] == "w"&& (board[y+1][x-1] == "w"&& board[y-1][x-1] == "w" ))&& board[y][x-1] != "b"){
+    			System.out.println("left");
+    			x--;
+    		}
+    		//board[y][x] = "x";
+    	}
+    	System.out.println("calc coords"+x+"and"+y);
+		return board;
+    	
+    }
+    
+    // function for always try to turn
+    
     // print board for debugging purposes
     private void printBoard(String[][] board){
         for (int i = 0; i < ySizeOfBoard; i++){
@@ -359,18 +523,20 @@ public class ModelGame extends Observable {
     
     private String checkMovable(int xPos, int yPos) {
         
-        if (sobokanBoard[yPos][xPos] == "w") {
+        if (sobokanBoard[yPos][xPos] == "w" ) {
             return "Wall";
         } else if (sobokanBoard[yPos][xPos] == "b" || sobokanBoard[yPos][xPos] == "bg") {
             return "Box";
-        } else {
+        } else if (sobokanBoard[yPos][xPos] == "0"){
             return "Free";
+        } else {
+        	return "Free";
         }
         
     }
     
     private boolean checkMovableBox(int xPos, int yPos) {
-        if (sobokanBoard[yPos][xPos] == "0" || sobokanBoard[yPos][xPos] == "g") {
+        if (sobokanBoard[yPos][xPos] == "0" || sobokanBoard[yPos][xPos] == "g" ) {
             return true;
         } else {
             return false;
@@ -538,12 +704,19 @@ public class ModelGame extends Observable {
         
     }
     
-    /*public void startTimer() {
+    private String Mode;
+    
+    public void setMode (String input){
+    	Mode = input;
+    }
+    
+    public void startTimer() {
 
         gameTimer = new Timer();
         gameTimer.schedule(new TimerTask() {
             public void run() {
                 long sub = System.currentTimeMillis() - start;
+                
                 if(sub<0) return;
                 int h = (int) (sub / 1000 / 60 / 60);
                 int m = (int) (sub / 1000 / 60 % 60);
@@ -555,14 +728,18 @@ public class ModelGame extends Observable {
                     date = sdf.parse(str);
                 }catch(Exception e){
                     e.printStackTrace();
+                    System.out.println("Issue with Timer");
                 }
                 currTime = sdf.format(date);
                 setChanged();
                 notifyObservers("UpdateTimer");
+            	if(Mode.equals("Resume")){
+            		start += 1000;
+                }
             }
         },0,1000);//refresh every second with no delay.
         
-    }*/
+    }
     
     public void resetGame() {
         
@@ -637,7 +814,7 @@ public class ModelGame extends Observable {
             }
         }
         setChanged();
-        notifyObservers("ResetGame"); // don't know much about this line so change it thanks
+        notifyObservers("UndoMove"); // don't know much about this line so change it thanks
     }
     
     public int getPlayerXPos() {

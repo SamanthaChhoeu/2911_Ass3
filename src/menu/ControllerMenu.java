@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import game.ModelGame;
 import game.ViewGame;
@@ -21,9 +22,11 @@ public class ControllerMenu {
     private ActionListener signUp;
     private ActionListener goToSettings;
     private ActionListener quit;
+    private ActionListener rankingList;
     private ArrayList<User> rank = new ArrayList<>(5);
+    private String str = "Rank\tName\tScore\n";
     
-    public ControllerMenu(ViewGame vg, ModelInterface mi, ModelGame mg, ViewMenu vm) {
+    public ControllerMenu(ModelInterface mi, ModelGame mg, ViewMenu vm) {
         
         // reference the model to allow the controller to alter settings
         this.mi = mi;
@@ -33,7 +36,6 @@ public class ControllerMenu {
         this.mg = mg;
         //setting the top 5 ranks of users in rank array list
         setRankList();
-        
     }
 
     public void setRankList(){
@@ -54,18 +56,16 @@ public class ControllerMenu {
         } finally {
             if (sc != null) sc.close();
         }
-
-        // use something like this to print out into the frame somewhere
-        /*for (User u : rank){
-            System.out.println(u.getString());
-        }*/
     }
+        // use something like this to print out into the frame somewhere
+        
+        
     
     public void setupController() {
         // creates the action when the play button is pressed
-        for (User u : rank){
+        /*for (User u : rank){
             System.out.println(u.getString());
-        }
+        }*/
 
         signUp = new ActionListener() {
     		public void actionPerformed(ActionEvent event) {
@@ -74,11 +74,22 @@ public class ControllerMenu {
     		}
     	};
     	vm.getSignupButton().addActionListener(signUp);
+    	
+    	rankingList = new ActionListener() {
+    		public void actionPerformed(ActionEvent event) {
+    			for (User u : rank){
+    	            str += u.getString() + "\n"; 
+    	       }
+    			JOptionPane.showMessageDialog(null,new JTextArea(str),"Ranking List",JOptionPane.PLAIN_MESSAGE);
+    		  
+    		}
+    	};
+    	vm.getRankingButton().addActionListener(rankingList);
         
         playGame = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 mg.generateBoard();
-                //mg.startTimer();
+                mg.startTimer();
                 // when the play button is pressed, sets the current screen being viewed to the game screen
                 mi.setCurrScreen("Play");
             }
