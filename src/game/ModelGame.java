@@ -218,20 +218,24 @@ public class ModelGame extends Observable {
         		board[yWall-1][xWall] = "w";
         	}
         	
-        	// avoid 
+        	
         	
         	
         }
         
         // choose random locations for the goal
         int noOfBoxes = 3; // should be 3 its changed for debugging
+        int around = 0;
         for (int i = 0; i < noOfBoxes; i++) {
         	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
         	int xGoal = rand.nextInt(xSizeOfBoard-3)+1;
         	int yGoal = rand.nextInt(ySizeOfBoard-3)+1;
-        	while (board[yGoal][xGoal]  == "b"|| board[yGoal][xGoal] == "g"){	
+        	
+        	while (board[yGoal][xGoal]  == "b"|| board[yGoal][xGoal] == "g" && around != 4){	
         		xGoal = rand.nextInt(xSizeOfBoard-3)+1;
                 yGoal = rand.nextInt(ySizeOfBoard-3)+1;
+                around = countAround(xGoal,yGoal,board);
+                
         	}   
 
             
@@ -415,6 +419,31 @@ public class ModelGame extends Observable {
         
         return board;
     }
+    
+    // count the number of walls around the current space
+    private int countAround(int x, int y, String[][] board){
+    	int count=0;
+    	
+    	// above
+    	if (board[y-1][x] == "w"){
+    		count ++;
+    	}
+    	// right
+    	if (board[y][x+1] == "w"){
+    		count ++;
+    	}
+    	// below
+    	if (board[y+1][x] == "w"){
+    		count ++;
+    	}
+    	// left
+    	if (board[y][x-1] == "w"){
+    		count ++;
+    	}
+    	
+    	return count;
+    }
+    
     
     // function for going straight until you can't and then turning
     // x coord, y coord
