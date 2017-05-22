@@ -862,4 +862,47 @@ public class ModelGame extends Observable {
     public void setName(String n){
         this.Name = n;
     }
+
+    //give goal points for the player to reach
+    //when i figure it out it will return some sort of path
+    private void Path (int xGoal, int yGoal){
+        ArrayList<Node> spaces= new ArrayList<Node>();
+        int x,y;
+
+        for(y=1;y<=ySizeOfBoard;y++){
+            for(x=1;x<=xSizeOfBoard;x++){
+                if(sobokanBoard[y][x] == "0"){
+                    Node n = new Node(x,y);
+                    spaces.add(n);
+                    if(sobokanBoard[y+1][x] == "0"){
+                        Node t = new Node(x,y+1);
+                        Edge e = new Edge(t);
+                        n.addEdge(e);
+                    }
+                    if(sobokanBoard[y][x+1] == "0"){
+                        Node t = new Node(x+1,y);
+                        Edge e = new Edge(t);
+                        n.addEdge(e);
+                    }
+                    if(sobokanBoard[y-1][x] == "0"){
+                        Node t = new Node(x,y-1);
+                        Edge e = new Edge(t);
+                        n.addEdge(e);
+                    }
+                    if(sobokanBoard[y][x-1] == "0"){
+                        Node t = new Node(x,y+1);
+                        Edge e = new Edge(t);
+                        n.addEdge(e);
+                    }
+                }
+            }
+            //basically now i have a list of nodes with a list of edges
+            //right now the edges are nodes since i haven't added a cost
+            //but i'm using edges incest i an in the future
+
+            //so now
+            //best solution the cheapest 
+        }
+
+    }
 }
