@@ -23,7 +23,7 @@ public class ModelGame extends Observable {
     private int scoreCounter = 1000;
     private String Name;
 
-
+    private Timer gameTimer;
     
     public ModelGame() {
         
@@ -249,29 +249,11 @@ public class ModelGame extends Observable {
             int vert = -1; // records if last move was vertical or horizontal (-1 initially, 0 if horizontal, 1 if vertical)
             
             while (turns < 3){
-            	int longest;
-            	int down = goStraight(2,board);
-            	int up = goStraight(0,board);
-            	int right = goStraight(1,board);
-            	int left = goStraight(3,board);
-            	
-            	// horizontal
-            	if (vert == 0){
-            		
-                	longest = Math.max(up,down);
-            		vert = 1;
-            	// vertical
-            	} else {
-            		
-                	longest = Math.max(right,left);
-            		vert = 0;
-            	}
-            	
             	
             	// if box is free to be pulled downwards
-                if (longest == down && vert != 0){
+                if (board[y+1][x] != "w" && board[y+2][x] != "w" &&  vert != 1){
                 	//board[y+1][x] = "x";
-                	y = y+down;
+                	board = goStraight(2,board);
                 	// if end of straight is unreachable then iterate upwards
                 	while (board[y+1][x] == "w" && board[y][x-1] == "w" && board[y][x+1] == "w" ){
                 		y--;
@@ -281,9 +263,9 @@ public class ModelGame extends Observable {
       
                 	
                 // if box is free to be pulled upwards
-                } else if (longest == up && vert != 0){
+                } else if (board[y-1][x] != "w" && board[y-2][x] != "w"  && vert != 1){
                 	//board[y-1][x] = "x";
-                	y = y-up;
+                	board = goStraight(0,board);
                 	// if end of straight is unreachable then iterate back down one
                 	while (board[y-1][x] == "w" && board[y][x-1] == "w" && board[y][x+1] == "w" ){
                 		y++;
@@ -292,9 +274,9 @@ public class ModelGame extends Observable {
                 	vert = 1;
     
                 // if box is free to be pulled right
-                } else if (longest == right && vert != 1){
+                } else if (board[y][x+1] != "w" && board[y][x+2] != "w" && vert != 0){
                 	//board[y][x+1] = "x";
-                	x = x+right;
+                	board = goStraight(1,board);
                 	// if end of straight is unreachable then iterate back to the left
                 	while (board[y-1][x] == "w" && board[y][x+1] == "w" && board[y+1][x] == "w" ){
                 		x--;
@@ -302,9 +284,9 @@ public class ModelGame extends Observable {
                 	vert = 0;
                 	turns++;
                 // if box is free to be pulled left
-                } else if (longest == left && vert != 1){
+                } else if (board[y][x-1] != "w" && board[y][x-2] != "w" && vert != 0 ){
                 	//board[y+1][x-1] = "x";
-                	x = x-left;
+                	board = goStraight(3,board);
                 	// if end of straight is unreachable then iterate back to te right
                 	while (board[y-1][x] == "w" && board[y][x-1] == "w" && board[y+1][x] == "w" ){
                 		x++;
@@ -405,25 +387,13 @@ public class ModelGame extends Observable {
         p = new Player(xPlayer, yPlayer);
         board[yPlayer][xPlayer] = "p";
         
-        // fill in walls for spaces we don't use
-        for (int i = 0; i<xPlayer-1; i++){
-        	for (int j=0; j<yPlayer-1; j++){
-        		//board[j][i] = "w";
-        	}
-        	
-        }
-        
         return board;
     }
     
     // function for going straight until you can't and then turning
     // x coord, y coord
     // direction up-0, right-1, down-2, left-3
-    private int goStraight(int direction, String[][] board){
-    	int countX = 0;
-    	int countY = 0;
-    	int storeX = x;
-    	int storeY = y;
+    private String[][] goStraight(int direction, String[][] board){
     	// up
     	if (direction == 0){
     		
@@ -432,7 +402,6 @@ public class ModelGame extends Observable {
         	// wow
     		while (board[y-1][x] != "w" && board[y-2][x] != "w" && !(board[y-2][x] == "w"  && (board[y-1][x+1] == "w" && board[y-1][x-1] ==  "w")) && board[y-2][x] != "b"){
     			System.out.println("up");
-    			countY++;
     			y--;
     		}
     		//board[y][x] = "x";
@@ -447,7 +416,6 @@ public class ModelGame extends Observable {
         	
     		while (board[y][x+1] != "w" && board[y][x+2] != "w" && !(board[y][x+2] == "w"  && !(board[y+1][x+1] == "w" && board[y-1][x+1] == "w")) && board[y][x+2] != "b"){
     			System.out.println("right");
-    			countX++;
     			x++;
     		}
     		//board[y][x] = "x";
@@ -463,7 +431,6 @@ public class ModelGame extends Observable {
     				&& board[y+2][x] != "b"){
     			System.out.println("down");
     			//System.out.println(board[y+2][x] + board[y+3][x] + board[y+2][x-1] + board[y+2][x+1]);
-    			countY++;
     			y++;
     		}
     		//board[y][x] = "x";
@@ -477,21 +444,12 @@ public class ModelGame extends Observable {
         	// 0w
     		while (board[y][x-1] != "w" && board[y][x-2] != "w" && !(board[y][x-2] == "w"&& (board[y+1][x-1] == "w"&& board[y-1][x-1] == "w" ))&& board[y][x-1] != "b"){
     			System.out.println("left");
-    			countX++;
     			x--;
     		}
     		//board[y][x] = "x";
     	}
     	System.out.println("calc coords"+x+"and"+y);
-    	if (countX != 0){
-    		x = countX;
-    		x = storeX;
-    		return countX;
-    		
-    	} else {
-    		y = storeY;
-    		return countY;
-    	}
+		return board;
     	
     }
     
@@ -746,12 +704,19 @@ public class ModelGame extends Observable {
         
     }
     
-    /*public void startTimer() {
+    private String Mode;
+    
+    public void setMode (String input){
+    	Mode = input;
+    }
+    
+    public void startTimer() {
 
         gameTimer = new Timer();
         gameTimer.schedule(new TimerTask() {
             public void run() {
                 long sub = System.currentTimeMillis() - start;
+                
                 if(sub<0) return;
                 int h = (int) (sub / 1000 / 60 / 60);
                 int m = (int) (sub / 1000 / 60 % 60);
@@ -763,14 +728,18 @@ public class ModelGame extends Observable {
                     date = sdf.parse(str);
                 }catch(Exception e){
                     e.printStackTrace();
+                    System.out.println("Issue with Timer");
                 }
                 currTime = sdf.format(date);
                 setChanged();
                 notifyObservers("UpdateTimer");
+            	if(Mode.equals("Resume")){
+            		start += 1000;
+                }
             }
         },0,1000);//refresh every second with no delay.
         
-    }*/
+    }
     
     public void resetGame() {
         
