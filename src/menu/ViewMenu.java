@@ -8,6 +8,7 @@ import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class ViewMenu extends JFrame implements Observer {
 
@@ -17,6 +18,7 @@ public class ViewMenu extends JFrame implements Observer {
     private JButton settingsButton;
     private JButton signupButton;
     private JButton quitButton;
+    private JButton rankingButton;
 
     public ViewMenu (ModelInterface mi) {   
         
@@ -37,7 +39,11 @@ public class ViewMenu extends JFrame implements Observer {
         // sets the window to show in the middle of the screen
         this.setLocationRelativeTo(null);
 
-	signupButton = new JButton("Sign up");
+        rankingButton = new JButton("Ranking list");
+        rankingButton.setBounds(390, 225, 500, 50);
+        this.add(rankingButton);
+        
+        signupButton= new JButton("Sign up");
         signupButton.setBounds(390, 300, 500, 50);
         this.add(signupButton);
 	    
@@ -87,6 +93,10 @@ public class ViewMenu extends JFrame implements Observer {
     }
     public JButton getSignupButton(){
     	return signupButton;
+    }
+    
+    public JButton getRankingButton(){
+    	return rankingButton;
     }
     
     public JButton getPlayButton() {
