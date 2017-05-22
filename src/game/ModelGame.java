@@ -192,8 +192,8 @@ public class ModelGame extends Observable {
         	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
         	board[yWall][xWall] = "w";
         	
+        
         	// if this creates a checkerboard then fill in the other gaps.
-        	
         	//w0
         	//0w
         	// top left
@@ -384,7 +384,8 @@ public class ModelGame extends Observable {
         // add player
         int xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
         int yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
-        while (board[yPlayer][xPlayer] == "w" || board[yPlayer][xPlayer] == "g" || board[yPlayer][xPlayer] == "b"){
+        // make sure we arent placing player on a wall, goal or box, also make sure we can move the player around. 
+        while (board[yPlayer][xPlayer] == "w" || board[yPlayer][xPlayer] == "g" || board[yPlayer][xPlayer] == "b" || countAround(xPlayer,yPlayer,board) == 4){
         	xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
             yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
         }
