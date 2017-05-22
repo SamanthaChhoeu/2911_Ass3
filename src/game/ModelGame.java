@@ -192,28 +192,33 @@ public class ModelGame extends Observable {
         	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
         	board[yWall][xWall] = "w";
         	
-        
+        	
+        	// if it creates -w-
+        	//				 w0w
+        	
+        	
+        	
         	// if this creates a checkerboard then fill in the other gaps.
         	//w0
         	//0w
         	// top left
-        	if (board[yWall+1][xWall+1] == "w" && board[yWall][xWall+1] == "0" && board[yWall+1][xWall] == "0"){
+        	if (board[yWall+1][xWall+1] == "w" /*&& board[yWall][xWall+1] == "0" && board[yWall+1][xWall] == "0"*/){
         		board[yWall][xWall+1] = "w";
         		board[yWall+1][xWall] = "w";
         	// bottom right
-        	} else if (board[yWall-1][xWall-1] == "w" && board[yWall][xWall-1] == "0" && board[yWall-1][xWall] == "0"){
+        	} else if (board[yWall-1][xWall-1] == "w" /*&& board[yWall][xWall-1] == "0" && board[yWall-1][xWall] == "0"*/){
         		board[yWall][xWall-1] = "w";
         		board[yWall-1][xWall] = "w";
         	//0w
         	//w0
         	// top right
-        	} else if (board[yWall+1][xWall-1] == "w" && board[yWall][xWall-1] == "0" && board[yWall+1][xWall] == "0"){
+        	} else if (board[yWall+1][xWall-1] == "w" /*&& board[yWall][xWall-1] == "0" && board[yWall+1][xWall] == "0"*/){
         		board[yWall][xWall-1] = "w";
         		board[yWall+1][xWall] = "w";
         		
         	
         	// bottom left
-        	} else if (board[yWall-1][xWall+1] == "w" && board[yWall][xWall+1] == "0" && board[yWall-1][xWall] == "0"){ 
+        	} else if (board[yWall-1][xWall+1] == "w" /*&& board[yWall][xWall+1] == "0" && board[yWall-1][xWall] == "0"*/){ 
         		board[yWall][xWall+1] = "w";
         		board[yWall-1][xWall] = "w";
         	}
@@ -253,9 +258,10 @@ public class ModelGame extends Observable {
             int vert = -1; // records if last move was vertical or horizontal (-1 initially, 0 if horizontal, 1 if vertical)
             
             while (turns < 3){
-            	
+            	// randomises direction up/down left/right
+            	int dir = rand.nextInt(1);
             	// if box is free to be pulled downwards
-                if (board[y+1][x] != "w" && board[y+2][x] != "w" &&  vert != 1){
+                if (board[y+1][x] != "w" && board[y+2][x] != "w" &&  vert != 1 && dir == 0){
                 	//board[y+1][x] = "x";
                 	board = goStraight(2,board);
                 	// if end of straight is unreachable then iterate upwards
@@ -267,7 +273,7 @@ public class ModelGame extends Observable {
       
                 	
                 // if box is free to be pulled upwards
-                } else if (board[y-1][x] != "w" && board[y-2][x] != "w"  && vert != 1){
+                } else if (board[y-1][x] != "w" && board[y-2][x] != "w"  && vert != 1 && dir == 1){
                 	//board[y-1][x] = "x";
                 	board = goStraight(0,board);
                 	// if end of straight is unreachable then iterate back down one
@@ -278,7 +284,7 @@ public class ModelGame extends Observable {
                 	vert = 1;
     
                 // if box is free to be pulled right
-                } else if (board[y][x+1] != "w" && board[y][x+2] != "w" && vert != 0){
+                } else if (board[y][x+1] != "w" && board[y][x+2] != "w" && vert != 0 && dir == 0){
                 	//board[y][x+1] = "x";
                 	board = goStraight(1,board);
                 	// if end of straight is unreachable then iterate back to the left
@@ -288,7 +294,7 @@ public class ModelGame extends Observable {
                 	vert = 0;
                 	turns++;
                 // if box is free to be pulled left
-                } else if (board[y][x-1] != "w" && board[y][x-2] != "w" && vert != 0 ){
+                } else if (board[y][x-1] != "w" && board[y][x-2] != "w" && vert != 0 && dir == 1){
                 	//board[y+1][x-1] = "x";
                 	board = goStraight(3,board);
                 	// if end of straight is unreachable then iterate back to te right
@@ -431,6 +437,8 @@ public class ModelGame extends Observable {
         	// owo
         	// wow
     		while (board[y-1][x] != "w" && board[y-2][x] != "w" && !(board[y-2][x] == "w"  && (board[y-1][x+1] == "w" && board[y-1][x-1] ==  "w")) && board[y-2][x] != "b"){
+    			// if can't access y-1,x (then iterate down)
+    			
     			System.out.println("up");
     			y--;
     		}
@@ -483,7 +491,13 @@ public class ModelGame extends Observable {
     	
     }
     
-    // function for always try to turn
+    // TODO function for always try to turn
+    
+    
+    // TODO function that gets the x and y range of a space and then checks if the goal lies within it. 
+    private void canReach(){
+    	
+    }
     
     // print board for debugging purposes
     private void printBoard(String[][] board){
