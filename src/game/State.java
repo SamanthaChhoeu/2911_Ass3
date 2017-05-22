@@ -137,7 +137,7 @@ public class State implements Comparable<State>{
      * generates all the Successors of the current Node
      * @return
      */
-    public ArrayList<State> generateSuccessors(){
+    public ArrayList<State> generateSuccessors(ArrayList<Node> been){
         this.seen.add(this.current);
         ArrayList<State> Successors = new ArrayList<State>();
         ArrayList<Edge> E =(this.current).getEdges();
@@ -147,6 +147,11 @@ public class State implements Comparable<State>{
             boolean hasSeen = false;
 
             for(Node temp : seen){
+                if(n.equals(temp)){
+                    hasSeen = true;
+                }
+            }
+            for(Node temp : been){
                 if(n.equals(temp)){
                     hasSeen = true;
                 }

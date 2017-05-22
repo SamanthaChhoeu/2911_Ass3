@@ -3,6 +3,7 @@ package game;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Timer;
 
 public class ModelGame extends Observable {
 
@@ -48,7 +49,7 @@ public class ModelGame extends Observable {
        
         sobokanBoard = generatedBoard;
         printBoard(sobokanBoard);
-        //printPathToGoal();
+        printPathToGoal();
         
     }
 
@@ -837,7 +838,7 @@ public class ModelGame extends Observable {
 
     //give goal points for the player to reach
     //when i figure it out it will return some sort of path
-    private ArrayList<Node> Path (int xGoal, int yGoal){
+    private ArrayList<Node> Path (int xStart, int yStart, int xGoal, int yGoal){
 
         ArrayList<Node> spaces= new ArrayList<Node>();
         int x,y;
@@ -896,12 +897,12 @@ public class ModelGame extends Observable {
 
             //so now
             //best solution the cheapest
-        Node pl = new Node (p.getXPos(), p.getYPos());
+        Node pl = new Node (xStart, yStart);
         Node temp = new Node();
         for(Node s : spaces){
             if(s.equals(pl)){
                 temp = s;
-                System.out.println("Player at " + temp.getX() + "," + temp.getY());
+                System.out.println("Start at " + temp.getX() + "," + temp.getY());
                 System.out.println("Goal at " + xGoal + "," + yGoal);
                 break;
             }
@@ -915,23 +916,30 @@ public class ModelGame extends Observable {
             }
         }
         */
+        ArrayList<Node> been = new ArrayList<>();
         Queue<State> pq = new PriorityQueue<State>();
         State startState = new State(temp, null);
         pq.add(startState);
+        ArrayList<Node> path = new ArrayList<>() ;
+
+
         while (!pq.isEmpty()) {
             State currentState = pq.poll();
-            if (currentState.isAtGoal(xGoal,yGoal)) {
+            been.add(currentState.getCurrent());
+            if (currentState.isAtGoal(xGoal, yGoal)) {
                 printList(currentState.makePath()); //prints in terminal to see can be removed
                 return currentState.makePath();
             }
             //System.out.println("test");
-            ArrayList<State> nextStates = currentState.generateSuccessors();
+            ArrayList<State> nextStates = currentState.generateSuccessors(been);
+
             for (State next : nextStates) {
                 next.calculateGCost();
-                next.calculateHCost(xGoal,yGoal);             //could add a heuristic but i cant be bothered
+                next.calculateHCost(xGoal, yGoal);
                 pq.add(next);
             }
         }
+        System.out.println("No solution");
         return null;
     }
 
@@ -958,7 +966,7 @@ public class ModelGame extends Observable {
                 break;
             }
         }
-        System.out.println("("+x+","+y);
-        ArrayList<Node> path = Path(x,y);
+        System.out.println("("+x+","+y+")");
+        ArrayList<Node> path = Path(p.getXPos(),p.getYPos(),x,y);
     }
 }
