@@ -48,8 +48,10 @@ public class ModelGame extends Observable {
        
         sobokanBoard = generatedBoard;
         printBoard(sobokanBoard);
+        //printPathToGoal();
         
     }
+
     
     private String[][] randomGenerate(int xSizeOfBoard, int ySizeOfBoard){
 		// generate the board
@@ -835,44 +837,128 @@ public class ModelGame extends Observable {
 
     //give goal points for the player to reach
     //when i figure it out it will return some sort of path
-    private void Path (int xGoal, int yGoal){
+    private ArrayList<Node> Path (int xGoal, int yGoal){
+
         ArrayList<Node> spaces= new ArrayList<Node>();
         int x,y;
 
-        for(y=1;y<=ySizeOfBoard;y++){
-            for(x=1;x<=xSizeOfBoard;x++){
-                if(sobokanBoard[y][x] == "0"){
-                    Node n = new Node(x,y);
+        for(y=1;y<ySizeOfBoard;y++) {
+            for (x = 1; x < xSizeOfBoard; x++) {
+                if (sobokanBoard[y][x] == "0" || sobokanBoard[y][x] == "p") {
+                    Node n = new Node(x, y);
                     spaces.add(n);
-                    if(sobokanBoard[y+1][x] == "0"){
-                        Node t = new Node(x,y+1);
-                        Edge e = new Edge(t);
-                        n.addEdge(e);
-                    }
-                    if(sobokanBoard[y][x+1] == "0"){
-                        Node t = new Node(x+1,y);
-                        Edge e = new Edge(t);
-                        n.addEdge(e);
-                    }
-                    if(sobokanBoard[y-1][x] == "0"){
-                        Node t = new Node(x,y-1);
-                        Edge e = new Edge(t);
-                        n.addEdge(e);
-                    }
-                    if(sobokanBoard[y][x-1] == "0"){
-                        Node t = new Node(x,y+1);
-                        Edge e = new Edge(t);
-                        n.addEdge(e);
+                }
+            }
+        }
+        for(Node temp : spaces){
+            if (sobokanBoard[temp.getY()+1][temp.getX()] == "0" || sobokanBoard[temp.getY() + 1][temp.getX()] == "p") {
+                Node t = new Node(temp.getX(),  temp.getY()+ 1);
+                for(Node curr : spaces){
+                    if(curr.equals(t)){
+                        Edge e = new Edge(curr);
+                        temp.addEdge(e);
                     }
                 }
             }
+            if (sobokanBoard[temp.getY()][temp.getX() + 1] == "0" || sobokanBoard[temp.getY()][temp.getX() + 1] == "p") {
+                Node t = new Node(temp.getX()+1,  temp.getY());
+                for(Node curr : spaces){
+                    if(curr.equals(t)){
+                        Edge e = new Edge(curr);
+                        temp.addEdge(e);
+                    }
+                }
+            }
+            if (sobokanBoard[temp.getY() - 1][temp.getX()] == "0" || sobokanBoard[temp.getY() - 1][temp.getX()] == "p") {
+                Node t = new Node(temp.getX(), temp.getY() - 1);
+                for(Node curr : spaces){
+                    if(curr.equals(t)){
+                        Edge e = new Edge(curr);
+                        temp.addEdge(e);
+                    }
+                }
+            }
+            if (sobokanBoard[temp.getY()][temp.getX() - 1] == "0" || sobokanBoard[temp.getY()][temp.getX() - 1] == "p") {
+                Node t = new Node(temp.getX()-1, temp.getY());
+                for(Node curr : spaces){
+                    if(curr.equals(t)){
+                        Edge e = new Edge(curr);
+                        temp.addEdge(e);
+                    }
+                }
+            }
+        }
+
+        //printList(spaces);
             //basically now i have a list of nodes with a list of edges
             //right now the edges are nodes since i haven't added a cost
             //but i'm using edges incest i an in the future
 
             //so now
-            //best solution the cheapest 
+            //best solution the cheapest
+        Node pl = new Node (p.getXPos(), p.getYPos());
+        Node temp = new Node();
+        for(Node s : spaces){
+            if(s.equals(pl)){
+                temp = s;
+                System.out.println("Player at " + temp.getX() + "," + temp.getY());
+                System.out.println("Goal at " + xGoal + "," + yGoal);
+                break;
+            }
         }
+        /* testing if map is stored properly
+        for(Node n : spaces){
+            ArrayList<Edge> edges = n.getEdges();
+            System.out.println("(" + n.getX() + "," + n.getY() + ")");
+            for(Edge e : edges){
+                System.out.println("--> (" + e.getOtherNode().getX() + "," + e.getOtherNode().getY() + ")");
+            }
+        }
+        */
+        Queue<State> pq = new PriorityQueue<State>();
+        State startState = new State(temp, null);
+        pq.add(startState);
+        while (!pq.isEmpty()) {
+            State currentState = pq.poll();
+            if (currentState.isAtGoal(xGoal,yGoal)) {
+                printList(currentState.makePath()); //prints in terminal to see can be removed
+                return currentState.makePath();
+            }
+            //System.out.println("test");
+            ArrayList<State> nextStates = currentState.generateSuccessors();
+            for (State next : nextStates) {
+                next.calculateGCost();
+                next.calculateHCost(xGoal,yGoal);             //could add a heuristic but i cant be bothered
+                pq.add(next);
+            }
+        }
+        return null;
+    }
 
+    private void printList(ArrayList<Node> path){
+        for(Node n : path){
+            System.out.println(n.getX() + " " + n.getY());
+        }
+    }
+
+    //funtion i wrote to test my path search
+    private void printPathToGoal(){
+
+        int x = 0;
+        int y;
+        boolean broke = false;
+        for(y=1;y<ySizeOfBoard;y++) {
+            for (x = 1; x < xSizeOfBoard; x++) {
+                if (sobokanBoard[y][x] == "0" || sobokanBoard[y][x] == "p") {
+                    broke = true;
+                    break;
+                }
+            }
+            if(broke){
+                break;
+            }
+        }
+        System.out.println("("+x+","+y);
+        ArrayList<Node> path = Path(x,y);
     }
 }

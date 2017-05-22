@@ -16,10 +16,10 @@ public class Edge {
     /**
      * constructor to creat edge
      * @param otherNode
-     * @param cost
      */
     public Edge(Node otherNode){
         setOtherNode(otherNode);
+        setCost(0);
     }
 
     /* Setters  */
