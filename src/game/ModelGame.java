@@ -542,7 +542,7 @@ public class ModelGame extends Observable {
         	// w0
         	
         	
-    		while (board[y][x+1] != "w" && board[y][x+2] != "w" && !(board[y][x+2] == "w"  && !(board[y+1][x+1] == "w" && board[y-1][x+1] == "w")) && board[y][x+2] != "b"){
+    		while (board[y][x+1] != "w" && board[y][x+2] != "w" && !(board[y][x+3] == "w"  && !(board[y+1][x+2] == "w" && board[y-1][x+2] == "w")) && board[y][x+2] != "b"){
     			System.out.println("right");
     			x++;
     		}
@@ -555,7 +555,7 @@ public class ModelGame extends Observable {
         	
         	// wow
         	// owo
-    		while (board[y+1][x] != "w" && board[y+2][x] != "w" && !(board[y+2][x] == "w" && (board[y+1][x-1] == "w" && board[y+1][x+1] == "w")) 
+    		while (board[y+1][x] != "w" && board[y+2][x] != "w" && !(board[y+3][x] == "w" && (board[y+2][x-1] == "w" && board[y+2][x+1] == "w") && board[y][x+2] != "b") 
     				&& board[y+2][x] != "b"){
     			System.out.println("down");
     			//System.out.println(board[y+2][x] + board[y+3][x] + board[y+2][x-1] + board[y+2][x+1]);
@@ -570,7 +570,7 @@ public class ModelGame extends Observable {
         	// 0w
         	// w0
         	// 0w
-    		while (board[y][x-1] != "w" && board[y][x-2] != "w" && !(board[y][x-2] == "w"&& (board[y+1][x-1] == "w"&& board[y-1][x-1] == "w" ))&& board[y][x-1] != "b"){
+    		while (board[y][x-1] != "w" && board[y][x-2] != "w" && !(board[y][x-3] == "w"&& (board[y+1][x-2] == "w"&& board[y-1][x-2] == "w" ))&& board[y][x-1] != "b"){
     			System.out.println("left");
     			x--;
     		}
