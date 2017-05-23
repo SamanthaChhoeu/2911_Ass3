@@ -585,6 +585,29 @@ public class ModelGame extends Observable {
     }
     
     // TODO function for always try to turn
+    // return the next move that the generator will make to create a path betwen the goal and box
+    // last - is the previous move where 0 up; 1 down; 2 left; 3 right
+    private int turn(int last){
+    	 
+    	
+    	int next = 0;
+    	
+    	
+    	// if last move was vertical
+    	if (last == 0 || last == 1){
+    		// try to go left or right
+    		
+    		// otherwise continue in the direction you were going
+    	// if last move was horizontal
+    	} else if (last == 2 || last == 3){
+    		
+    		// try to go up or down
+    		// otherwise continue in the direction you were going
+    	// if it is the first move
+    	}
+    	
+    	return next;
+    }
     
     
     // TODO function that gets the x and y range of a space and then checks if the goal lies within it. 
