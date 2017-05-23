@@ -15,6 +15,9 @@ public class Node {
 
     /* Constructor */
 
+    public Node(){
+
+    }
 
     public Node(int x, int y){
         this.x = x;
@@ -81,13 +84,13 @@ public class Node {
      * @param n
      * @return
      */
-    /*public boolean equals(Node n){
+    public boolean equals(Node n){
         boolean equal = false;
-        if(((this.name).equals(n.getName()))&& ((this.cost)==n.getCost())){
+        if(((this.x) == n.getX())&& ((this.y)== n.getY())){
             equal = true;
         }
         return equal;
-    }*/
+    }
 
     /**
      * adds and edge to the edge list
