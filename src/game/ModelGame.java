@@ -3,7 +3,6 @@ package game;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Timer;
 
 public class ModelGame extends Observable {
 
@@ -260,7 +259,7 @@ public class ModelGame extends Observable {
             int turns = 0;
             int vert = -1; // records if last move was vertical or horizontal (-1 initially, 0 if horizontal, 1 if vertical)
             
-            while (turns < 3){
+            while (turns < 5){
             	// randomises direction up/down left/right
             	int dir = rand.nextInt(2);
             	System.out.println("random direction is:"+dir);
@@ -323,7 +322,7 @@ public class ModelGame extends Observable {
                         	vert = 1;
                         	
                         }else {
-                        	turns = 3;
+                        	turns = 5;
                         }
                         
             		}
@@ -357,7 +356,7 @@ public class ModelGame extends Observable {
 	                    	
 	                    
 	                    }else {
-	                    	turns = 3;
+	                    	turns = 5;
 	                    }
             			
             		
@@ -526,10 +525,8 @@ public class ModelGame extends Observable {
     	// up
     	if (direction == 0){
     		
-    		// avoid this situation
-        	// owo
-        	// wow
-    		while (board[y-1][x] != "w" && board[y-2][x] != "w" && !(board[y-3][x] == "w"  && (board[y-2][x+1] == "w" && board[y-2][x-1] ==  "w")) && board[y-2][x] != "b"){
+    		
+    		while (goUp(board)){
     			// if can't access y-1,x (then iterate down)
     			
     			System.out.println("up");
@@ -539,13 +536,7 @@ public class ModelGame extends Observable {
     	// right
     	} else if (direction == 1){
     		
-    		// avoid this situation
-    		// w0
-        	// 0w
-        	// w0
-        	
-        	
-    		while (board[y][x+1] != "w" && board[y][x+2] != "w" && !(board[y][x+3] == "w"  && !(board[y+1][x+2] == "w" && board[y-1][x+2] == "w")) && board[y][x+2] != "b"){
+    		while (goRight(board)){
     			System.out.println("right");
     			x++;
     		}
@@ -553,13 +544,8 @@ public class ModelGame extends Observable {
     	// down
     		
     	} else if (direction == 2){
-    		
-    		// avoid this situation
-        	
-        	// wow
-        	// owo
-    		while (board[y+1][x] != "w" && board[y+2][x] != "w" && !(board[y+3][x] == "w" && (board[y+2][x-1] == "w" && board[y+2][x+1] == "w") && board[y][x+2] != "b") 
-    				&& board[y+2][x] != "b"){
+
+    		while (goDown(board)){
     			System.out.println("down");
     			//System.out.println(board[y+2][x] + board[y+3][x] + board[y+2][x-1] + board[y+2][x+1]);
     			y++;
@@ -568,12 +554,7 @@ public class ModelGame extends Observable {
     	// left
     	} else if (direction == 3){
     		
-    		// avoid this situation
-
-        	// 0w
-        	// w0
-        	// 0w
-    		while (board[y][x-1] != "w" && board[y][x-2] != "w" && !(board[y][x-3] == "w"&& (board[y+1][x-2] == "w"&& board[y-1][x-2] == "w" ))&& board[y][x-1] != "b"){
+    		while (goLeft(board)){
     			System.out.println("left");
     			x--;
     		}
@@ -584,11 +565,54 @@ public class ModelGame extends Observable {
     	
     }
     
+    
+    private boolean goRight(String[][] board){
+    	// avoid this situation
+		// w0
+    	// 0w
+    	// w0
+    	if (board[y][x+1] != "w" && board[y][x+2] != "w" && !(board[y][x+3] == "w"  && !(board[y+1][x+2] == "w" && board[y-1][x+2] == "w")) && board[y][x+2] != "b"){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    private boolean goLeft(String[][] board){
+    	// avoid this situation
+
+    	// 0w
+    	// w0
+    	// 0w
+    	if (board[y][x-1] != "w" && board[y][x-2] != "w" && !(board[y][x-3] == "w"&& (board[y+1][x-2] == "w"&& board[y-1][x-2] == "w" ))&& board[y][x-1] != "b"){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    private boolean goUp(String[][] board){
+    	// avoid this situation
+    	// owo
+    	// wow
+    	if (board[y-1][x] != "w" && board[y-2][x] != "w" && !(board[y-3][x] == "w" && (board[y-2][x+1] == "w" && board[y-2][x-1] ==  "w")) && board[y-2][x] != "b"){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    private boolean goDown(String[][] board){
+    	if (board[y+1][x] != "w" && board[y+2][x] != "w" && !(board[y+3][x] == "w" && (board[y+2][x-1] == "w" && board[y+2][x+1] == "w")) && board[y][x+2] != "b"){
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
+    
     // TODO function for always try to turn
     // return the next move that the generator will make to create a path betwen the goal and box
     // last - is the previous move where 0 up; 1 down; 2 left; 3 right
-    private int turn(int last){
-    	 
+    private int turn(int last, String[][] board){
+    	Random rand = new Random();
     	
     	int next = 0;
     	
@@ -596,13 +620,54 @@ public class ModelGame extends Observable {
     	// if last move was vertical
     	if (last == 0 || last == 1){
     		// try to go left or right
-    		
+    		// if you can go left and right
+    		if (goLeft(board) && goRight(board)){
+				int rng = rand.nextInt(2);
+				if (rng == 0){
+					// go left
+					return 2;
+				} else {
+					// go right
+					return 3;
+				}
+				
+    		// if you can only go left
+    		} else if(goLeft(board)){
+    			return 2;
+    		// if you can only go right
+    		} else if (goRight(board)){
+    			return 3;
     		// otherwise continue in the direction you were going
+    		} else {
+    			return last;
+    		}
+    		
+    		
     	// if last move was horizontal
     	} else if (last == 2 || last == 3){
     		
     		// try to go up or down
-    		// otherwise continue in the direction you were going
+    		// if you can go up and down
+    		if (goUp(board) && goDown(board)){
+    			int rng = rand.nextInt(2);
+				if (rng == 0){
+					// go up
+					return 0;
+				} else {
+					// go down
+					return 1;
+				}
+    		// if you can only go up
+    		} else if(goUp(board)){
+    			return 0;
+    		// if you can only go down
+    		} else if (goDown(board)){
+    			return 1;
+    		// otherwise continue in the direction you were going	
+    		} else {
+    			return last;
+    		}
+    		
     	// if it is the first move
     	}
     	
