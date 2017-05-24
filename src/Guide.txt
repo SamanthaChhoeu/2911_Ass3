@@ -1,6 +1,7 @@
 Warehouse Boss
 Welcome to Warehouse Boss Game!
 Please enter your game first and try to get all boxes sorted!
+There will be a timer showing how much time you already spent.
 
 Here are some basic operations:
 ↑: Move ahead
@@ -9,7 +10,7 @@ Here are some basic operations:
 →: Move to right
 
 And when you press:
-U: Undo to next step (We only store ONE last step!)
+U: Undo to last step
 R: Restart the game
 
 Save your work by simply press "Save" button while playing;

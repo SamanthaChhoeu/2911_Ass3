@@ -30,10 +30,26 @@ public class ModelGame extends Observable {
 	private int yGoal;
     
     public ModelGame() {
-        
+        /*boxpics = new Image[2];
+    	for(int i=0; i<2; i++) {
+    		boxpics[i] = Toolkit.getDefaultToolkit().getImage("Boxes\box"+i+".GIF");
+    		//System.out.println(Toolkit.getDefaultToolkit().getImage("Boxes\box"+i+".GIF"));
+    	}
+
+    	paint(boxpics[0]);*/
         generateBoard();
-        
     }
+    
+    
+    /*public void paint(Image g){System.out.println("image drawnnnnnnnnnnnnnnnnnnn");
+		//according to the map of the level, draw the image
+    	for (int i = 0; i < ySizeOfBoard; i++){
+        	for (int j = 0; j<xSizeOfBoard; j++){
+        		if(sobokanBoard[i][j].equals("w"))
+        			//g.
+			}		
+    		}
+	}*/
     
     public void generateBoard() {
         
@@ -776,12 +792,13 @@ public class ModelGame extends Observable {
         // check if all boxes are in the goal
         for (Box checkBox : boxes) {
             if (!checkBox.isAtGoal()) foundBoxNotAtGoal = true;
-            System.out.println("There are " + boxes.size() + " boxes and is box at (" + checkBox.getXPos() + "," + checkBox.getYPos() + ") at the goal? " + checkBox.isAtGoal());
+            //System.out.println("There are " + boxes.size() + " boxes and is box at (" + checkBox.getXPos() + "," + checkBox.getYPos() + ") at the goal? " + checkBox.isAtGoal());
         }
         setChanged();
         if (foundBoxNotAtGoal) {
             notifyObservers("MovePlayer");
         } else {
+            gameTimer.cancel();
             storeScore();
             notifyObservers("ChangeScreenWin");
         }
@@ -928,8 +945,8 @@ public class ModelGame extends Observable {
                 currTime = sdf.format(date);
                 setChanged();
                 notifyObservers("UpdateTimer");
-            	if(Mode.equals("Resume")){
-            		start += 1000;
+            	if(Mode.equals("Resume")) {
+                    start += 1000;
                 }
             }
         },0,1000);//refresh every second with no delay.
