@@ -73,8 +73,9 @@ public class ControllerMenu {
     	vm.getSignupButton().addActionListener(signUp);
     	
     	rankingList = new ActionListener() {
-             String str = "Rank\tName\tScore\n";
+             //String str = "Rank\tName\tScore\n";
     		public void actionPerformed(ActionEvent event) {
+                String str = "Rank\tName\tScore\n";
     			for (User u : rank){
     	            str += u.getString() + "\n";
     	            System.out.println(str);
