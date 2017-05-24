@@ -1,19 +1,16 @@
 package menu;
 
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
+import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 public class ViewMenu extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
     private ModelInterface mi;
+    private JPanel mainPanel;
     private JButton playButton;
     private JButton settingsButton;
     private JButton signupButton;
@@ -35,58 +32,69 @@ public class ViewMenu extends JFrame implements Observer {
         // sets what happens when the user closes the window
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // sets the layout to a manual layout to enable full customisation of where the buttons are
-        this.setLayout(null);
+        //this.setLayout(null);
         // sets the window to show in the middle of the screen
         this.setLocationRelativeTo(null);
 
-        rankingButton = new JButton("Ranking list");
+        mainPanel = new PicturePanel();
+        mainPanel.setLayout(null);
+        mainPanel.setVisible(true);
+        mainPanel.setBackground(Color.DARK_GRAY);
+        this.getContentPane().add(mainPanel);
+
+        rankingButton = new TranslucentButton("Ranking list");
         rankingButton.setBounds(390, 225, 500, 50);
-        this.add(rankingButton);
+        //rankingButton.setOpaque(false);
+        //rankingButton.setContentAreaFilled(false);
+        //rankingButton.setBorderPainted(false);
+        mainPanel.add(rankingButton);
         
-        signupButton= new JButton("Sign up");
+        signupButton= new TranslucentButton("Sign up");
         signupButton.setBounds(390, 300, 500, 50);
-        this.add(signupButton);
+        //signupButton.setBorderPainted(false);
+        mainPanel.add(signupButton);
 	    
         // creates a new button to start playing the game
-        playButton = new JButton("Play");
+        playButton = new TranslucentButton("Play");
         // sets the size and the position of the buttons (only works for null layout)
         playButton.setBounds(390, 375, 500, 50);
+        //playButton.setBorderPainted(false);
         // adds the play button to the current frame
-        this.add(playButton);
+        mainPanel.add(playButton);
         
         // creates a new button to access the settings of the game
-        settingsButton = new JButton("Settings");
+        settingsButton = new TranslucentButton("Settings");
         settingsButton.setBounds(390, 450, 500, 50);
-        this.add(settingsButton);
+        //settingsButton.setBorderPainted(false);
+        mainPanel.add(settingsButton);
         
         // creates a new button to quit the game
-        quitButton = new JButton("Quit");
+        quitButton = new TranslucentButton("Quit");
         quitButton.setBounds(390, 525, 500, 50);
-        this.add(quitButton);
-        
-        //Top menu bar.
+        //quitButton.setBorderPainted(false);
+        mainPanel.add(quitButton);
+
+        /* //Top menu bar.
         //Feel free to delete if we don't need at the end.
         MenuItem something = new MenuItem("Something");
         MenuItem somethingmore = new MenuItem("Something More");
         MenuItem Guide = new MenuItem("Guide");
         MenuItem About = new MenuItem("About");
-    	
+
     	Menu option = new Menu("Game Option");
 		//option.addSeparator();//Do we even need a seperator?
 		option.add(something);
 		option.add(somethingmore);
-		
+
 		Menu help = new Menu("Help");
 		help.add(Guide);
 		help.add(About);
-		
+
 		MenuBar bar = new MenuBar();
 		bar.add(option);
 		bar.add(help);
-		setMenuBar(bar);
-        
-        
-        
+		setMenuBar(bar);*/
+
         // set such that the main menu is the visible when this class is created
         this.setVisible(true);
         
