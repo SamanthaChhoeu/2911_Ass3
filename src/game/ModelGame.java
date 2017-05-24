@@ -27,10 +27,26 @@ public class ModelGame extends Observable {
     private Timer gameTimer;
     
     public ModelGame() {
-        
+        /*boxpics = new Image[2];
+    	for(int i=0; i<2; i++) {
+    		boxpics[i] = Toolkit.getDefaultToolkit().getImage("Boxes\box"+i+".GIF");
+    		//System.out.println(Toolkit.getDefaultToolkit().getImage("Boxes\box"+i+".GIF"));
+    	}
+
+    	paint(boxpics[0]);*/
         generateBoard();
-        
     }
+    
+    
+    /*public void paint(Image g){System.out.println("image drawnnnnnnnnnnnnnnnnnnn");
+		//according to the map of the level, draw the image
+    	for (int i = 0; i < ySizeOfBoard; i++){
+        	for (int j = 0; j<xSizeOfBoard; j++){
+        		if(sobokanBoard[i][j].equals("w"))
+        			//g.
+			}		
+    		}
+	}*/
     
     public void generateBoard() {
         
