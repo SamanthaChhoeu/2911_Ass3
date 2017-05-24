@@ -120,7 +120,7 @@ public class ViewGame extends JFrame implements Observer {
         
         timerLabel=new JLabel("",JLabel.CENTER);
         timerLabel.setBounds(50, 150, 120, 30);
-        timerLabel.setFont(new Font("Default", Font.PLAIN, 30));
+        timerLabel.setFont(new Font("Default", Font.PLAIN, 20));
         utilityPanel.add(timerLabel);
         
         pause_resumeButton = new JButton("Pause");
