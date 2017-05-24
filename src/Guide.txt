@@ -1,0 +1,18 @@
+Warehouse Boss
+Welcome to Warehouse Boss Game!
+Please enter your game first and try to get all boxes sorted!
+
+Here are some basic operations:
+↑: Move ahead
+↓: Move to back
+←: Move to left
+→: Move to right
+
+And when you press:
+U: Undo to next step (We only store ONE last step!)
+R: Restart the game
+
+Save your work by simply press "Save" button while playing;
+Turn on or off BGM by pressing "Set Sound" button in game window, or in settings.
+
+That is all, enjoy the game!
