@@ -1,7 +1,7 @@
 1//UnNamed11//980
 2//UnNamed13//975
 3//UnNamed10//969
-4//GetHighScore please for random//956
+4//GetHigh//956
 5//UnNamed20//952
 6//UnNamed7//951
 7//Jathurson//950
