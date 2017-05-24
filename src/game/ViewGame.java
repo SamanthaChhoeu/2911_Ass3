@@ -37,6 +37,7 @@ public class ViewGame extends JFrame implements Observer {
     private JButton saveButton;
 
     private JButton pause_resumeButton;
+    private JLabel TimerHeader;
     
     public ViewGame(ModelInterface mi, ModelGame mg) {
         
@@ -117,6 +118,11 @@ public class ViewGame extends JFrame implements Observer {
         //utilityPanel.setBounds(1080, 0, 200, 720);
         utilityPanel.setPreferredSize(new Dimension(200, 720));
         this.add(utilityPanel, BorderLayout.LINE_END);
+        
+        TimerHeader=new JLabel("Time:", JLabel.LEFT);
+        TimerHeader.setBounds(50, 130, 120, 30);
+        TimerHeader.setFont(new Font("Default", Font.PLAIN, 20));
+        utilityPanel.add(TimerHeader);
         
         timerLabel=new JLabel("",JLabel.CENTER);
         timerLabel.setBounds(50, 150, 120, 30);
