@@ -35,7 +35,6 @@ public class SobokanGame {
 	    
 	    // mi stores and processes information required for all interfaces (screen size, curr screen, mute sounds)
         ModelInterface mi = new ModelInterface();
-        // There are some TODO comments I've left for Sam and Jath to do inside the ModelGame Class
         // mg stores and processes information for the game (store & generate maze, timer)
         ModelGame mg = new ModelGame();
         
@@ -43,7 +42,6 @@ public class SobokanGame {
         ViewMenu vm = new ViewMenu(mi);
         // set up so that the main menu view changes when the interface model changes
         mi.addObserver(vm);
-        // There are some TODO comments I've left for everyone to do here
         // vs handles what the user sees in the settings menu
         ViewSettings vs = new ViewSettings(mi);
         mi.addObserver(vs);
