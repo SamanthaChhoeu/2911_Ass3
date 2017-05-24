@@ -1,6 +1,7 @@
 Warehouse Boss
 Welcome to Warehouse Boss Game!
 Please enter your game first and try to get all boxes sorted!
+There will be a timer showing how much time you already spent.
 
 Here are some basic operations:
 ↑: Move ahead
