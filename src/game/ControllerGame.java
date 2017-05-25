@@ -109,6 +109,8 @@ public class ControllerGame {
             public void actionPerformed(ActionEvent event) {
                 // when the menu button is pressed, sets the current screen being viewed to the main menu screen
                 mi.setCurrScreen("Menu");
+                mg.cancelTimer();
+                vg.initializePRButton();
             }
         };
         // adds a listener to the menu button so that the action is performed when the menu button is pressed
