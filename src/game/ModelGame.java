@@ -946,10 +946,10 @@ public class ModelGame extends Observable {
                 setChanged();
                 notifyObservers("UpdateTimer");
             	if(Mode.equals("Resume")) {
-                    start += 1000;
+                    start += 500;
                 }
             }
-        },0,1000);//refresh every second with no delay.
+        },0,500);//refresh every half second (should be enough) with no delay.
         
     }
     
