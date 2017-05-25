@@ -164,6 +164,10 @@ public class ViewGame extends JFrame implements Observer {
         
     }
     
+    public void initializePRButton() {
+    	pause_resumeButton.setText("Pause");
+    }
+    
     public void setPRButton() {
     	if(pause_resumeButton.getText().equals("Pause")){
     		pause_resumeButton.setText("Resume");
