@@ -288,3 +288,4 @@ public class ViewGame extends JFrame implements Observer {
         gameGrid[y][x].revalidate();
         
     }
+}
