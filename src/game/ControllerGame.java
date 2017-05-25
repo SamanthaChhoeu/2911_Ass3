@@ -77,6 +77,7 @@ public class ControllerGame {
                 mg.generateBoard();
                 // when the play button is pressed, sets the current screen being viewed to the game screen
                 mi.setCurrScreen("Remake");
+                vg.initializePRButton();
             }
         };
         vg.getRemakeButton().addActionListener(remake);
