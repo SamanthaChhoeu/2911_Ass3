@@ -1261,12 +1261,13 @@ public class ModelGame extends Observable {
     }
     
     public void startTimer() {
-
         gameTimer = new Timer();
-        gameTimer.schedule(new TimerTask() {
+        gameTimer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                long sub = System.currentTimeMillis() - start;
-                
+            	long current = System.currentTimeMillis();
+                long sub = current - start;
+                //System.out.println(sub);
+                //System.out.println(start);
                 if(sub<0) return;
                 int h = (int) (sub / 1000 / 60 / 60);
                 int m = (int) (sub / 1000 / 60 % 60);
@@ -1284,11 +1285,17 @@ public class ModelGame extends Observable {
                 setChanged();
                 notifyObservers("UpdateTimer");
             	if(Mode.equals("Resume")) {
-                    start += 1000;
+                    start += 500;
                 }
             }
-        },0,1000);//refresh every second with no delay.
-        
+        },0,500);//refresh every 1/2 second with no delay.
+    }
+    
+    
+    //cancel the timer when we don't need it.
+    //interesting to know that if we do not have this function invoked, the timer will go BACKWARDS?
+    public void cancelTimer() {
+    	gameTimer.cancel();
     }
     
     public void resetGame() {
