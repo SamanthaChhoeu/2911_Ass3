@@ -7,12 +7,11 @@ import java.util.Timer;
 
 public class ModelGame extends Observable {
 
-    private int xSizeOfBoard;
-    private int ySizeOfBoard;
-    private String[][] sobokanBoard;
-    private Player p;
-    //private Timer gameTimer;
-    private List<Box> boxes;
+    private int xSizeOfBoard;               //save
+    private int ySizeOfBoard;               //save
+    private String[][] sobokanBoard;        //save
+    private Player p;                       //save
+    private List<Box> boxes;                //save
     private String currTime;
     private long start;
 
@@ -1032,6 +1031,7 @@ public class ModelGame extends Observable {
                 }
             }
         }
+        scoreCounter = scoreCounter - 4;
         setChanged();
         notifyObservers("UndoMove"); // don't know much about this line so change it thanks
     }
@@ -1184,5 +1184,36 @@ public class ModelGame extends Observable {
         }
         System.out.println("("+x+","+y+")");
         ArrayList<Node> path = Path(p.getXPos(),p.getYPos(),x,y);
+    }
+
+
+    //Saving The board of the player
+    public void SaveGame(){
+        int lines = getAmountOfLines("leaderBoard.txt");
+
+        if(this.Name == null){
+            this.Name = ("UnNamed" + lines);
+        }
+
+        String filename = "saves/" + this.Name;
+        try(FileWriter fw = new FileWriter(filename, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            //this is for printing the Board
+            String[][] board = this.sobokanBoard;
+            for (int i = 0; i < ySizeOfBoard; i++){
+                for (int j = 0; j<xSizeOfBoard; j++){
+                    out.print(board[i][j]);
+                }
+                out.print("\n");
+            }
+            out.print("//");
+            //last thin
+        } catch (IOException e) {
+            System.out.println("Issue with writing out talk to ---> Jathurson");
+
+        }
+
     }
 }
