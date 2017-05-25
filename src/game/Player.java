@@ -18,6 +18,17 @@ public class Player {
         this.move = 0;
     }
 
+    public Player(String line){
+        //int xPos, int yPos, int xPosStart, int yPosStart, boolean atGoal) {
+        String[] l = line.split("/");
+        this.xPos = Integer.parseInt(l[0]);
+        this.yPos = Integer.parseInt(l[1]);
+        this.xPosStart = Integer.parseInt(l[2]);
+        this.yPosStart = Integer.parseInt(l[3]);
+        this.prev = null;
+        this.move = 0;
+    }
+
     public void setMove(int move){
         this.move = move;
     }
@@ -67,6 +78,11 @@ public class Player {
         copy.setStartPos(this.xPosStart, this.yPosStart);
         copy.setMove(this.move);
         return copy;
+    }
+
+    public String PrintLine(){
+        String line = xPos + "/" + yPos + "/" + xPosStart + "/" + yPosStart;
+        return line;
     }
 
 }
