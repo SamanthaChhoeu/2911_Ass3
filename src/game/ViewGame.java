@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import menu.ModelInterface;
+import menu.PicturePanel;
+import menu.TranslucentButton;
 
 public class ViewGame extends JFrame implements Observer {
 
@@ -29,14 +31,14 @@ public class ViewGame extends JFrame implements Observer {
     private JPanel gamePanel;
     private JPanel[][] gameGrid;
     private JPanel utilityPanel;
-    private JButton undoButton;
-    private JButton remakeButton;
+    private TranslucentButton undoButton;
+    private TranslucentButton remakeButton;
     private JLabel timerLabel;
-    private JButton soundButton;
-    private JButton quitButton;
-    private JButton saveButton;
+    private TranslucentButton soundButton;
+    private TranslucentButton quitButton;
+    private TranslucentButton saveButton;
 
-    private JButton pause_resumeButton;
+    private TranslucentButton pause_resumeButton;
     private JLabel TimerHeader;
 
     public ViewGame(ModelInterface mi, ModelGame mg) {
@@ -114,7 +116,7 @@ public class ViewGame extends JFrame implements Observer {
 
     private void setupUtilityPanel() {
 
-        utilityPanel = new JPanel();
+        utilityPanel = new PicturePanel();
         utilityPanel.setBackground(Color.PINK);
         utilityPanel.setLayout(null);
         //utilityPanel.setBounds(1080, 0, 200, 720);
@@ -131,7 +133,7 @@ public class ViewGame extends JFrame implements Observer {
         timerLabel.setFont(new Font("Default", Font.PLAIN, 20));
         utilityPanel.add(timerLabel);
 
-        pause_resumeButton = new JButton("Pause");
+        pause_resumeButton = new TranslucentButton("Pause");
         pause_resumeButton.setBounds(50, 200, 120, 50);
         utilityPanel.add(pause_resumeButton);
         
@@ -140,26 +142,26 @@ public class ViewGame extends JFrame implements Observer {
         utilityPanel.add(t);*/
 
         // remake button
-        remakeButton = new JButton("Remake");
+        remakeButton = new TranslucentButton("Remake");
         //remakeButton.setBounds(1110, 250, 120, 30);
         remakeButton.setBounds(50, 300, 120, 30);
         utilityPanel.add(remakeButton);
 
-        undoButton = new JButton("Undo");
+        undoButton = new TranslucentButton("Undo");
         //remakeButton.setBounds(1110, 250, 120, 30);
         undoButton.setBounds(50, 360, 120, 30);
         utilityPanel.add(undoButton);
 
-        soundButton = new JButton("Set Sound");
+        soundButton = new TranslucentButton("Set Sound");
         //remakeButton.setBounds(1110, 250, 120, 30);
         soundButton.setBounds(50, 420, 120, 30);
         utilityPanel.add(soundButton);
 
-        saveButton = new JButton("Save");
+        saveButton = new TranslucentButton("Save");
         saveButton.setBounds(50, 480, 120, 30);
         utilityPanel.add(saveButton);
 
-        quitButton = new JButton("Quit");
+        quitButton = new TranslucentButton("Quit");
         //remakeButton.setBounds(1110, 250, 120, 30);
         quitButton.setBounds(50, 540, 120, 30);
         utilityPanel.add(quitButton);
