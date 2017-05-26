@@ -59,6 +59,8 @@ public class ControllerGame {
                     mg.resetGame();
                 } else if (KeyEvent.getKeyText(e.getKeyCode()).equals("U")) {
                     mg.undoMove();
+                } else if (KeyEvent.getKeyText(e.getKeyCode()).equals("S")) {
+                    mg.SaveGame(1);
                 }
                 
             }

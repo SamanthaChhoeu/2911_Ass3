@@ -1265,28 +1265,44 @@ public class ModelGame extends Observable {
 
 
     //Saving The board of the player
-    public void SaveGame(){
+    public void SaveGame(int Slot){
         int lines = getAmountOfLines("leaderBoard.txt");
 
         if(this.Name == null){
             this.Name = ("UnNamed" + lines);
         }
 
-        String filename = "saves/" + this.Name;
+        String filename = "saves/" + "slot" + Slot + ".txt";
         try(FileWriter fw = new FileWriter(filename, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
+
             //this is for printing the Board
+            out.print(this.Name);
+            out.print("\n");
+            out.print(this.xSizeOfBoard);
+            out.print("/");
+            out.print(this.ySizeOfBoard);
+            out.println("\n");
             String[][] board = this.sobokanBoard;
             for (int i = 0; i < ySizeOfBoard; i++){
                 for (int j = 0; j<xSizeOfBoard; j++){
                     out.print(board[i][j]);
                 }
-                out.print("\n");
+                out.print("/");
             }
-            out.print("//");
-            //last thin
+            out.print("\n");
+            //then player
+            String pl = (this.p).PrintLine();
+            out.print(pl);
+            out.print("\n");
+            for(Box temp : boxes){
+                out.print(temp.PrintLine());
+                out.print("//");
+            }
+            out.print("\n");
+
         } catch (IOException e) {
             System.out.println("Issue with writing out talk to ---> Jathurson");
 
