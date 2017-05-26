@@ -16,7 +16,7 @@ import javax.swing.JButton;
  *Creates translucent buttons for menus
  */
 
-class TranslucentButton extends JButton{
+public class TranslucentButton extends JButton{
 
     private static final long serialVersionUID = -609729690621250930L;
 
