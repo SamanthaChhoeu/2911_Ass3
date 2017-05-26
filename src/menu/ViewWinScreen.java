@@ -1,5 +1,6 @@
 package menu;
 
+import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,6 +12,7 @@ public class ViewWinScreen extends JFrame implements Observer {
     private static final long serialVersionUID = 1L;
     private ModelInterface mi;
     private JButton backToMainMenuButton;
+    private PicturePanel mainPanel;
 
     public ViewWinScreen(ModelInterface mi) {
         
@@ -31,10 +33,21 @@ public class ViewWinScreen extends JFrame implements Observer {
         // sets the window to show in the middle of the screen
         this.setLocationRelativeTo(null);
         
+        // create a panel on top of the frame which holds all the UI elements
+        mainPanel = new PicturePanel();
+        // manually place all the elements
+        mainPanel.setLayout(null);
+        //mainPanel.setVisible(true);
+        // sets the panel to a colour if picture not working TODO delete this once complete
+        mainPanel.setBackground(Color.DARK_GRAY);
+        // add this panel to the frame
+        this.add(mainPanel);
+        
         // creates a new button to quit the game
         backToMainMenuButton = new JButton("Back to Main Menu");
         backToMainMenuButton.setBounds(390, 525, 500, 50);
         this.add(backToMainMenuButton);
+        
         
     }
 

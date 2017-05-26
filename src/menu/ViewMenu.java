@@ -15,12 +15,13 @@ public class ViewMenu extends JFrame implements Observer {
     private TranslucentButton settingsButton;
     //private JButton signupButton;
     private TranslucentButton quitButton;
-    private TranslucentButton guideButton;
-    private JTable highScoreTable;
-    private JTextField userNameField;
-    private TranslucentButton saveUserName;
-    private TranslucentButton loadingButton;
-    private JLabel afterSaving;
+	private TranslucentButton guideButton;
+	private JTable highScoreTable;
+	private JTextField userNameField;
+	private TranslucentButton saveUserName;
+	private TranslucentButton loadingButton;
+	private JLabel afterSaving;
+	private JLabel GameName;
 
     public ViewMenu (ModelInterface mi) {   
         
@@ -60,7 +61,7 @@ public class ViewMenu extends JFrame implements Observer {
         // creates a new button to start playing the game
         playButton = new TranslucentButton("Play");
         // sets the size and the position of the buttons (only works for null layout)
-        playButton.setBounds(100, 300, 500, 50);
+        playButton.setBounds(100, 225, 500, 50);
         // adds the play button to the current frame
         mainPanel.add(playButton);
 
@@ -80,8 +81,13 @@ public class ViewMenu extends JFrame implements Observer {
         
         // creates a new button to load the saved files
         loadingButton = new TranslucentButton("Load");
-        loadingButton.setBounds(100, 150, 500, 50);
+        loadingButton.setBounds(100, 300, 500, 50);
         mainPanel.add(loadingButton);
+        
+        GameName = new JLabel("Warehouse Boss", JLabel.CENTER);
+        GameName.setFont(new Font("Default", Font.BOLD, 30));
+        GameName.setBounds(0, 100, 1280, 50);
+        mainPanel.add(GameName);
 
         String[] columnNames = {"Rank", "Name", "Score"};
         Object[][] data = mi.populateTable();
@@ -131,10 +137,6 @@ public class ViewMenu extends JFrame implements Observer {
         
     }
     
-    /*public JButton getSignupButton(){
-    	return signupButton;
-    }*/
-	
     public void disableSaving() {
     	userNameField.setVisible(false);
     	saveUserName.setVisible(false);
@@ -144,8 +146,12 @@ public class ViewMenu extends JFrame implements Observer {
     	afterSaving.setBounds(700, 300, 500, 25);
     	mainPanel.add(afterSaving);
     }
+    
+    /*public JButton getSignupButton(){
+    	return signupButton;
+    }*/
 	
-    public JButton getguideButton(){
+	public JButton getguideButton(){
     	return guideButton;
     }
     
@@ -164,11 +170,11 @@ public class ViewMenu extends JFrame implements Observer {
     public JButton getLoadingButton() {
     	return loadingButton;
     }
-	    
+    
     public JButton getSaveButton() {
     	return saveUserName;
     }
-	
+    
     public String getUserName() {
     	return userNameField.getText();
     }
