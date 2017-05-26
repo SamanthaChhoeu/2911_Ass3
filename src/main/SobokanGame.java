@@ -56,7 +56,7 @@ public class SobokanGame {
         mi.addObserver(vg);
         mg.addObserver(vg);
         // vws handles what the user sees in the win screen
-        ViewWinScreen vws = new ViewWinScreen(mi);
+        ViewWinScreen vws = new ViewWinScreen(mi, mg);
         mi.addObserver(vws);
         mg.addObserver(vws);
         

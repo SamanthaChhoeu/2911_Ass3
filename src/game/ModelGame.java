@@ -21,7 +21,7 @@ public class ModelGame extends Observable {
     private int y;
 
     private int moveCounter;
-    private int scoreCounter;
+    public int scoreCounter;
     private String Name;                 //save
 
     private Timer gameTimer;
