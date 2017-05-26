@@ -1387,6 +1387,7 @@ public class ModelGame extends Observable {
         if(this.Name == null){
             this.Name = ("UnNamed" + lines);
         }
+        System.out.println(this.Name);
 
         String filename = "saves/" + "slot" + Slot + ".txt";
 
