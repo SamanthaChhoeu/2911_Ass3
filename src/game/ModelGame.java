@@ -63,7 +63,7 @@ public class ModelGame extends Observable {
                     this.ySizeOfBoard = Integer.parseInt(l[1]);
                     this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
                     this.board = new String[ySizeOfBoard][xSizeOfBoard];
-                    System.out.println(xSizeOfBoard + " " + ySizeOfBoard);
+                    //System.out.println(xSizeOfBoard + " " + ySizeOfBoard);
                 }else if(count == 2){
                     String[] l = line.split("//");
                     //System.out.println(l[0]);
@@ -71,7 +71,7 @@ public class ModelGame extends Observable {
                         String[] k = l[i].split("/");
                         for(int j = 0; j<xSizeOfBoard; j++) {
                             //System.out.print(k[j]);
-                            board[i][j] = k[j];
+                            board[i][j] = (String)k[j];
                         }
                         //System.out.println("");
                     }
@@ -83,7 +83,7 @@ public class ModelGame extends Observable {
                     ArrayList<Box> b = new ArrayList<>();
                     for(int i = 0; i<l.length; i++){
                         Box curr = new Box(l[i]);
-                        System.out.println(curr.PrintLine());
+                        //System.out.println(curr.PrintLine());
                         b.add(curr);
                     }
                     this.boxes = b;
