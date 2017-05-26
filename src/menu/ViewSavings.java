@@ -2,7 +2,6 @@ package menu;
 
 import game.Box;
 import game.Player;
-import javafx.scene.text.Font;
 
 import java.awt.Color;
 import java.io.FileNotFoundException;
@@ -17,14 +16,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ViewLoadings extends JFrame implements Observer{
+public class ViewSavings extends JFrame implements Observer{
 	private ModelInterface mi;
 	private JPanel mainPanel;
 	private JButton One, Two, Three, Four, Five;
 	private JButton quitButton;
 	private JLabel header;
 	
-	public ViewLoadings(ModelInterface mi){
+	public ViewSavings(ModelInterface mi){
 		this.mi = mi;
 		setupMenu();
 	}
@@ -57,7 +56,7 @@ public class ViewLoadings extends JFrame implements Observer{
         String name4 = getName(4);
         String name5 = getName(5);
         
-        header = new JLabel("Choose which file to load!", JLabel.CENTER);
+        header = new JLabel("Choose which file to overwrite!", JLabel.CENTER);
         header.setBounds(100, 150, 500, 50);
         mainPanel.add(header);
         
@@ -147,7 +146,7 @@ public class ViewLoadings extends JFrame implements Observer{
     public void update(Observable o, Object arg) {
         String command = ((String) arg);
         // check whether or not to show this screen
-        if (command.equals("ChangeScreenLoadings")) {
+        if (command.equals("ChangeScreenSavings")) {
             this.setVisible(true);
         } else {
             this.setVisible(false);

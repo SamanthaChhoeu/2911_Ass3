@@ -13,7 +13,7 @@ public class ViewMenu extends JFrame implements Observer {
     private JPanel mainPanel;
     private JButton playButton;
     private JButton settingsButton;
-    private JButton signupButton;
+    //private JButton signupButton;
     private JButton quitButton;
 	private JButton guideButton;
 	private JTable highScoreTable;
@@ -51,10 +51,10 @@ public class ViewMenu extends JFrame implements Observer {
         this.add(mainPanel);
         //this.getContentPane().add(mainPanel);
         
-        signupButton= new TranslucentButton("Sign up");
+        /*signupButton= new TranslucentButton("Sign up");
         signupButton.setBounds(100, 150, 500, 50);
         //signupButton.setBorderPainted(false);
-        mainPanel.add(signupButton);
+        mainPanel.add(signupButton);*/
 	    
         // creates a new button to start playing the game
         playButton = new TranslucentButton("Play");
@@ -79,7 +79,7 @@ public class ViewMenu extends JFrame implements Observer {
         
         // creates a new button to load the saved files
         loadingButton = new TranslucentButton("Load");
-        loadingButton.setBounds(700, 150, 500, 50);
+        loadingButton.setBounds(100, 150, 500, 50);
         mainPanel.add(loadingButton);
 
         String[] columnNames = {"Rank", "Name", "Score"};
@@ -129,9 +129,10 @@ public class ViewMenu extends JFrame implements Observer {
         this.setVisible(true);
         
     }
-    public JButton getSignupButton(){
+    
+    /*public JButton getSignupButton(){
     	return signupButton;
-    }
+    }*/
 	
 	public JButton getguideButton(){
     	return guideButton;
@@ -151,6 +152,10 @@ public class ViewMenu extends JFrame implements Observer {
     
     public JButton getLoadingButton() {
     	return loadingButton;
+    }
+    
+    public String getUserName() {
+    	return userNameField.getText();
     }
 
     @Override
