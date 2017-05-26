@@ -17,6 +17,7 @@ public class ControllerMenu {
     private ActionListener goToSettings;
     private ActionListener quit;
     private ActionListener rankingList;
+    private ActionListener Loading;
 
     
     public ControllerMenu(ModelInterface mi, ModelGame mg, ViewMenu vm) {
@@ -50,7 +51,7 @@ public class ControllerMenu {
         
         playGame = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                //mg.generateBoard();
+                mg.generateBoard();
                 mg.startTimer();
                 // when the play button is pressed, sets the current screen being viewed to the game screen
                 mi.setCurrScreen("Play");
@@ -74,6 +75,13 @@ public class ControllerMenu {
             }
         };
         vm.getQuitButton().addActionListener(quit);
+        
+        Loading = new ActionListener() {
+        	public void actionPerformed(ActionEvent event){
+        		mi.setCurrScreen("Loadings");
+        	}
+        };
+        vm.getLoadingButton().addActionListener(Loading);
     
     }
     
