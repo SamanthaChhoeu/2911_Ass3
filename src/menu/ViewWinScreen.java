@@ -1,11 +1,15 @@
 package menu;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import game.ModelGame;
 
 public class ViewWinScreen extends JFrame implements Observer {
 
@@ -13,11 +17,14 @@ public class ViewWinScreen extends JFrame implements Observer {
     private ModelInterface mi;
     private JButton backToMainMenuButton;
     private PicturePanel mainPanel;
+    private JLabel winning, score;
+    private ModelGame mg;
 
-    public ViewWinScreen(ModelInterface mi) {
+    public ViewWinScreen(ModelInterface mi, ModelGame mg) {
         
         // the model interface is referenced to allow to view to get details from the model
         this.mi = mi;
+        this.mg = mg;
         setupWinScreen();
         
     }
@@ -29,7 +36,7 @@ public class ViewWinScreen extends JFrame implements Observer {
         // sets what happens when the user closes the window
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // sets the layout to a manual layout to enable full customisation of where the buttons are
-        this.setLayout(null);
+        //this.setLayout(null);
         // sets the window to show in the middle of the screen
         this.setLocationRelativeTo(null);
         
@@ -43,10 +50,21 @@ public class ViewWinScreen extends JFrame implements Observer {
         // add this panel to the frame
         this.add(mainPanel);
         
+        winning = new JLabel("You are the winner!", JLabel.CENTER);
+        winning.setBounds(0, 200, 1280, 50);
+        winning.setFont(new Font("Default", Font.BOLD, 50));
+        mainPanel.add(winning);
+        
+        String t = "" + mg.scoreCounter;
+        score = new JLabel("Your score is: " + t, JLabel.CENTER);
+        score.setBounds(0, 250, 1280, 50);
+        score.setFont(new Font("Default", Font.BOLD, 35));
+        mainPanel.add(score);
+        
         // creates a new button to quit the game
         backToMainMenuButton = new JButton("Back to Main Menu");
         backToMainMenuButton.setBounds(390, 525, 500, 50);
-        this.add(backToMainMenuButton);
+        mainPanel.add(backToMainMenuButton);
         
         
     }
