@@ -22,7 +22,7 @@ public class ModelGame extends Observable {
 
     private int moveCounter;
     private int scoreCounter;
-    private String Name;
+    private String Name;                 //save
 
     private Timer gameTimer;
     
@@ -43,7 +43,12 @@ public class ModelGame extends Observable {
     }
 
     public ModelGame(int Slot){
-        String filename = "saves/" + "slot" + Slot + ".txt";
+        openBoard(Slot);
+    }
+
+    public void openBoard(int slot){
+        String filename = "saves/" + "slot" + slot + ".txt";
+        System.out.println(filename);
         Scanner sc = null;
         try {
             int count  = 0;
@@ -54,10 +59,11 @@ public class ModelGame extends Observable {
                     this.Name = line;
                 }else if(count == 1){
                     String[] l = line.split("/");
-                    //System.out.println(l[0]+ " " + l[1]);
                     this.xSizeOfBoard = Integer.parseInt(l[0]);
                     this.ySizeOfBoard = Integer.parseInt(l[1]);
                     this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
+                    this.board = new String[ySizeOfBoard][xSizeOfBoard];
+                    System.out.println(xSizeOfBoard + " " + ySizeOfBoard);
                 }else if(count == 2){
                     String[] l = line.split("//");
                     //System.out.println(l[0]);
@@ -65,41 +71,37 @@ public class ModelGame extends Observable {
                         String[] k = l[i].split("/");
                         for(int j = 0; j<xSizeOfBoard; j++) {
                             //System.out.print(k[j]);
-                            this.sobokanBoard[i][j] = k[j];
+                            board[i][j] = k[j];
                         }
                         //System.out.println("");
                     }
                 }else if(count == 3){
-                        this.p = new Player(line);
+                    this.p = new Player(line);
+                    System.out.println(p.PrintLine());
                 }else if(count == 4){
                     String[] l = line.split("//");
                     ArrayList<Box> b = new ArrayList<>();
                     for(int i = 0; i<l.length; i++){
                         Box curr = new Box(l[i]);
+                        System.out.println(curr.PrintLine());
                         b.add(curr);
                     }
-                    boxes = b;
+                    this.boxes = b;
+                }else if(count == 5){
+                    this.scoreCounter = Integer.parseInt(line);
                 }
                 count++;
             }
-
-            printBoard(sobokanBoard);
+            this.moveCounter = 0;
+            start = System.currentTimeMillis();
         } catch (FileNotFoundException e) {
-            System.out.println("Issue with reading and or sorting out talk to ---> Jathurson");
+            System.out.println("Issue with reading Save file");
         } finally {
             if (sc != null) sc.close();
         }
+        this.sobokanBoard = board;
+        printBoard(sobokanBoard);
     }
-    
-    /*public void paint(Image g){System.out.println("image drawnnnnnnnnnnnnnnnnnnn");
-		//according to the map of the level, draw the image
-    	for (int i = 0; i < ySizeOfBoard; i++){
-        	for (int j = 0; j<xSizeOfBoard; j++){
-        		if(sobokanBoard[i][j].equals("w"))
-        			//g.
-			}		
-    		}
-	}*/
     
     public void generateBoard() {
         
@@ -125,8 +127,6 @@ public class ModelGame extends Observable {
     
     private String[][] randomGenerate(int xSizeOfBoard, int ySizeOfBoard){
 		// generate the board
-        // TODO @Sam @Jath Do the board generation here
-        // Good memes --> Make meme generator here
         // "0"  = free space
         // "p" = player
         // "w"  = wall
@@ -147,21 +147,13 @@ public class ModelGame extends Observable {
         	rowcount++;
         	row [0] = "w";
         	row [xSizeOfBoard-1] = "w";
-        } 
-        
+        }
         Random rand = new Random();
-        
         // place the player
-        // TODO good starting point: randomly place where the player starts
-
-        
         int xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
         int yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
         p = new Player(xPlayer, yPlayer);
         board[yPlayer][xPlayer] = "p";
-
-
-        
         // place 2 boxes
         // TODO good starting point: randomly place where the boxes are placed
         int noOfBoxes = 3;
@@ -178,7 +170,6 @@ public class ModelGame extends Observable {
             boxes.add(newBox);
             
         }
-        
         // set the goal for the boxes
         // TODO good starting point: randomly place where the goals for the boxes are
         int goal = 0;
@@ -189,16 +180,11 @@ public class ModelGame extends Observable {
         	while (board[yBox][xBox]  == "b"|| board[yBox][xBox] == "p"|| board[yBox][xBox] == "g"){	
         		xBox = rand.nextInt(xSizeOfBoard-3)+1;
                 yBox = rand.nextInt(ySizeOfBoard-3)+1;
-        	}   
-
+        	}
             board[yBox][xBox] = "g";
             goal++;
-
- 
         }
         System.out.println(goal);
-
-        
         // randomly put in walls
         // i upped the number of walls to see where theres errors
         int difficulty = 15; // number of walls
@@ -211,23 +197,18 @@ public class ModelGame extends Observable {
         	|| board[yWall+1][xWall+1] == "w" || board[yWall-1][xWall-1] == "w"|| board[yWall-1][xWall+1] == "w"|| board[yWall+1][xWall-1] == "w"
         	// make sure the goal isnt fully surrounded
         	|| board[yWall+1][xWall] == "g" || board[yWall-1][xWall] == "g"
-        	){	
-        		
+        	){
         		xWall = rand.nextInt(xSizeOfBoard-3)+1;
                 yWall = rand.nextInt(ySizeOfBoard-3)+1;
         	}
         	board[yWall][xWall] = "w";
         }
-        
-        
         return board;
 	}
     
     
     private String[][] reverseGenerate(int xSizeOfBoard, int ySizeOfBoard){
     	// generate the board
-        // TODO @Sam @Jath Do the board generation here
-        // Good memes --> Make meme generator here
         // "0"  = free space
         // "p" = player
         // "w"  = wall
