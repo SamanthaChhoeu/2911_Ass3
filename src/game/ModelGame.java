@@ -49,27 +49,29 @@ public class ModelGame extends Observable {
             int count  = 0;
             sc = new Scanner(new FileReader(filename));
             while (sc.hasNext() && count <= 5) {
-                count++;
                 String line = sc.nextLine();
                 if(count == 0) {
                     this.Name = line;
                 }else if(count == 1){
                     String[] l = line.split("/");
+                    //System.out.println(l[0]+ " " + l[1]);
                     this.xSizeOfBoard = Integer.parseInt(l[0]);
                     this.ySizeOfBoard = Integer.parseInt(l[1]);
-                }else if(count == 3){
+                    this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
+                }else if(count == 2){
                     String[] l = line.split("//");
-                    ArrayList<Box> b = new ArrayList<>();
-                    for(int i = 0; i<=xSizeOfBoard; i++){
+                    //System.out.println(l[0]);
+                    for(int i = 0; i<ySizeOfBoard; i++){   //i=y, j=x
                         String[] k = l[i].split("/");
-                        for(int j = 0; j<=ySizeOfBoard; j++) {
+                        for(int j = 0; j<xSizeOfBoard; j++) {
+                            //System.out.print(k[j]);
                             this.sobokanBoard[i][j] = k[j];
                         }
+                        //System.out.println("");
                     }
-                    boxes = b;
-                }else if(count == 4){
+                }else if(count == 3){
                         this.p = new Player(line);
-                }else if(count == 5){
+                }else if(count == 4){
                     String[] l = line.split("//");
                     ArrayList<Box> b = new ArrayList<>();
                     for(int i = 0; i<l.length; i++){
@@ -78,8 +80,10 @@ public class ModelGame extends Observable {
                     }
                     boxes = b;
                 }
-
+                count++;
             }
+
+            printBoard(sobokanBoard);
         } catch (FileNotFoundException e) {
             System.out.println("Issue with reading and or sorting out talk to ---> Jathurson");
         } finally {
@@ -1346,7 +1350,7 @@ public class ModelGame extends Observable {
                     out.print(board[i][j]);
                     out.print("/");
                 }
-                out.print("//");
+                out.print("/");
             }
             out.println("");
             //then player
