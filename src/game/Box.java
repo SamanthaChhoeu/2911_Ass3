@@ -1,6 +1,10 @@
 package game;
 
+/**
+ * Box Class Used to create and store boxes as the current box state
+ */
 public class Box {
+
 
     private int xPos;
     private int yPos;
@@ -9,7 +13,12 @@ public class Box {
     private boolean atGoal;
     private Box prev;
     private int move;
-    
+
+    /**
+     * Costructor to create a Box given its postions when it starts
+     * @param xPos
+     * @param yPos
+     */
     public Box(int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
@@ -20,6 +29,10 @@ public class Box {
         this.move = 0;
     }
 
+    /**
+     * Alternate Constructor to make a box given a string with all the needed data in it
+     * @param line
+     */
     public Box(String line){
             //int xPos, int yPos, int xPosStart, int yPosStart, boolean atGoal) {
         String[] l = line.split("/");
@@ -32,14 +45,25 @@ public class Box {
         this.move = 0;
     }
 
+    /**
+     * setter for the boxes move number
+     * @param move
+     */
     public void setMove(int move){
         this.move = move;
     }
 
+    /**
+     * getter to get the current move number
+     * @return
+     */
     public int getMove(){
         return this.move;
     }
-    
+
+    /**
+     * resets boxes start positions
+     */
     public void resetBox() {
         xPos = xPosStart;
         yPos = yPosStart;
