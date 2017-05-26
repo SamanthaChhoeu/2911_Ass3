@@ -59,7 +59,7 @@ public class ViewSettings extends JFrame implements Observer {
         lb.setBounds(98,100,100,100);
         
         //create below buttons to control and select music
-    	btnSwitch = new TranslucentButton("On");
+    	btnSwitch = new TranslucentButton("Off");
     	btnMusic1 = new JCheckBox("Music1");
     	btnMusic2 = new JCheckBox("Music2");
         btnSwitch.setBounds(100, 180, 100, 50);
