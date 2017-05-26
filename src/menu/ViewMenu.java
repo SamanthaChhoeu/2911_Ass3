@@ -153,7 +153,11 @@ public class ViewMenu extends JFrame implements Observer {
     public JButton getLoadingButton() {
     	return loadingButton;
     }
-    
+	    
+    public JButton getSaveButton() {
+    	return saveUserName;
+    }
+	
     public String getUserName() {
     	return userNameField.getText();
     }
