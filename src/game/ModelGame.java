@@ -3,7 +3,6 @@ package game;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Timer;
 
 public class ModelGame extends Observable {
 
@@ -27,6 +26,8 @@ public class ModelGame extends Observable {
     
     private int xGoal;
 	private int yGoal;
+	
+	private String[][] board;
     
     public ModelGame() {
         /*boxpics = new Image[2];
@@ -63,9 +64,9 @@ public class ModelGame extends Observable {
         start = System.currentTimeMillis();
         
         // samantha's generator
-        String[][] generatedBoard = reverseGenerate(xSizeOfBoard,ySizeOfBoard);
-       
-        sobokanBoard = generatedBoard;
+        board = reverseGenerate(xSizeOfBoard,ySizeOfBoard);
+        
+        sobokanBoard = board;
         printBoard(sobokanBoard);
         //printPathToGoal();
         
@@ -150,7 +151,7 @@ public class ModelGame extends Observable {
         
         // randomly put in walls
         // i upped the number of walls to see where theres errors
-        int difficulty = 20; // number of walls
+        int difficulty = 15; // number of walls
         for (int i = 0; i < difficulty; i++){
         	int xWall = rand.nextInt(xSizeOfBoard-3)+1;
         	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
@@ -185,7 +186,7 @@ public class ModelGame extends Observable {
         // "bg" = box at a goal
         // "pg" = player at a goal
         // This is just a basic board for testing purposes, change this function here
-        String[][] board = new String[ySizeOfBoard][xSizeOfBoard];
+        board = new String[ySizeOfBoard][xSizeOfBoard];
         // put in the walls
         int rowcount = 0;
         for (String[] row: board){
@@ -208,8 +209,11 @@ public class ModelGame extends Observable {
         	int xWall = rand.nextInt(xSizeOfBoard-3)+1;
         	int yWall = rand.nextInt(ySizeOfBoard-3)+1;
         	board[yWall][xWall] = "w";
+        	System.out.println("============================== BEFORE FILL ==============================");
+        	printBoard(board);
+        	System.out.println("============================== BEFORE FILL ==============================");
+        	fill(); 
         	
-        	fill(board);  	
         	
         }
         
@@ -223,39 +227,23 @@ public class ModelGame extends Observable {
         }
         p = new Player(xPlayer, yPlayer);
         board[yPlayer][xPlayer] = "p";
-        
-        // choose random locations for the goal
-        int noOfBoxes = 4; // should be 3 its changed for debugging
-        
-        for (int i = 0; i < noOfBoxes; i++) {
-        	
-            // first box
-        	board = boxPull(board);        	
-        	
-        	// second box
-        	//board = boxTurn(board);
-        	
-        	// third box
-        
-            
 
- 
-        }
+        // first box
+        board = boxPull();
+        board = boxPull();
+        board = boxPull();
+        // second box
         
-        
-        
-        
-        // TODO fill in all four corners
+        // board = boxTurn(board);
+        //third box
         
         return board;
-        
-        
-        
+     
     }
     
     
     // TODO algorithm to fill in useless space
-    private String[][] fill(String[][] board){
+    private String[][] fill(){
 
     	
     	// go through each coordinate
@@ -264,8 +252,8 @@ public class ModelGame extends Observable {
     			// check space above
     	    	if (board[y][x] == "0"){
     	    		// make the space in the middle a wall
-    	    		if (countAround(x, y, board)==4||countAround(x, y, board)==3){
-    	    			board[y][x] = "w";
+    	    		if (countAround(x, y, board)==4){
+    	    			//board[y][x] = "w";
     	    		}
     	    	// checkerboard
     	    	} else if (board[y][x] == "w"){
@@ -274,7 +262,7 @@ public class ModelGame extends Observable {
         	    		board[y-1][x] = "w";
         	    	} else if (board[y-1][x+1] == "w"){
     	    			board[y-1][x] = "w";
-    	    			board[y][x+1] = "w";
+    	    			//board[y][x+1] = "w";
     	    		}
     	    	}
     	     	
@@ -315,60 +303,41 @@ public class ModelGame extends Observable {
     // function for going straight until you can't and then turning
     // x coord, y coord
     // direction up-0, right-1, down-2, left-3
-    private String[][] goStraight(int direction, String[][] board){
+    private String[][] goStraight(int direction){
     	// up
     	if (direction == 0){
-    		
-    		// avoid this situation
-        	// owo
-        	// wow
-    		while (!(board[y-2][x] == "w"  && (board[y-1][x+1] == "w" && board[y-1][x-1] ==  "w"))&&clear(y-1,x,board)&&clear(y-2,x,board)
-    				){
-    			// if can't access y-1,x (then iterate down)
+  		
+    		while (goUp()){
+    	
+    		// if can't access y-1,x (then iterate down)
     			
-    			System.out.println("up");
-    			y--;
+	    		System.out.println("up");
+	    		y--;
     		}
     		//board[y][x] = "x";
     	// right
     	} else if (direction == 1){
-    		
-    		// avoid this situation
-    		// w0
-        	// 0w
-        	// w0
-        	
-        	
-    		while (!(board[y][x+2] == "w"  && (board[y+1][x+1] == "w" && board[y-1][x+1] == "w"))&&clear(y,x+1,board) &&clear(y,x+2,board)){
+
+    		while (goRight()){
+
     			System.out.println("right");
     			x++;
     		}
     		//board[y][x] = "x";
-    	// down
-    		
-    	} else if (direction == 2){
-    		
-    		// avoid this situation
-        	
-        	// wow
-        	// owo
-    		while (!(board[y+2][x] == "w" && (board[y+1][x-1] == "w" && board[y+1][x+1] == "w")) &&clear(y+1,x,board)&&clear(y+2,x,board)){
-    			System.out.println("down");
-    			//System.out.println(board[y+2][x] + board[y+3][x] + board[y+2][x-1] + board[y+2][x+1]);
-    			y++;
-    		}
-    		//board[y][x] = "x";
-    	// left
-    	} else if (direction == 3){
-    		
-    		// avoid this situation
-
-        	// 0w
-        	// w0
-        	// 0w
-    		while (!(board[y][x-2] == "w"&& (board[y+1][x-1] == "w"&& board[y-1][x-1] == "w" )) &&clear(y,x-1,board) &&clear(y,x-2,board)){
-    			System.out.println("left");
-    			x--;
+        	// down
+        		
+        	} else if (direction == 2){
+        		while (goDown()){
+        			System.out.println("down");
+        			//System.out.println(board[y+2][x] + board[y+3][x] + board[y+2][x-1] + board[y+2][x+1]);
+        			y++;
+        		}
+        		//board[y][x] = "x";
+        	// left
+        	} else if (direction == 3){
+        		while (goLeft()){
+           			System.out.println("left");
+        			x--;
     		}
     		//board[y][x] = "x";
     	}
@@ -378,6 +347,47 @@ public class ModelGame extends Observable {
     }
     
     
+
+    private boolean goRight(){
+    	// avoid this situation
+		// w0
+    	// 0w
+    	// w0
+    	if (!clear(y,x+1) && board[y][x+2] != "w"  &&  !(board[y][x+2] == "w"  && !(board[y+1][x+1] == "w" && board[y-1][x+1] == "w"))){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    private boolean goLeft(){
+    	// avoid this situation
+
+    	// 0w
+    	// w0
+    	// 0w
+    	if (clear(y,x-1) && board[y][x-2] != "w" && !(board[y][x-2] == "w"&& (board[y+1][x-1] == "w"&& board[y-1][x-1] == "w" ))){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    private boolean goUp(){
+    	// avoid this situation
+    	// owo
+    	// wow
+    	if (!clear(y-1,x) && board[y-2][x] != "w" && !(board[y-2][x] == "w" && (board[y-1][x+1] == "w" && board[y-1][x-1] ==  "w"))){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    private boolean goDown(){
+    	if (!clear(y+1,x) && board[y+2][x] != "w" && !(board[y+2][x] == "w" && (board[y+1][x-1] == "w" && board[y+1][x+1] == "w"))){
+    		return true;
+    	}
+    	
+    	return false;
+    }
     
     // TODO Algorithm to generate the path of the first box
     // generates walls randomly
@@ -385,7 +395,7 @@ public class ModelGame extends Observable {
     // pretends to put a block there (2x1 to represent block and player) and then reverse to a random location
     // the new location is now where the block starts.
     // this works because we reverse which is the opposite of pushing
-    private String[][] boxPull(String[][] board){
+    private String[][] boxPull(){
     	Random rand = new Random();
     	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
     	xGoal = rand.nextInt(xSizeOfBoard-3)+1;
@@ -423,9 +433,9 @@ public class ModelGame extends Observable {
         			// if box is free to be pulled upwards
         			if (board[y-1][x] != "w" && board[y-2][x] != "w" ){
                     	//board[y-1][x] = "x";
-                    	board = goStraight(0,board);
+                    	board = goStraight(0);
                     	// if end of straight is unreachable then iterate back down one
-                    	while (!clear(y-1,x,board) && !clear(y,x-1,board) && !clear(y,x+1,board)){
+                    	if (!clear(y-1,x) && (!clear(y,x-1) || !clear(y,x+1))){
                     		y++;
                     	}
                     	turns ++;
@@ -435,9 +445,9 @@ public class ModelGame extends Observable {
                     // if box is free to be pulled downwards
                     } else if (board[y+1][x] != "w" && board[y+2][x] != "w" ){
                     	//board[y+1][x] = "x";
-                    	board = goStraight(2,board);
+                    	board = goStraight(2);
                     	// if end of straight is unreachable then iterate upwards
-                    	while (!clear(y+1,x,board) && !clear(y,x-1,board) && !clear(y,x+1,board)){
+                    	if (!clear(y+1,x) && (!clear(y,x-1) || !clear(y,x+1))){
                     		y--;
                     	}
                     	vert = 1;
@@ -453,9 +463,9 @@ public class ModelGame extends Observable {
         			// if box is free to be pulled downwards
                     if (board[y+1][x] != "w" && board[y+2][x] != "w" ){
                     	//board[y+1][x] = "x";
-                    	board = goStraight(2,board);
+                    	board = goStraight(2);
                     	// if end of straight is unreachable then iterate upwards
-                    	while (!clear(y+1,x,board) && !clear(y,x-1,board) && !clear(y,x+1,board)){
+                    	if (!clear(y+1,x) && (!clear(y,x-1) || !clear(y,x+1))){
                     		y--;
                     	}
                     	vert = 1;
@@ -465,9 +475,9 @@ public class ModelGame extends Observable {
                     // if box is free to be pulled upwards
                     } else if (board[y-1][x] != "w" && board[y-2][x] != "w"   ){
                     	//board[y-1][x] = "x";
-                    	board = goStraight(0,board);
+                    	board = goStraight(0);
                     	// if end of straight is unreachable then iterate back down one
-                    	while (!clear(y-1,x,board) && !clear(y,x-1,board) && !clear(y,x+1,board)){
+                    	if (!clear(y-1,x) && (!clear(y,x-1) || !clear(y,x+1))){
                     		y++;
                     	}
                     	turns ++;
@@ -487,9 +497,9 @@ public class ModelGame extends Observable {
         			// if box is free to be pulled left
         			if (board[y][x-1] != "w" && board[y][x-2] != "w" ){
                     	//board[y+1][x-1] = "x";
-                    	board = goStraight(3,board);
+                    	board = goStraight(3);
                     	// if end of straight is unreachable then iterate back to te right
-                    	while (!clear(y-1,x,board) && !clear(y,x-1,board) && !clear(y+1,x,board)){
+                    	if ((!clear(y-1,x) || !clear(y+1,x)) && !clear(y,x-1)){
                     		x++;
                     	}
                     	vert = 0;
@@ -498,9 +508,9 @@ public class ModelGame extends Observable {
                     //if box is free to be pulled right
         			} else if (board[y][x+1] != "w" && board[y][x+2] != "w"  ){
                     	//board[y][x+1] = "x";
-                    	board = goStraight(1,board);
+                    	board = goStraight(1);
                     	// if end of straight is unreachable then iterate back to the left
-                    	while (!clear(y-1,x,board) && !clear(y,x+1,board) && !clear(y+1,x,board)){
+                    	if ((!clear(y-1,x) || !clear(y+1,x))&& !clear(y,x+1) ){
                     		x--;
                     	}
                     	vert = 0;
@@ -518,9 +528,9 @@ public class ModelGame extends Observable {
         			// if box is free to be pulled right
                     if (board[y][x+1] != "w" && board[y][x+2] != "w" ){
                     	//board[y][x+1] = "x";
-                    	board = goStraight(1,board);
+                    	board = goStraight(1);
                     	// if end of straight is unreachable then iterate back to the left
-                    	while (!clear(y-1,x,board) && !clear(y,x+1,board) && !clear(y+1,x,board)){
+                    	if ((!clear(y-1,x) || !clear(y+1,x))&& !clear(y,x+1) ){
                     		x--;
                     	}
                     	vert = 0;
@@ -529,9 +539,9 @@ public class ModelGame extends Observable {
                     // if box is free to be pulled left
                     } else if (board[y][x-1] != "w" && board[y][x-2] != "w" ){
                     	//board[y+1][x-1] = "x";
-                    	board = goStraight(3,board);
+                    	board = goStraight(3);
                     	// if end of straight is unreachable then iterate back to te right
-                    	while (!clear(y-1,x,board) && !clear(y,x-1,board) && !clear(y+1,x,board)){
+                    	if ((!clear(y-1,x) || !clear(y+1,x)) && !clear(y,x-1) ){
                     		x++;
                     	}
                     	vert = 0;
@@ -544,18 +554,15 @@ public class ModelGame extends Observable {
         		}
    
         	}
-        	
-
-            
 
         }
         System.out.println("TEST goal coords"+"x: "+xGoal+" y: "+yGoal);
     	System.out.println("TEST box coords"+"x: "+x+" y: "+y);
         // if the new box is on an existing goal then ignore and try to find a new goal plus start box location
-        if (board[y][x] == "b" || board[y][x] == "g"||board[yGoal][xGoal]=="b"||board[yGoal][xGoal]=="p"){
-        	boxPull(board);
+        if (board[y][x] == "b" || board[y][x] == "g"||board[y][x] == "p" || board[yGoal][xGoal]=="b"|| board[yGoal][xGoal]=="g"||board[yGoal][xGoal]=="p"){
+        	boxPull();
         } else if (y == yGoal && x==xGoal){	
-        	boxPull(board);
+        	boxPull();
     	} else {
         	System.out.println("goal coords"+"x: "+xGoal+" y: "+yGoal);
         	System.out.println("box coords"+"x: "+x+" y: "+y);
@@ -569,15 +576,18 @@ public class ModelGame extends Observable {
     }
     
     // function that checks if a coordinate is a wall or a box
-    private boolean clear(int y, int x, String[][] board){
+    private boolean clear(int y, int x){
     	if (board[y][x] == "w" || board[y][x] == "b"||board[y][x] == "p"){ // should maybe comment player out
     		return false;
-    	}
+    	} 
+    	
     	return true;
     }
     
+    
+    
     // TODO algorithm to generate the path of the second box
-    private String[][] boxTurn(String[][] board){
+    private String[][] boxTurn(){
     	
     	Random rand = new Random();
     	// randomly place box - x range(2,x-2) & y range (2,y-2)       	
@@ -616,9 +626,9 @@ public class ModelGame extends Observable {
     		}
     	}
     	if (board[y][x] == "b" || board[y][x] == "g"||board[yGoal][xGoal]=="b"||board[yGoal][xGoal]=="p"){
-        	boxTurn(board);
+        	boxTurn();
         } else if (y == yGoal && x==xGoal){	
-        	boxTurn(board);
+        	boxTurn();
     	} else {
         	System.out.println("goal coords"+"x: "+xGoal+" y: "+yGoal);
         	System.out.println("box coords"+"x: "+x+" y: "+y);
@@ -629,14 +639,40 @@ public class ModelGame extends Observable {
             
         }
 		return board;
-    	
+
     }
     
+    
+    private int count(int dir){
+    	
+    	// store x and y
+    	int xco = x;
+    	int yco = y;
+    	
+    	
+    	// dir 0 up; 1 down; 2 left; 3 right
+    	int count = 0;
+    	
+    	if (dir == 0){
+    		while (goUp()){
+    			
+    		}
+    	} else if (dir == 1){
+    		
+    	} else if (dir == 2){
+    		
+    	} else if (dir == 3){
+    		
+    	}
+    	
+    	return count;
+    }
+
     // TODO function for always try to turn
     // return the next move that the generator will make to create a path betwen the goal and box
     // last - is the previous move where 0 up; 1 down; 2 left; 3 right
     private int turn(int last){
-    	 
+    	Random rand = new Random();
     	
     	int next = 0;
     	
@@ -644,13 +680,54 @@ public class ModelGame extends Observable {
     	// if last move was vertical
     	if (last == 0 || last == 1){
     		// try to go left or right
-    		
+    		// if you can go left and right
+    		if (goLeft() && goRight()){
+				int rng = rand.nextInt(2);
+				if (rng == 0){
+					// go left
+					return 2;
+				} else {
+					// go right
+					return 3;
+				}
+				
+    		// if you can only go left
+    		} else if(goLeft()){
+    			return 2;
+    		// if you can only go right
+    		} else if (goRight()){
+    			return 3;
     		// otherwise continue in the direction you were going
+    		} else {
+    			return last;
+    		}
+    		
+    		
     	// if last move was horizontal
     	} else if (last == 2 || last == 3){
     		
     		// try to go up or down
-    		// otherwise continue in the direction you were going
+    		// if you can go up and down
+    		if (goUp() && goDown()){
+    			int rng = rand.nextInt(2);
+				if (rng == 0){
+					// go up
+					return 0;
+				} else {
+					// go down
+					return 1;
+				}
+    		// if you can only go up
+    		} else if(goUp()){
+    			return 0;
+    		// if you can only go down
+    		} else if (goDown()){
+    			return 1;
+    		// otherwise continue in the direction you were going	
+    		} else {
+    			return last;
+    		}
+    		
     	// if it is the first move
     	} else{
     	
