@@ -18,6 +18,7 @@ public class ControllerMenu {
     private ModelInterface mi;
     private ViewMenu vm;
     private ModelGame mg;
+    private ActionListener guide;
     private ActionListener playGame;
     private ActionListener signUp;
     private ActionListener goToSettings;
@@ -63,7 +64,13 @@ public class ControllerMenu {
     public void setupController() {
         // creates the action when the play button is pressed
 
-
+        guide = new ActionListener() {
+             public void actionPerformed(ActionEvent event) {
+                 mi.setCurrScreen("Guide");
+             }
+         };
+         vm.getguideButton().addActionListener(guide);
+        
         signUp = new ActionListener() {
     		public void actionPerformed(ActionEvent event) {
     			String name = (String)JOptionPane.showInputDialog(null,"Enter your Username:","Sign up",JOptionPane.PLAIN_MESSAGE,null,null,null);

@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.JCheckBox;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequencer;
@@ -15,9 +18,9 @@ public class ControllerSettings {
     private ViewSettings vs;
     private ActionListener backToMenu;
     private ActionListener musicSwitch;
-    private ActionListener music01;
-    private ActionListener music02;
-     private static Sequencer midiPlayer;
+    private ItemListener music01;
+    private ItemListener music02;
+    private static Sequencer midiPlayer;
     boolean play = true;
     boolean stop = false;
     
@@ -45,48 +48,78 @@ public class ControllerSettings {
         musicSwitch = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
             //performance after music on
-             if(vs.getbtnSwitch().getText().equals("On")){
-            		vs.getbtnSwitch().setText("Off");
-                    if(play){
-            			musicstop();
-            			play = false;
-            			stop = true;
-            		}
-            	}else if(vs.getbtnSwitch().getText().equals("Off")){
-            		vs.getbtnSwitch().setText("On");
-                    if(stop){
-            			Sound("music02.mid");
-            			play = true;
-            			stop = false;
-            		}
-            	}  
-            }
-        };
+				if(vs.getbtnSwitch().getText().equals("On")){
+					vs.getbtnSwitch().setText("Off");
+					if(play){
+						//musicstop();
+						play = false;
+						stop = true;
+					}
+				}else if(vs.getbtnSwitch().getText().equals("Off")){
+					vs.getbtnSwitch().setText("On");
+					if(stop){
+						//Sound("music02.mid");
+						play = true;
+						stop = false;
+					}
+				}  
+			}
+		};
         vs.getbtnSwitch().addActionListener(musicSwitch);
         
-       
-        
-        music01 = new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-            	//music1
-                if(!play && stop && vs.getbtnSwitch().getText().equals("On")){
-                // Sound("filename.mid");
-                 play = true;
-                 stop = false;
-                }
-            }
-        };
-        vs.getbtnMusic1().addActionListener(music01);
-        
-        music02 = new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-            //music2	
-                
-            }
-        };
-        vs.getbtnMusic2().addActionListener(music02);
-        
+       //There is only one background music can be selected each time, if all of musics are not be selected, then off the sound.
+       music01 = new ItemListener(){
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				Object source = e.getItemSelectable();
+				 if ( e.getStateChange() == ItemEvent.DESELECTED ) {
+					 //...make a note of it...
+					 vs.getbtnSwitch().setText("On");
+					 //musicstop("music01.mid");
+					 stop = true;
+					 play = false;
+				  }
+				else {
+					 //...make a note of it...
+					 vs.getbtnMusic2().setSelected( false );
+					 vs.getbtnSwitch().setText("Off");
+					 //Sound("file.mid");
+					 play = true;
+					 stop = false;
+				}    
+			}
+		};     	
+		vs.getbtnMusic1().addItemListener(music01);
+        	
+		music02 = new ItemListener(){
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				  Object source = e.getItemSelectable();
+				  if (e.getStateChange() == ItemEvent.DESELECTED){
+					 //...make a note of it...
+					 stop = true;
+					 play = false;
+					 vs.getbtnSwitch().setText("On");
+					 //musicstop("music01.mid");
+
+				 }
+				 else {
+					 //...make a note of it...
+					vs.getbtnSwitch().setText("Off");
+					 vs.getbtnMusic1().setSelected(false);
+					 play = true;
+					 stop = false;
+				 }
+			 }
+		};     	
+		vs.getbtnMusic2().addItemListener(music02);   
     }
+    
+    
      public static boolean Sound(String midFilename) {
     	boolean play = false;
         try {
@@ -107,6 +140,8 @@ public class ControllerSettings {
         }
        return play;
      }
+    
+    
      boolean musicstop(){
        boolean stop = false;
        midiPlayer.stop();
