@@ -49,19 +49,30 @@ public class ControllerSettings {
         musicSwitch = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
             //performance after music on
-				if(vs.getbtnSwitch().getText().equals("On")){
-					vs.getbtnSwitch().setText("Off");
-					if(play){
-						//musicstop();
-						play = false;
-						stop = true;
-					}
-				}else if(vs.getbtnSwitch().getText().equals("Off")){
+				if(vs.getbtnSwitch().getText().equals("Off")){
 					vs.getbtnSwitch().setText("On");
+					if(play1){
+						musicstop("src/music01.mid");
+						play1 = false;
+						play2 = false;
+						stop = true;
+						vs.getbtnMusic1().setSelected(false);
+					}else if(play2){
+						musicstop("src/music02.mid");
+						play2 = false;
+						stop = true;
+						play1 = false;
+						vs.getbtnMusic2().setSelected(false);
+					}
+		 
+				}else if(vs.getbtnSwitch().getText().equals("On")){
+					vs.getbtnSwitch().setText("Off");
 					if(stop){
-						//Sound("music02.mid");
-						play = true;
+						play1 = true;
+						play2 = false;
 						stop = false;
+						vs.getbtnMusic1().setSelected(true);
+						vs.getbtnMusic2().setSelected(false);
 					}
 				}  
 			}
@@ -72,28 +83,35 @@ public class ControllerSettings {
        music01 = new ItemListener(){
 
 			@Override
+			/**
+			 * Check any change made by checkbox, if the box is selected, then first music would be played
+			 * if the box is not selected, then no music would be played
+			 */
 			public void itemStateChanged(ItemEvent e) {
 				// TODO Auto-generated method stub
 				Object source = e.getItemSelectable();
 				 if ( e.getStateChange() == ItemEvent.DESELECTED ) {
 					 //...make a note of it...
-					 vs.getbtnSwitch().setText("On");
-					 //musicstop("music01.mid");
-					 stop = true;
-					 play = false;
-				  }
-				else {
-					 //...make a note of it...
 					 vs.getbtnMusic2().setSelected( false );
+					 vs.getbtnMusic1().setSelected( false );
+					 vs.getbtnSwitch().setText("On");
+					 musicstop("src/music01.mid");
+					 stop = true;
+					 play1 = false;
+				  }
+				 else if (e.getStateChange() != ItemEvent.DESELECTED) {
+					 //...make a note of it...
+					 vs.getbtnMusic2().setSelected(false);
+					 vs.getbtnMusic1().setSelected(true);
 					 vs.getbtnSwitch().setText("Off");
-					 //Sound("file.mid");
-					 play = true;
+					 Sound("src/music01.mid");
+					 play1 = true;
 					 stop = false;
 				}    
 			}
 		};     	
 		vs.getbtnMusic1().addItemListener(music01);
-        	
+        //Same as music01 	
 		music02 = new ItemListener(){
 
 			@Override
@@ -103,24 +121,32 @@ public class ControllerSettings {
 				  if (e.getStateChange() == ItemEvent.DESELECTED){
 					 //...make a note of it...
 					 stop = true;
-					 play = false;
+					 play2 = false;
+					 vs.getbtnMusic2().setSelected( false );
+					 vs.getbtnMusic1().setSelected( false );
 					 vs.getbtnSwitch().setText("On");
-					 //musicstop("music01.mid");
+					 musicstop("src/music02.mid");
 
 				 }
-				 else {
+				 else if (e.getStateChange() != ItemEvent.DESELECTED) {
 					 //...make a note of it...
+					vs.getbtnMusic2().setSelected(true);
+					vs.getbtnMusic1().setSelected(false);
 					vs.getbtnSwitch().setText("Off");
-					 vs.getbtnMusic1().setSelected(false);
-					 play = true;
-					 stop = false;
+					Sound("src/music02.mid");
+					play2 = true;
+					stop = false;
 				 }
 			 }
 		};     	
 		vs.getbtnMusic2().addItemListener(music02);   
     }
     
-    
+    /**
+     * Read the music file and play the music, set it repeat 100 times.
+     * @param midFilename
+     * @return play
+     */
      public static boolean Sound(String midFilename) {
     	boolean play = false;
         try {
@@ -129,7 +155,7 @@ public class ControllerSettings {
            midiPlayer = MidiSystem.getSequencer();
            midiPlayer.open();
            midiPlayer.setSequence(song);
-           midiPlayer.setLoopCount(0); // repeat 0 times (play once)
+           midiPlayer.setLoopCount(100); // repeat 0 times (play once)
            midiPlayer.start();
            play = true;
         } catch (MidiUnavailableException e) {
@@ -142,8 +168,7 @@ public class ControllerSettings {
        return play;
      }
     
-    
-     boolean musicstop(){
+     boolean musicstop(String str){
        boolean stop = false;
        midiPlayer.stop();
        midiPlayer.close();
@@ -152,3 +177,4 @@ public class ControllerSettings {
     }
 
 }
+
