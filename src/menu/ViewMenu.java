@@ -11,15 +11,15 @@ public class ViewMenu extends JFrame implements Observer {
     private static final long serialVersionUID = 1L;
     private ModelInterface mi;
     private JPanel mainPanel;
-    private JButton playButton;
-    private JButton settingsButton;
+    private TranslucentButton playButton;
+    private TranslucentButton settingsButton;
     //private JButton signupButton;
-    private JButton quitButton;
-	private JButton guideButton;
+    private TranslucentButton quitButton;
+	private TranslucentButton guideButton;
 	private JTable highScoreTable;
 	private JTextField userNameField;
-	private JButton saveUserName;
-	private JButton loadingButton;
+	private TranslucentButton saveUserName;
+	private TranslucentButton loadingButton;
 
     public ViewMenu (ModelInterface mi) {   
         
