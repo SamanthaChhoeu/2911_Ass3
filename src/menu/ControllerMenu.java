@@ -56,7 +56,7 @@ public class ControllerMenu {
     			mg.setName(name);
     		}
     	};
-    	
+    	vm.getSaveButton().addActionListener(Save);
         
         playGame = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
