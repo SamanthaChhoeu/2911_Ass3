@@ -2,6 +2,7 @@ package menu;
 
 import game.Box;
 import game.Player;
+import javafx.scene.text.Font;
 
 import java.awt.Color;
 import java.io.FileNotFoundException;
@@ -13,6 +14,7 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ViewLoadings extends JFrame implements Observer{
@@ -20,6 +22,7 @@ public class ViewLoadings extends JFrame implements Observer{
 	private JPanel mainPanel;
 	private JButton One, Two, Three, Four, Five;
 	private JButton quitButton;
+	private JLabel header;
 	
 	public ViewLoadings(ModelInterface mi){
 		this.mi = mi;
@@ -54,24 +57,28 @@ public class ViewLoadings extends JFrame implements Observer{
         String name4 = getName(4);
         String name5 = getName(5);
         
+        header = new JLabel("Choose which file to load!", JLabel.CENTER);
+        header.setBounds(100, 150, 500, 50);
+        mainPanel.add(header);
+        
         One= new TranslucentButton(name1);
-        One.setBounds(100, 150, 500, 50);
+        One.setBounds(100, 230, 500, 50);
         //signupButton.setBorderPainted(false);
         mainPanel.add(One);
 
 
         Two= new TranslucentButton(name2);
-        Two.setBounds(100, 250, 500, 50);
+        Two.setBounds(100, 310, 500, 50);
         //signupButton.setBorderPainted(false);
         mainPanel.add(Two);
         
         Three= new TranslucentButton(name3);
-        Three.setBounds(100, 350, 500, 50);
+        Three.setBounds(100, 390, 500, 50);
         //signupButton.setBorderPainted(false);
         mainPanel.add(Three);
         
         Four= new TranslucentButton(name4);
-        Four.setBounds(100, 450, 500, 50);
+        Four.setBounds(100, 470, 500, 50);
         //signupButton.setBorderPainted(false);
         mainPanel.add(Four);
         
