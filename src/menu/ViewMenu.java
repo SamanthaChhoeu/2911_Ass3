@@ -16,6 +16,7 @@ public class ViewMenu extends JFrame implements Observer {
     private JButton signupButton;
     private JButton quitButton;
     private JButton rankingButton;
+	private JButton guideButton;
 
     public ViewMenu (ModelInterface mi) {   
         
@@ -41,7 +42,14 @@ public class ViewMenu extends JFrame implements Observer {
         mainPanel.setVisible(true);
         mainPanel.setBackground(Color.DARK_GRAY);
         this.getContentPane().add(mainPanel);
-
+		
+		
+		guideButton = new JButton("Guide");
+        guideButton.setBounds(390, 150, 500, 50);
+        this.add(guideButton);
+		
+		
+		
         rankingButton = new TranslucentButton("Ranking list");
         rankingButton.setBounds(390, 225, 500, 50);
         //rankingButton.setOpaque(false);
@@ -101,6 +109,10 @@ public class ViewMenu extends JFrame implements Observer {
     }
     public JButton getSignupButton(){
     	return signupButton;
+    }
+	
+	public JButton getguideButton(){
+    	return guideButton;
     }
     
     public JButton getRankingButton(){
