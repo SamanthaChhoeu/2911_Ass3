@@ -21,7 +21,7 @@ public class ModelGame extends Observable {
     private int y;
 
     private int moveCounter;
-    private int scoreCounter;
+    public int scoreCounter;
     private String Name;                 //save
 
     private Timer gameTimer;
@@ -1414,6 +1414,7 @@ public class ModelGame extends Observable {
         if(this.Name == null){
             this.Name = ("UnNamed" + lines);
         }
+        System.out.println(this.Name);
 
         String filename = "saves/" + "slot" + Slot + ".txt";
 
