@@ -15,11 +15,12 @@ public class ViewMenu extends JFrame implements Observer {
     private TranslucentButton settingsButton;
     //private JButton signupButton;
     private TranslucentButton quitButton;
-	private TranslucentButton guideButton;
-	private JTable highScoreTable;
-	private JTextField userNameField;
-	private TranslucentButton saveUserName;
-	private TranslucentButton loadingButton;
+    private TranslucentButton guideButton;
+    private JTable highScoreTable;
+    private JTextField userNameField;
+    private TranslucentButton saveUserName;
+    private TranslucentButton loadingButton;
+    private JLabel afterSaving;
 
     public ViewMenu (ModelInterface mi) {   
         
@@ -134,7 +135,17 @@ public class ViewMenu extends JFrame implements Observer {
     	return signupButton;
     }*/
 	
-	public JButton getguideButton(){
+    public void disableSaving() {
+    	userNameField.setVisible(false);
+    	saveUserName.setVisible(false);
+    	String input = "Welcome " + userNameField.getText() + " !";
+    	afterSaving = new JLabel(input, JLabel.CENTER);
+    	afterSaving.setFont(new Font("Default", Font.PLAIN, 20));
+    	afterSaving.setBounds(700, 300, 500, 25);
+    	mainPanel.add(afterSaving);
+    }
+	
+    public JButton getguideButton(){
     	return guideButton;
     }
     

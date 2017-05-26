@@ -54,6 +54,7 @@ public class ControllerMenu {
     		public void actionPerformed(ActionEvent event) {
     			String name = vm.getUserName();
     			mg.setName(name);
+                vm.disableSaving();
     		}
     	};
     	vm.getSaveButton().addActionListener(Save);
