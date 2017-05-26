@@ -1,6 +1,4 @@
-package game;
-
-import java.util.ArrayList;
+package menu;
 
 /**
  * Meme class
@@ -26,6 +24,10 @@ public class User implements Comparable<User> {
 
     public void setScore(int score){
         this.score = score;
+    }
+
+    public int getRank() {
+        return this.rank;
     }
 
     public int getScore(){

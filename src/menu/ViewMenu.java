@@ -15,8 +15,10 @@ public class ViewMenu extends JFrame implements Observer {
     private JButton settingsButton;
     private JButton signupButton;
     private JButton quitButton;
-    private JButton rankingButton;
 	private JButton guideButton;
+	private JTable highScoreTable;
+	private JTextField userNameField;
+	private JButton saveUserName;
 
     public ViewMenu (ModelInterface mi) {   
         
@@ -32,55 +34,69 @@ public class ViewMenu extends JFrame implements Observer {
         this.setSize(mi.getDimensions());
         // sets what happens when the user closes the window
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // sets the layout to a manual layout to enable full customisation of where the buttons are
-        //this.setLayout(null);
         // sets the window to show in the middle of the screen
         this.setLocationRelativeTo(null);
+        // the frame is no longer resizable
+        this.setResizable(false);
 
+        // create a panel on top of the frame which holds all the UI elements
         mainPanel = new PicturePanel();
+        // manually place all the elements
         mainPanel.setLayout(null);
-        mainPanel.setVisible(true);
+        //mainPanel.setVisible(true);
+        // sets the panel to a colour if picture not working TODO delete this once complete
         mainPanel.setBackground(Color.DARK_GRAY);
-        this.getContentPane().add(mainPanel);
-		
-		
-		guideButton = new JButton("Guide");
-        guideButton.setBounds(390, 150, 500, 50);
-        mainPanel.add(guideButton);
-		
-		
-		
-        rankingButton = new TranslucentButton("Ranking list");
-        rankingButton.setBounds(390, 225, 500, 50);
-        //rankingButton.setOpaque(false);
-        //rankingButton.setContentAreaFilled(false);
-        //rankingButton.setBorderPainted(false);
-        mainPanel.add(rankingButton);
+        // add this panel to the frame
+        this.add(mainPanel);
+        //this.getContentPane().add(mainPanel);
         
         signupButton= new TranslucentButton("Sign up");
-        signupButton.setBounds(390, 300, 500, 50);
+        signupButton.setBounds(100, 150, 500, 50);
         //signupButton.setBorderPainted(false);
         mainPanel.add(signupButton);
 	    
         // creates a new button to start playing the game
         playButton = new TranslucentButton("Play");
         // sets the size and the position of the buttons (only works for null layout)
-        playButton.setBounds(390, 375, 500, 50);
-        //playButton.setBorderPainted(false);
+        playButton.setBounds(100, 300, 500, 50);
         // adds the play button to the current frame
         mainPanel.add(playButton);
-        
+
+        guideButton = new TranslucentButton("Guide");
+        guideButton.setBounds(100, 375, 500, 50);
+        mainPanel.add(guideButton);
+
         // creates a new button to access the settings of the game
         settingsButton = new TranslucentButton("Settings");
-        settingsButton.setBounds(390, 450, 500, 50);
-        //settingsButton.setBorderPainted(false);
+        settingsButton.setBounds(100, 450, 500, 50);
         mainPanel.add(settingsButton);
         
         // creates a new button to quit the game
         quitButton = new TranslucentButton("Quit");
-        quitButton.setBounds(390, 525, 500, 50);
-        //quitButton.setBorderPainted(false);
+        quitButton.setBounds(100, 525, 500, 50);
         mainPanel.add(quitButton);
+
+        String[] columnNames = {"Rank", "Name", "Score"};
+        Object[][] data = mi.populateTable();
+
+        userNameField = new JTextField(20);
+        userNameField.setBounds(700, 300, 400, 25);
+        mainPanel.add(userNameField);
+
+        saveUserName = new TranslucentButton("Save");
+        saveUserName.setBounds(1125, 300, 75, 25);
+        mainPanel.add(saveUserName);
+
+        highScoreTable = new JTable(data, columnNames);
+        highScoreTable.setBounds(700, 350, 500, 225);
+        highScoreTable.setFont(new Font("Sans Serif", Font.PLAIN, 20));
+        highScoreTable.setRowHeight(40);
+
+        highScoreTable.setFillsViewportHeight(true);
+        JScrollPane scrollPane = new JScrollPane(highScoreTable);
+        scrollPane.setBounds(700, 350, 500, 225);
+        mainPanel.add(scrollPane);
+        //mainPanel.add(highScoreTable);
 
         /* //Top menu bar.
         //Feel free to delete if we don't need at the end.
@@ -113,10 +129,6 @@ public class ViewMenu extends JFrame implements Observer {
 	
 	public JButton getguideButton(){
     	return guideButton;
-    }
-    
-    public JButton getRankingButton(){
-    	return rankingButton;
     }
     
     public JButton getPlayButton() {
