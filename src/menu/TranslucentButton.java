@@ -73,7 +73,7 @@ class TranslucentButton extends JButton{
             ssc = ST;
             bgc = SB;
         }
-        g2.setPaint(new GradientPaint(x, y, ssc, x, y+h, bgc, true));
+        g2.setPaint(bgc);
         g2.fill(area);
         g2.setPaint(BR);
         g2.draw(area);
