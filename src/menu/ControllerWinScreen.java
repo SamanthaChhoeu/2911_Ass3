@@ -18,24 +18,6 @@ public class ControllerWinScreen {
     }
 
     public void setupController() {
-        // sets the size of the window
-        this.setSize(mi.getDimensions());
-        // sets what happens when the user closes the window
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // sets the layout to a manual layout to enable full customisation of where the buttons are
-        this.setLayout(null);
-        // sets the window to show in the middle of the screen
-        this.setLocationRelativeTo(null);
-        
-        // create a panel on top of the frame which holds all the UI elements
-        mainPanel = new PicturePanel();
-        // manually place all the elements
-        mainPanel.setLayout(null);
-        //mainPanel.setVisible(true);
-        // sets the panel to a colour if picture not working TODO delete this once complete
-        mainPanel.setBackground(Color.DARK_GRAY);
-        // add this panel to the frame
-        this.add(mainPanel);
         
         // creates the action when the menu button is pressed
         backToMenu = new ActionListener() {
