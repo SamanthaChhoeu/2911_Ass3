@@ -111,7 +111,7 @@ public class ControllerSettings {
  			         }
     				 else {
 			             //...make a note of it...
-			        	 System.out.println("hh");
+			        	vs.getbtnSwitch().setText("Off");
 			        	 vs.getbtnMusic1().setSelected(false);
 			             play = true;
 			             stop = false;
