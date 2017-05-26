@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 public class ViewLoadings extends JFrame implements Observer{
 	private ModelInterface mi;
 	private JPanel mainPanel;
-	private JButton One, Two, Three, Four, Five;
-	private JButton quitButton;
+	private TranslucentButton One, Two, Three, Four, Five;
+	private TranslucentButton quitButton;
 	private JLabel header;
 	
 	public ViewLoadings(ModelInterface mi){

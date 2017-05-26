@@ -19,8 +19,8 @@ import javax.swing.JPanel;
 public class ViewSavings extends JFrame implements Observer{
 	private ModelInterface mi;
 	private JPanel mainPanel;
-	private JButton One, Two, Three, Four, Five;
-	private JButton quitButton;
+	private TranslucentButton One, Two, Three, Four, Five;
+	private TranslucentButton quitButton;
 	private JLabel header;
 	
 	public ViewSavings(ModelInterface mi){
