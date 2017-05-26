@@ -45,82 +45,16 @@ public class ControllerSettings {
         };
         // adds a listener to the menu button so that the action is performed when the menu button is pressed
         vs.getBackButton().addActionListener(backToMenu);
-        
-        musicSwitch = new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-            //performance after music on
-				if(vs.getbtnSwitch().getText().equals("On")){
-					vs.getbtnSwitch().setText("Off");
-					if(play){
-						//musicstop();
-						play = false;
-						stop = true;
-					}
-				}else if(vs.getbtnSwitch().getText().equals("Off")){
-					vs.getbtnSwitch().setText("On");
-					if(stop){
-						//Sound("music02.mid");
-						play = true;
-						stop = false;
-					}
-				}  
-			}
-		};
-        vs.getbtnSwitch().addActionListener(musicSwitch);
-        
-       //There is only one background music can be selected each time, if all of musics are not be selected, then off the sound.
-       music01 = new ItemListener(){
 
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				Object source = e.getItemSelectable();
-				 if ( e.getStateChange() == ItemEvent.DESELECTED ) {
-					 //...make a note of it...
-					 vs.getbtnSwitch().setText("On");
-					 //musicstop("music01.mid");
-					 stop = true;
-					 play = false;
-				  }
-				else {
-					 //...make a note of it...
-					 vs.getbtnMusic2().setSelected( false );
-					 vs.getbtnSwitch().setText("Off");
-					 //Sound("file.mid");
-					 play = true;
-					 stop = false;
-				}    
-			}
-		};     	
-		vs.getbtnMusic1().addItemListener(music01);
-        	
-		music02 = new ItemListener(){
 
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				  Object source = e.getItemSelectable();
-				  if (e.getStateChange() == ItemEvent.DESELECTED){
-					 //...make a note of it...
-					 stop = true;
-					 play = false;
-					 vs.getbtnSwitch().setText("On");
-					 //musicstop("music01.mid");
-
-				 }
-				 else {
-					 //...make a note of it...
-					vs.getbtnSwitch().setText("Off");
-					 vs.getbtnMusic1().setSelected(false);
-					 play = true;
-					 stop = false;
-				 }
-			 }
-		};     	
-		vs.getbtnMusic2().addItemListener(music02);   
+        //There is only one background music can be selected each time, if all of musics are not be selected, then off the sound.
     }
     
-    
+    /**
+     * Read the music file and play the music, set it repeat 100 times.
+     * @param midFilename
+     * @return play
+     */
      public static boolean Sound(String midFilename) {
     	boolean play = false;
         try {
@@ -129,7 +63,7 @@ public class ControllerSettings {
            midiPlayer = MidiSystem.getSequencer();
            midiPlayer.open();
            midiPlayer.setSequence(song);
-           midiPlayer.setLoopCount(0); // repeat 0 times (play once)
+           midiPlayer.setLoopCount(100); // repeat 0 times (play once)
            midiPlayer.start();
            play = true;
         } catch (MidiUnavailableException e) {
@@ -142,8 +76,7 @@ public class ControllerSettings {
        return play;
      }
     
-    
-     boolean musicstop(){
+     boolean musicstop(String str){
        boolean stop = false;
        midiPlayer.stop();
        midiPlayer.close();
@@ -152,3 +85,4 @@ public class ControllerSettings {
     }
 
 }
+
