@@ -212,20 +212,16 @@ public class ModelGame extends Observable {
         	
         }
         
-        
+        System.out.println(board);
 
         // first box
-        board = boxPull(board);        	
-        	
+        board = boxPull(board);
         // second box
-        //board = boxTurn(board);
-        	
-        // third box
-
+        // board = boxTurn(board);
+        //third box
+        
         return board;
-        
-        
-        
+     
     }
     
     
@@ -295,10 +291,11 @@ public class ModelGame extends Observable {
     	if (direction == 0){
   		
     		while (goUp(board) && clear(y-1,x,board) && clear(y-2,x,board)){
-    			// if can't access y-1,x (then iterate down)
+    	
+    		// if can't access y-1,x (then iterate down)
     			
-    			System.out.println("up");
-    			y--;
+	    		System.out.println("up");
+	    		y--;
     		}
     		//board[y][x] = "x";
     	// right
@@ -310,23 +307,20 @@ public class ModelGame extends Observable {
     			x++;
     		}
     		//board[y][x] = "x";
-    	// down
-    		
-    	} else if (direction == 2){
-    		while (goDown(board) &&clear(y+1,x,board)&&clear(y+2,x,board)){
-
-    			System.out.println("down");
-    			//System.out.println(board[y+2][x] + board[y+3][x] + board[y+2][x-1] + board[y+2][x+1]);
-    			y++;
-    		}
-    		//board[y][x] = "x";
-    	// left
-    	} else if (direction == 3){
-
-    		while (goLeft(board) && clear(y,x-1,board) &&clear(y,x-2,board)){
-
-    			System.out.println("left");
-    			x--;
+        	// down
+        		
+        	} else if (direction == 2){
+        		while (goDown(board) &&clear(y+1,x,board)&&clear(y+2,x,board)){
+        			System.out.println("down");
+        			//System.out.println(board[y+2][x] + board[y+3][x] + board[y+2][x-1] + board[y+2][x+1]);
+        			y++;
+        		}
+        		//board[y][x] = "x";
+        	// left
+        	} else if (direction == 3){
+        		while (goLeft(board) && clear(y,x-1,board) &&clear(y,x-2,board)){
+           			System.out.println("left");
+        			x--;
     		}
     		//board[y][x] = "x";
     	}
@@ -628,7 +622,7 @@ public class ModelGame extends Observable {
             
         }
 		return board;
-    	
+
     }
     
 
