@@ -34,6 +34,7 @@ public class ControllerSettings {
     }
     
     public void setupController () {
+        mi.setRankList();
         //Sound("filename.mid");
         // creates the action when the back to menu button is pressed
         backToMenu = new ActionListener() {
