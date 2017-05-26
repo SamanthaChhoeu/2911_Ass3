@@ -89,17 +89,17 @@ public class ViewGame extends JFrame implements Observer {
 
     private void setPanelAppearance(JPanel tilePanel, int i, int j) {
 
-        if (mg.getSobokanBoardAtXY(i, j).equals("bg")) {
+        if (mg.getSobokanBoardAtXY(i, j) == "bg") {
             tilePanel.setBackground(Color.GREEN);
-        } else if (mg.getSobokanBoardAtXY(i, j).equals("pg")) {
+        } else if (mg.getSobokanBoardAtXY(i, j) == "pg") {
             tilePanel.setBackground(Color.RED);
-        } else if (mg.getSobokanBoardAtXY(i, j).equals("w")) {
+        } else if (mg.getSobokanBoardAtXY(i, j) == "w") {
             tilePanel.setBackground(Color.BLACK);
-        } else if (mg.getSobokanBoardAtXY(i, j).equals("p")) {
+        } else if (mg.getSobokanBoardAtXY(i, j) == "p") {
             tilePanel.setBackground(Color.RED);
-        } else if (mg.getSobokanBoardAtXY(i, j).equals("b")) {
+        } else if (mg.getSobokanBoardAtXY(i, j) == "b") {
             tilePanel.setBackground(Color.YELLOW);
-        } else if (mg.getSobokanBoardAtXY(i, j).equals("g")) {
+        } else if (mg.getSobokanBoardAtXY(i, j) == "g") {
             tilePanel.setBackground(Color.BLUE);
             // for debugging purposes, can comment out later
         } else if (mg.getSobokanBoardAtXY(i, j) == "x") {
@@ -107,8 +107,6 @@ public class ViewGame extends JFrame implements Observer {
         } else {
             tilePanel.setBackground(Color.WHITE);
         }
-        System.out.print(mg.getSobokanBoardAtXY(i, j));
-        //System.out.print(tilePanel.getBackground());
 
     }
 
