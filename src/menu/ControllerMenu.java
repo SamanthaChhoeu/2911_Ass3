@@ -69,7 +69,7 @@ public class ControllerMenu {
                  mi.setCurrScreen("Guide");
              }
          };
-         vm.getGuide().addActionListener(guide);
+         vm.getguideButton().addActionListener(guide);
         
         signUp = new ActionListener() {
     		public void actionPerformed(ActionEvent event) {
