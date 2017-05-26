@@ -21,7 +21,8 @@ public class ControllerSettings {
     private ItemListener music01;
     private ItemListener music02;
     private static Sequencer midiPlayer;
-    boolean play = true;
+    boolean play1= true;
+    boolean play2 = false;
     boolean stop = false;
     
     public ControllerSettings(ModelInterface mi, ViewSettings vs) {
