@@ -46,7 +46,7 @@ public class ViewMenu extends JFrame implements Observer {
 		
 		guideButton = new JButton("Guide");
         guideButton.setBounds(390, 150, 500, 50);
-        this.add(guideButton);
+        mainPanel.add(guideButton);
 		
 		
 		
