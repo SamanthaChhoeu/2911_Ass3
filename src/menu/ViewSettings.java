@@ -3,17 +3,14 @@ package menu;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 public class ViewSettings extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
     private ModelInterface mi;
     private JButton backButton;
-    private btnSwitch;
+    private JButton btnSwitch;
     private JCheckBox btnMusic1;
     private JCheckBox btnMusic2;
     private JLabel lb;
