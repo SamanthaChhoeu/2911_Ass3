@@ -15,9 +15,9 @@ public class ViewWinScreen extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
     private ModelInterface mi;
-    private JButton backToMainMenuButton;
+    private TranslucentButton backToMainMenuButton;
     private PicturePanel mainPanel;
-    private JLabel winning, score;
+    private JLabel winning;//, score;
     private ModelGame mg;
 
     public ViewWinScreen(ModelInterface mi, ModelGame mg) {
@@ -55,14 +55,14 @@ public class ViewWinScreen extends JFrame implements Observer {
         winning.setFont(new Font("Default", Font.BOLD, 50));
         mainPanel.add(winning);
         
-        String t = "" + mg.scoreCounter;
+        /*String t = "" + mg.scoreCounter;
         score = new JLabel("Your score is: " + t, JLabel.CENTER);
         score.setBounds(0, 250, 1280, 50);
         score.setFont(new Font("Default", Font.BOLD, 35));
-        mainPanel.add(score);
+        mainPanel.add(score);*/
         
         // creates a new button to quit the game
-        backToMainMenuButton = new JButton("Back to Main Menu");
+        backToMainMenuButton = new TranslucentButton("Back to Main Menu");
         backToMainMenuButton.setBounds(390, 525, 500, 50);
         mainPanel.add(backToMainMenuButton);
         
