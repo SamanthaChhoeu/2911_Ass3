@@ -98,11 +98,12 @@ public class ControllerGame {
         };
         vg.getSoundButton().addActionListener(triggerSound);
         
-         save = new ActionListener(){
+        save = new ActionListener(){
         	public void actionPerformed(ActionEvent event) {
-        		Object[] options ={ "Save", "Cancel" };
-        		JOptionPane.showInputDialog(null,"Enter your Username: ","Save",JOptionPane.PLAIN_MESSAGE,null,null,null);  
-            }
+        		//Object[] options ={ "Save", "Cancel" };
+        		//JOptionPane.showInputDialog(null,"Enter your Username: ","Save",JOptionPane.PLAIN_MESSAGE,null,null,null);  
+        		mi.setCurrScreen("Savings");
+        	}
         	
         };
         vg.getSaveButton().addActionListener(save);
