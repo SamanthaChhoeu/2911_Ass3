@@ -1,7 +1,9 @@
 package menu;
 
+import java.awt.Font;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -16,10 +18,12 @@ public class ViewGuide extends JFrame implements Observer {
 	private static final long serialVersionUID = 1L;
     private ModelInterface mi;
     private JButton back;
-    private String str;
-	 private JLabel labelx;
+    private String str = "";
+	private ArrayList<JLabel> guide;
+	private JLabel g;
     
-    public ViewGuide(ModelInterface mi) {    
+    public ViewGuide(ModelInterface mi) {
+    	this.guide = new ArrayList<JLabel>();
         this.mi = mi;
         setupGuide(); 
         
@@ -27,19 +31,20 @@ public class ViewGuide extends JFrame implements Observer {
     public void setGuide(){
         Scanner sc = null;
         try {
-            sc = new Scanner(new FileReader("guide.txt"));
+            sc = new Scanner(new FileReader("src/Guide.txt"));
             int i = 0;
             while (sc.hasNext()) {
+                str = sc.nextLine();
+                guide.add(new JLabel(str, JLabel.CENTER));
                 i++;
-                String line = sc.nextLine();
-                //String[] l = line.split("//");
-                str = str + line;
             }
+            
         } catch (FileNotFoundException e) {
             System.out.println("Issue with reading guide file");
         } finally {
             if (sc != null) sc.close();
         }
+        
     }
   	private void setupGuide() {
   		setGuide();
@@ -52,25 +57,26 @@ public class ViewGuide extends JFrame implements Observer {
       // sets the window to show in the middle of the screen
       this.setLocationRelativeTo(null);
       
-  //    JTextField(text);
-      String Str="abcdefg\nhijklmn";
-      labelx = new JLabel(str,SwingConstants.CENTER);
-   //  labelx.setFont(str);
-      this.add(labelx);
-      labelx.setBounds(50,50,500,500);
-      
+      int c = 0;
+      for (c = 0; c < guide.size(); c++){
+    	  guide.get(c).setBounds(125, 25 * (c+1), 1000, 50);
+    	  guide.get(c).setFont(new Font("Default", Font.PLAIN, 20));
+    	  //c++;
+    	  //System.out.println(guide.get(c).getText() + c);
+    	  this.add(guide.get(c));
+      }
+      //g = new JLabel("str");
+      //g.setBounds(100, 200, 200, 50);
+      //this.add(g);
+     
       // creates a new button to go back to the main menu
       back = new JButton("Back");
       back.setBounds(1025, 600, 200, 50);
       this.add(back);
-      
-      
-      
-      
+  
   	}
   	
-  /*	JTextField(Document doc, String text, int columns) 
-	}*/
+ 
 
 	public JButton getBackButton() {
         return back;
