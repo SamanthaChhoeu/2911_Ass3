@@ -18,6 +18,7 @@ public class ControllerMenu {
     private ActionListener quit;
     private ActionListener rankingList;
     private ActionListener Loading;
+    private ActionListener Save;
 
     
     public ControllerMenu(ModelInterface mi, ModelGame mg, ViewMenu vm) {
@@ -41,13 +42,21 @@ public class ControllerMenu {
          };
          vm.getguideButton().addActionListener(guide);
         
-        signUp = new ActionListener() {
+        /*signUp = new ActionListener() {
     		public void actionPerformed(ActionEvent event) {
     			String name = (String)JOptionPane.showInputDialog(null,"Enter your Username:","Sign up",JOptionPane.PLAIN_MESSAGE,null,null,null);
     		    mg.setName(name);
     		}
     	};
-    	vm.getSignupButton().addActionListener(signUp);
+    	vm.getSignupButton().addActionListener(signUp);*/
+    	
+    	Save = new ActionListener() {
+    		public void actionPerformed(ActionEvent event) {
+    			String name = vm.getUserName();
+    			mg.setName(name);
+    		}
+    	};
+    	
         
         playGame = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
