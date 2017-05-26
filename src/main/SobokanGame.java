@@ -11,12 +11,14 @@ import menu.ControllerSettings;
 import menu.ControllerWinScreen;
 import menu.ControllerGuide;
 import menu.ControllerLoadings;
+import menu.ControllerSavings;
 import menu.ModelInterface;
 import menu.ViewMenu;
 import menu.ViewSettings;
 import menu.ViewWinScreen;
 import menu.ViewGuide;
 import menu.ViewLoadings;
+import menu.ViewSavings;
 
 public class SobokanGame {
     
@@ -60,6 +62,8 @@ public class SobokanGame {
         
         ViewLoadings vl = new ViewLoadings(mi);
         mi.addObserver(vl);
+        ViewSavings vsv = new ViewSavings(mi);
+        mi.addObserver(vsv);
 		
         ViewGuide vvg = new ViewGuide(mi);
         mi.addObserver(vvg);
@@ -71,6 +75,7 @@ public class SobokanGame {
         ControllerWinScreen cws = new ControllerWinScreen(mi, vws);
         ControllerGuide ccg = new ControllerGuide(mi,vvg);
         ControllerLoadings cl = new ControllerLoadings(mi, mg, vl);
+        ControllerSavings csv = new ControllerSavings(mi, mg, vsv);
         
         cm.setupController();
         cs.setupController();
@@ -78,7 +83,7 @@ public class SobokanGame {
         cws.setupController();
         ccg.setupController();
         cl.setupController();
-        
+        csv.setupController();
 	}
 
 }
