@@ -32,14 +32,14 @@ public class ModelGame extends Observable {
 	private String[][] board;
     
     public ModelGame() {
-        /*boxpics = new Image[2];
-    	for(int i=0; i<2; i++) {
-    		boxpics[i] = Toolkit.getDefaultToolkit().getImage("Boxes\box"+i+".GIF");
-    		//System.out.println(Toolkit.getDefaultToolkit().getImage("Boxes\box"+i+".GIF"));
-    	}
-
-    	paint(boxpics[0]);*/
-        generateBoard();
+		this.xSizeOfBoard = 15;
+		this.ySizeOfBoard = 10;
+		this.moveCounter = 0;
+		this.scoreCounter = 1000;
+		this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
+		this.boxes = new ArrayList<Box>();
+		start = System.currentTimeMillis();
+        //generateBoard();
     }
 
     public ModelGame(int Slot){
