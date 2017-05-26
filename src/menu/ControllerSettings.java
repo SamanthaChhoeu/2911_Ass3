@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import javax.swing.JCheckBox;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequencer;
@@ -103,7 +104,7 @@ public class ControllerSettings {
 					 stop = true;
 					 play = false;
 					 vs.getbtnSwitch().setText("On");
-					 musicstop("music01.mid");
+					 //musicstop("music01.mid");
 
 				 }
 				 else {
