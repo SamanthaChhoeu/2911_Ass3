@@ -212,275 +212,16 @@ public class ModelGame extends Observable {
         	
         }
         
-        // add player
-        int xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
-        int yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
-        // make sure we arent placing player on a wall, goal or box, also make sure we can move the player around. 
-        while (board[yPlayer][xPlayer] == "w"){
-        	xPlayer = rand.nextInt(xSizeOfBoard-3)+1;
-            yPlayer = rand.nextInt(ySizeOfBoard-3)+1;
-        }
-        p = new Player(xPlayer, yPlayer);
-        board[yPlayer][xPlayer] = "p";
         
-        // choose random locations for the goal
-        int noOfBoxes = 4; // should be 3 its changed for debugging
-        
-        for (int i = 0; i < noOfBoxes; i++) {
-        	
-<<<<<<< HEAD
-        	while (board[yGoal][xGoal]  == "b"|| board[yGoal][xGoal] == "g" && around != 4){	
-        		xGoal = rand.nextInt(xSizeOfBoard-3)+1;
-                yGoal = rand.nextInt(ySizeOfBoard-3)+1;
-                around = countAround(xGoal,yGoal,board);
-                
-        	}   
 
-            
-            
-            // move in random directions with a 2x1 block and 
-            // can make it so that each block gets a random algorithm
-            // 	 box1 is pulled until it reaches a wall and then turns -- trying to implement this first
-            //	 box2 is pulled and always tries to turn
-            //   box3 is pulled and uses a mix of both?
-            
-            
-            x = xGoal;
-            y = yGoal;
-            int turns = 0;
-            int vert = -1; // records if last move was vertical or horizontal (-1 initially, 0 if horizontal, 1 if vertical)
-            
-            while (turns < 5){
-            	// randomises direction up/down left/right
-            	int dir = rand.nextInt(2);
-            	System.out.println("random direction is:"+dir);
-            	
-            	// up/down
-            	if (vert != 1){
-            		// up first
-            		if (dir == 1){
-            			// if box is free to be pulled upwards
-            			if (board[y-1][x] != "w" && board[y-2][x] != "w" ){
-                        	//board[y-1][x] = "x";
-                        	board = goStraight(0,board);
-                        	// if end of straight is unreachable then iterate back down one
-                        	while (board[y-1][x] == "w" && board[y][x-1] == "w" && board[y][x+1] == "w" ){
-                        		y++;
-                        	}
-                        	turns ++;
-                        	vert = 1;
-      
-                       	
-                        // if box is free to be pulled downwards
-                        } else if (board[y+1][x] != "w" && board[y+2][x] != "w" ){
-                        	//board[y+1][x] = "x";
-                        	board = goStraight(2,board);
-                        	// if end of straight is unreachable then iterate upwards
-                        	while (board[y+1][x] == "w" && board[y][x-1] == "w" && board[y][x+1] == "w" ){
-                        		y--;
-                        	}
-                        	vert = 1;
-                        	turns++;
-         
-                        }else {
-                        	turns = 3;
-                        }
-            		}
-            		
-            		// down first
-            		else if (dir == 0){
-            			// if box is free to be pulled downwards
-                        if (board[y+1][x] != "w" && board[y+2][x] != "w" ){
-                        	//board[y+1][x] = "x";
-                        	board = goStraight(2,board);
-                        	// if end of straight is unreachable then iterate upwards
-                        	while (board[y+1][x] == "w" && board[y][x-1] == "w" && board[y][x+1] == "w" ){
-                        		y--;
-                        	}
-                        	vert = 1;
-                        	turns++;
-              
-                        	
-                        // if box is free to be pulled upwards
-                        } else if (board[y-1][x] != "w" && board[y-2][x] != "w"   ){
-                        	//board[y-1][x] = "x";
-                        	board = goStraight(0,board);
-                        	// if end of straight is unreachable then iterate back down one
-                        	while (board[y-1][x] == "w" && board[y][x-1] == "w" && board[y][x+1] == "w" ){
-                        		y++;
-                        	}
-                        	turns ++;
-                        	vert = 1;
-                        	
-                        }else {
-                        	turns = 5;
-                        }
-                        
-            		}
-            		dir = rand.nextInt(1);
-            	// randomiser for left/right
-            		
-            	} else {
-            		// left first
-            		if(dir == 1){
-            			// if box is free to be pulled left
-            			if (board[y][x-1] != "w" && board[y][x-2] != "w" ){
-	                    	//board[y+1][x-1] = "x";
-	                    	board = goStraight(3,board);
-	                    	// if end of straight is unreachable then iterate back to te right
-	                    	while (board[y-1][x] == "w" && board[y][x-1] == "w" && board[y+1][x] == "w" ){
-	                    		x++;
-	                    	}
-	                    	vert = 0;
-	                    	turns++;
-	   
-	                    //if box is free to be pulled right
-            			} else if (board[y][x+1] != "w" && board[y][x+2] != "w"  ){
-	                    	//board[y][x+1] = "x";
-	                    	board = goStraight(1,board);
-	                    	// if end of straight is unreachable then iterate back to the left
-	                    	while (board[y-1][x] == "w" && board[y][x+1] == "w" && board[y+1][x] == "w" ){
-	                    		x--;
-	                    	}
-	                    	vert = 0;
-	                    	turns++;
-	                    	
-	                    
-	                    }else {
-	                    	turns = 5;
-	                    }
-            			
-            		
-            	
-            		// right first
-            		} else {
-            			// if box is free to be pulled right
-	                    if (board[y][x+1] != "w" && board[y][x+2] != "w" ){
-	                    	//board[y][x+1] = "x";
-	                    	board = goStraight(1,board);
-	                    	// if end of straight is unreachable then iterate back to the left
-	                    	while (board[y-1][x] == "w" && board[y][x+1] == "w" && board[y+1][x] == "w" ){
-	                    		x--;
-	                    	}
-	                    	vert = 0;
-	                    	turns++;
-	                    	dir = rand.nextInt(1);
-	                    // if box is free to be pulled left
-	                    } else if (board[y][x-1] != "w" && board[y][x-2] != "w" ){
-	                    	//board[y+1][x-1] = "x";
-	                    	board = goStraight(3,board);
-	                    	// if end of straight is unreachable then iterate back to te right
-	                    	while (board[y-1][x] == "w" && board[y][x-1] == "w" && board[y+1][x] == "w" ){
-	                    		x++;
-	                    	}
-	                    	vert = 0;
-	                    	turns++;
-	                    
-	            		}else {
-	                    	turns = 3;
-	                    }
-	                    dir = rand.nextInt(1);
-            		}
-	   
-            	}
-            	
-    
-                
-
-            }
-            System.out.println("TEST goal coords"+"x: "+xGoal+" y: "+yGoal);
-        	System.out.println("TEST box coords"+"x: "+x+" y: "+y);
-            // if the new box is on an existing goal then ignore and try to find a new goal plus start box location
-            if (board[y][x] == "b" || board[y][x] == "g"||board[yGoal][xGoal]=="b"||board[yGoal][xGoal]=="g"){
-            	i--;
-            } else if (y == yGoal && x==xGoal){	
-            	i--;
-        	} else {
-            	System.out.println("goal coords"+"x: "+xGoal+" y: "+yGoal);
-            	System.out.println("box coords"+"x: "+x+" y: "+y);
-            	board[yGoal][xGoal] = "g";
-            	Box newBox = new Box(x, y);
-                board[y][x] = "b";
-                boxes.add(newBox);
-                
-                // check space on each side of box
-                // if there are more than 3 walls, move one of them away from the box.
-                
-                // if x or y is less than 
-                // move left 0 or right 1
-                /*
-                int rng = rand.nextInt(1);
-                //up  
-                if (board[y-1][x] == "w"){
-                	if (board[y-1][x+1] == "w" && board[y-1][x-1] == "w" && board[y-2][x] == "w"){
-                		if (rng == 0){
-                			board[y-1][x-1] = "0";
-                			board[y-2][x-1] = "w";
-                		} else {
-                			board[y-1][x+1] = "0";
-                			board[y-2][x+1] = "w";
-                		}
-                	}
-                
-                //down
-                } else if (board[y+1][x] == "w"){
-                	if (board[y+1][x+1] == "w" && board[y+1][x-1] == "w" && board[y+2][x] == "w"){
-                		if (rng == 0){
-                			board[y+1][x-1] = "0";
-                			board[y+2][x-1] = "w";
-                		} else {
-                			board[y+1][x+1] = "0";
-                			board[y+2][x+1] = "w";
-                		}
-                	}
-                
-                
-                //left
-        		} else if (board[y][x-1] == "w"){
-                	if (board[y+1][x-1] == "w" && board[y-1][x-1] == "w" && board[y][x-2] == "w"){
-                		if (rng == 0){
-                			board[y+1][x-1] = "0";
-                			board[y+1][x-1] = "w";
-                		} else {
-                			board[y-1][x-1] = "0";
-                			board[y-1][x-1] = "w";
-                		}
-                	}
-                //right
-        		} else if (board[y+1][x] == "w"){
-                	if (board[y+1][x+1] == "w" && board[y-1][x+1] == "w" && board[y][x+2] == "w"){
-                		if (rng == 0){
-                			board[y+1][x+1] = "0";
-                			board[y+1][x+1] = "w";
-                		} else {
-                			board[y-1][x+1] = "0";
-                			board[y-1][x+1] = "w";
-                		}
-                	}
-        		}
-        		*/
-            }
-            
-=======
-            // first box
-        	board = boxPull(board);        	
+        // first box
+        board = boxPull(board);        	
         	
-        	// second box
-        	//board = boxTurn(board);
+        // second box
+        //board = boxTurn(board);
         	
-        	// third box
->>>>>>> refs/remotes/origin/master
-        
-            
+        // third box
 
- 
-        }
-        
-        
-        
-        
-        // TODO fill in all four corners
-        
         return board;
         
         
@@ -552,17 +293,8 @@ public class ModelGame extends Observable {
     private String[][] goStraight(int direction, String[][] board){
     	// up
     	if (direction == 0){
-    		
-<<<<<<< HEAD
-    		
-    		while (goUp(board)){
-=======
-    		// avoid this situation
-        	// owo
-        	// wow
-    		while (!(board[y-2][x] == "w"  && (board[y-1][x+1] == "w" && board[y-1][x-1] ==  "w"))&&clear(y-1,x,board)&&clear(y-2,x,board)
-    				){
->>>>>>> refs/remotes/origin/master
+  		
+    		while (goUp(board) && clear(y-1,x,board) && clear(y-2,x,board)){
     			// if can't access y-1,x (then iterate down)
     			
     			System.out.println("up");
@@ -571,18 +303,9 @@ public class ModelGame extends Observable {
     		//board[y][x] = "x";
     	// right
     	} else if (direction == 1){
-    		
-<<<<<<< HEAD
-    		while (goRight(board)){
-=======
-    		// avoid this situation
-    		// w0
-        	// 0w
-        	// w0
-        	
-        	
-    		while (!(board[y][x+2] == "w"  && (board[y+1][x+1] == "w" && board[y-1][x+1] == "w"))&&clear(y,x+1,board) &&clear(y,x+2,board)){
->>>>>>> refs/remotes/origin/master
+
+    		while (goRight(board) &&clear(y,x+1,board) &&clear(y,x+2,board)){
+
     			System.out.println("right");
     			x++;
     		}
@@ -590,17 +313,8 @@ public class ModelGame extends Observable {
     	// down
     		
     	} else if (direction == 2){
-<<<<<<< HEAD
+    		while (goDown(board) &&clear(y+1,x,board)&&clear(y+2,x,board)){
 
-    		while (goDown(board)){
-=======
-    		
-    		// avoid this situation
-        	
-        	// wow
-        	// owo
-    		while (!(board[y+2][x] == "w" && (board[y+1][x-1] == "w" && board[y+1][x+1] == "w")) &&clear(y+1,x,board)&&clear(y+2,x,board)){
->>>>>>> refs/remotes/origin/master
     			System.out.println("down");
     			//System.out.println(board[y+2][x] + board[y+3][x] + board[y+2][x-1] + board[y+2][x+1]);
     			y++;
@@ -608,17 +322,9 @@ public class ModelGame extends Observable {
     		//board[y][x] = "x";
     	// left
     	} else if (direction == 3){
-    		
-<<<<<<< HEAD
-    		while (goLeft(board)){
-=======
-    		// avoid this situation
 
-        	// 0w
-        	// w0
-        	// 0w
-    		while (!(board[y][x-2] == "w"&& (board[y+1][x-1] == "w"&& board[y-1][x-1] == "w" )) &&clear(y,x-1,board) &&clear(y,x-2,board)){
->>>>>>> refs/remotes/origin/master
+    		while (goLeft(board) && clear(y,x-1,board) &&clear(y,x-2,board)){
+
     			System.out.println("left");
     			x--;
     		}
@@ -630,7 +336,7 @@ public class ModelGame extends Observable {
     }
     
     
-<<<<<<< HEAD
+
     private boolean goRight(String[][] board){
     	// avoid this situation
 		// w0
@@ -671,9 +377,6 @@ public class ModelGame extends Observable {
     	
     	return false;
     }
-    
-    
-=======
     
     // TODO Algorithm to generate the path of the first box
     // generates walls randomly
@@ -894,7 +597,7 @@ public class ModelGame extends Observable {
     	int turn;
     	int prev = -1;
     	for (int i = 0; i < 10; i++){
-    		turn = turn(prev);
+    		turn = turn(prev,board);
     		prev = turn;
     		// turn - is the previous move where 0 up; 1 down; 2 left; 3 right
     		if (turn == 0){
@@ -928,7 +631,7 @@ public class ModelGame extends Observable {
     	
     }
     
->>>>>>> refs/remotes/origin/master
+
     // TODO function for always try to turn
     // return the next move that the generator will make to create a path betwen the goal and box
     // last - is the previous move where 0 up; 1 down; 2 left; 3 right
