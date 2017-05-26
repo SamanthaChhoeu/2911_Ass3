@@ -90,19 +90,19 @@ public class ViewGame extends JFrame implements Observer {
     }
 
     private void setPanelAppearance(JPanel tilePanel, int i, int j) {
-
+    	
         if (mg.getSobokanBoardAtXY(i, j) == ("bg")) {
-            tilePanel.setBackground(Color.GREEN);
+            tilePanel.setBackground(new Color(166,166,166));
         } else if (mg.getSobokanBoardAtXY(i, j) == ("pg")) {
-            tilePanel.setBackground(Color.RED);
+            tilePanel.setBackground(new Color(175,3,255));
         } else if (mg.getSobokanBoardAtXY(i, j) == ("w")) {
             tilePanel.setBackground(Color.BLACK);
         } else if (mg.getSobokanBoardAtXY(i, j) == ("p")) {
-            tilePanel.setBackground(Color.RED);
+            tilePanel.setBackground(new Color(175,3,255));
         } else if (mg.getSobokanBoardAtXY(i, j) == ("b")) {
-            tilePanel.setBackground(Color.YELLOW);
+            tilePanel.setBackground(new Color(255,112,186));
         } else if (mg.getSobokanBoardAtXY(i, j) == ("g")) {
-            tilePanel.setBackground(Color.BLUE);
+            tilePanel.setBackground(new Color(163,227,250));
             // for debugging purposes, can comment out later
         } else if (mg.getSobokanBoardAtXY(i, j) == "x") {
             tilePanel.setBackground(Color.PINK);
