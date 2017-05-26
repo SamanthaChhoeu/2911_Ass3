@@ -21,7 +21,7 @@ public class ModelGame extends Observable {
     private int y;
 
     private int moveCounter;
-    private int scoreCounter = 1000;
+    private int scoreCounter;
     private String Name;
 
     private Timer gameTimer;
@@ -41,7 +41,51 @@ public class ModelGame extends Observable {
     	paint(boxpics[0]);*/
         generateBoard();
     }
-    
+
+    public ModelGame(int Slot){
+        String filename = "saves/" + "slot" + Slot + ".txt";
+        Scanner sc = null;
+        try {
+            int count  = 0;
+            sc = new Scanner(new FileReader(filename));
+            while (sc.hasNext() && count <= 5) {
+                count++;
+                String line = sc.nextLine();
+                if(count == 0) {
+                    this.Name = line;
+                }else if(count == 1){
+                    String[] l = line.split("/");
+                    this.xSizeOfBoard = Integer.parseInt(l[0]);
+                    this.ySizeOfBoard = Integer.parseInt(l[1]);
+                }else if(count == 3){
+                    String[] l = line.split("//");
+                    ArrayList<Box> b = new ArrayList<>();
+                    for(int i = 0; i<=xSizeOfBoard; i++){
+                        String[] k = l[i].split("/");
+                        for(int j = 0; j<=ySizeOfBoard; j++) {
+                            this.sobokanBoard[i][j] = k[j];
+                        }
+                    }
+                    boxes = b;
+                }else if(count == 4){
+                        this.p = new Player(line);
+                }else if(count == 5){
+                    String[] l = line.split("//");
+                    ArrayList<Box> b = new ArrayList<>();
+                    for(int i = 0; i<l.length; i++){
+                        Box curr = new Box(l[i]);
+                        b.add(curr);
+                    }
+                    boxes = b;
+                }
+
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Issue with reading and or sorting out talk to ---> Jathurson");
+        } finally {
+            if (sc != null) sc.close();
+        }
+    }
     
     /*public void paint(Image g){System.out.println("image drawnnnnnnnnnnnnnnnnnnn");
 		//according to the map of the level, draw the image
@@ -1268,13 +1312,22 @@ public class ModelGame extends Observable {
 
     //Saving The board of the player
     public void SaveGame(int Slot){
-        int lines = getAmountOfLines("leaderBoard.txt");
+        int lines = 20;//getAmountOfLines("leaderBoard.txt");
 
         if(this.Name == null){
             this.Name = ("UnNamed" + lines);
         }
 
         String filename = "saves/" + "slot" + Slot + ".txt";
+
+        try {
+            PrintWriter writer = new PrintWriter(filename);
+            writer.print("");
+            writer.close();
+        }catch (FileNotFoundException e){
+            System.out.println("Issue with clearing ---> Jathurson");
+        }
+
         try(FileWriter fw = new FileWriter(filename, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
@@ -1282,31 +1335,34 @@ public class ModelGame extends Observable {
 
             //this is for printing the Board
             out.print(this.Name);
-            out.print("\n");
+            out.println("");
             out.print(this.xSizeOfBoard);
             out.print("/");
             out.print(this.ySizeOfBoard);
-            out.println("\n");
+            out.println("");
             String[][] board = this.sobokanBoard;
             for (int i = 0; i < ySizeOfBoard; i++){
                 for (int j = 0; j<xSizeOfBoard; j++){
                     out.print(board[i][j]);
+                    out.print("/");
                 }
-                out.print("/");
+                out.print("//");
             }
-            out.print("\n");
+            out.println("");
             //then player
             String pl = (this.p).PrintLine();
             out.print(pl);
-            out.print("\n");
-            for(Box temp : boxes){
+            out.println("");
+            for(Box temp : this.boxes){
                 out.print(temp.PrintLine());
                 out.print("//");
             }
-            out.print("\n");
+            out.println("");
+            out.print(scoreCounter);
 
         } catch (IOException e) {
             System.out.println("Issue with writing out talk to ---> Jathurson");
+            //System.out.println("riiple");
 
         }
 
