@@ -71,7 +71,7 @@ public class ModelGame extends Observable {
                         String[] k = l[i].split("/");
                         for(int j = 0; j<xSizeOfBoard; j++) {
                             //System.out.print(k[j]);
-                            board[i][j] = (String)k[j];
+                            board[i][j] = converter(k[j]);
                         }
                         //System.out.println("");
                     }
@@ -102,6 +102,24 @@ public class ModelGame extends Observable {
         this.sobokanBoard = board;
         printBoard(sobokanBoard);
     }
+
+    private String converter(String l){
+		if (l.equals("bg")) {
+			return "bg";
+		} else if (l.equals("pg")) {
+			return "pg";
+		} else if (l.equals("w")) {
+			return "w";
+		} else if (l.equals("p")) {
+			return "p";
+		} else if (l.equals("b")) {
+			return "b";
+		} else if (l.equals("g")) {
+			return "g";
+		}else {
+			return "0";
+		}
+	}
     
     public void generateBoard() {
         
