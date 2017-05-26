@@ -34,8 +34,7 @@ public class ControllerSettings {
     }
     
     public void setupController () {
-        mi.setRankList();
-        //Sound("filename.mid");
+        Sound("src/music01.mid");
         // creates the action when the back to menu button is pressed
         backToMenu = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -45,9 +44,104 @@ public class ControllerSettings {
         };
         // adds a listener to the menu button so that the action is performed when the menu button is pressed
         vs.getBackButton().addActionListener(backToMenu);
+        /**
+         * Which control the music on/off. If the button is display Off, that means once you pressed it, music would be off
+         * vice versa
+         */
+        musicSwitch = new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+            //performance after music on
+				if(vs.getbtnSwitch().getText().equals("Off")){
+					vs.getbtnSwitch().setText("On");
+					if(play1){
+						musicstop("src/music01.mid");
+						play1 = false;
+						play2 = false;
+						stop = true;
+						vs.getbtnMusic1().setSelected(false);
+					}else if(play2){
+						musicstop("src/music02.mid");
+						play2 = false;
+						stop = true;
+						play1 = false;
+						vs.getbtnMusic2().setSelected(false);
+					}
+		 
+				}else if(vs.getbtnSwitch().getText().equals("On")){
+					vs.getbtnSwitch().setText("Off");
+					if(stop){
+						play1 = true;
+						play2 = false;
+						stop = false;
+						vs.getbtnMusic1().setSelected(true);
+						vs.getbtnMusic2().setSelected(false);
+					}
+				}  
+			}
+		};
+        vs.getbtnSwitch().addActionListener(musicSwitch);
+        
+       //There is only one background music can be selected each time, if all of musics are not be selected, then off the sound.
+       music01 = new ItemListener(){
 
+			@Override
+			/**
+			 * Check any change made by checkbox, if the box is selected, then first music would be played
+			 * if the box is not selected, then no music would be played
+			 */
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				Object source = e.getItemSelectable();
+				 if ( e.getStateChange() == ItemEvent.DESELECTED ) {
+					 //...make a note of it...
+					 vs.getbtnMusic2().setSelected( false );
+					 vs.getbtnMusic1().setSelected( false );
+					 vs.getbtnSwitch().setText("On");
+					 musicstop("src/music01.mid");
+					 stop = true;
+					 play1 = false;
+				  }
+				 else if (e.getStateChange() != ItemEvent.DESELECTED) {
+					 //...make a note of it...
+					 vs.getbtnMusic2().setSelected(false);
+					 vs.getbtnMusic1().setSelected(true);
+					 vs.getbtnSwitch().setText("Off");
+					 Sound("src/music01.mid");
+					 play1 = true;
+					 stop = false;
+				}    
+			}
+		};     	
+		vs.getbtnMusic1().addItemListener(music01);
+        //Same as music01 	
+		music02 = new ItemListener(){
 
-        //There is only one background music can be selected each time, if all of musics are not be selected, then off the sound.
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				  Object source = e.getItemSelectable();
+				  if (e.getStateChange() == ItemEvent.DESELECTED){
+					 //...make a note of it...
+					 stop = true;
+					 play2 = false;
+					 vs.getbtnMusic2().setSelected( false );
+					 vs.getbtnMusic1().setSelected( false );
+					 vs.getbtnSwitch().setText("On");
+					 musicstop("src/music02.mid");
+
+				 }
+				 else if (e.getStateChange() != ItemEvent.DESELECTED) {
+					 //...make a note of it...
+					vs.getbtnMusic2().setSelected(true);
+					vs.getbtnMusic1().setSelected(false);
+					vs.getbtnSwitch().setText("Off");
+					Sound("src/music02.mid");
+					play2 = true;
+					stop = false;
+				 }
+			 }
+		};     	
+		vs.getbtnMusic2().addItemListener(music02);   
     }
     
     /**
@@ -83,6 +177,7 @@ public class ControllerSettings {
        stop = true;
        return stop;
     }
+     
 
 }
 
