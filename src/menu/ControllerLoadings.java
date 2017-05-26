@@ -43,35 +43,50 @@ public class ControllerLoadings {
         
         one = new ActionListener() {
         	public void actionPerformed(ActionEvent event){
-        		System.out.println("1");
+                mg.openBoard(1);
+                mg.startTimer();
+                // when the play button is pressed, sets the current screen being viewed to the game screen
+                mi.setCurrScreen("Play");
         	}
         };
         vl.getOne().addActionListener(one);
         
         two = new ActionListener() {
         	public void actionPerformed(ActionEvent event){
-        		System.out.println("2");
+                mg.openBoard(2);
+                mg.startTimer();
+                // when the play button is pressed, sets the current screen being viewed to the game screen
+                mi.setCurrScreen("Play");
         	}
         };
         vl.getTwo().addActionListener(two);
         
         three = new ActionListener() {
         	public void actionPerformed(ActionEvent event){
-        		System.out.println("3");
+                mg.openBoard(3);
+                mg.startTimer();
+                // when the play button is pressed, sets the current screen being viewed to the game screen
+                mi.setCurrScreen("Play");
         	}
         };
         vl.getThree().addActionListener(three);
         
         four = new ActionListener() {
         	public void actionPerformed(ActionEvent event){
-        		System.out.println("4");
+                mg.openBoard(4);
+                mg.startTimer();
+                // when the play button is pressed, sets the current screen being viewed to the game screen
+                mi.setCurrScreen("Play");
         	}
         };
         vl.getFour().addActionListener(four);
         
         five = new ActionListener() {
         	public void actionPerformed(ActionEvent event){
-        		System.out.println("5");
+                mg.openBoard(5);
+                mg.startTimer();
+                // when the play button is pressed, sets the current screen being viewed to the game screen
+                mi.setCurrScreen("Play");
         	}
         };
         vl.getFive().addActionListener(five);
