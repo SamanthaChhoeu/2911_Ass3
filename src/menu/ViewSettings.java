@@ -13,9 +13,9 @@ public class ViewSettings extends JFrame implements Observer {
     private static final long serialVersionUID = 1L;
     private ModelInterface mi;
     private JButton backButton;
-    private JButton btnSwitch;
-    private JButton btnMusic1;
-    private JButton btnMusic2;
+    private btnSwitch;
+    private JCheckBox btnMusic1;
+    private JCheckBox btnMusic2;
     private JLabel lb;
 
     public ViewSettings(ModelInterface mi) {
@@ -48,14 +48,17 @@ public class ViewSettings extends JFrame implements Observer {
         
         //create below buttons to control and select music
     	btnSwitch = new JButton("On");
-    	btnMusic1 = new JButton("Music1");
-    	btnMusic2 = new JButton("Music2");
+    	btnMusic1 = new JCheckBox("Music1");
+    	btnMusic2 = new JCheckBox("Music2");
         btnSwitch.setBounds(100, 180, 100, 50);
     	btnMusic1.setBounds(100, 280, 100, 50);
     	btnMusic2.setBounds(100, 380, 100, 50);
     	this.add(btnSwitch);
     	this.add(btnMusic1);
     	this.add(btnMusic2);
+        
+        btnMusic1.setSelected(true);
+    	btnMusic2.setSelected(false);
         
     }
 
@@ -67,11 +70,11 @@ public class ViewSettings extends JFrame implements Observer {
         return btnSwitch;
     }
 
-    public JButton getbtnMusic1() {
+    public JCheckBox getbtnMusic1() {
         return btnMusic1;
     }
     
-    public JButton getbtnMusic2() {
+    public JCheckBox getbtnMusic2() {
         return btnMusic2;
     }
 
