@@ -107,6 +107,8 @@ public class ViewGame extends JFrame implements Observer {
         } else {
             tilePanel.setBackground(Color.WHITE);
         }
+        //System.out.print(mg.getSobokanBoardAtXY(i, j));
+        System.out.print(tilePanel.getBackground());
 
     }
 
