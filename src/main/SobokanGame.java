@@ -10,11 +10,13 @@ import menu.ControllerMenu;
 import menu.ControllerSettings;
 import menu.ControllerWinScreen;
 import menu.ControllerGuide;
+import menu.ControllerLoadings;
 import menu.ModelInterface;
 import menu.ViewMenu;
 import menu.ViewSettings;
 import menu.ViewWinScreen;
 import menu.ViewGuide;
+import menu.ViewLoadings;
 
 public class SobokanGame {
     
@@ -55,8 +57,11 @@ public class SobokanGame {
         ViewWinScreen vws = new ViewWinScreen(mi);
         mi.addObserver(vws);
         mg.addObserver(vws);
+        
+        ViewLoadings vl = new ViewLoadings(mi);
+        mi.addObserver(vl);
 		
-	ViewGuide vvg = new ViewGuide(mi);
+        ViewGuide vvg = new ViewGuide(mi);
         mi.addObserver(vvg);
       
         // cm controls what happens to the model when a user interacts with the interface
@@ -64,13 +69,15 @@ public class SobokanGame {
         ControllerSettings cs = new ControllerSettings(mi, vs);
         ControllerGame cg = new ControllerGame(mi, mg, vg);
         ControllerWinScreen cws = new ControllerWinScreen(mi, vws);
-	ControllerGuide ccg = new ControllerGuide(mi,vvg);
+        ControllerGuide ccg = new ControllerGuide(mi,vvg);
+        ControllerLoadings cl = new ControllerLoadings(mi, mg, vl);
         
         cm.setupController();
         cs.setupController();
         cg.setupController();
         cws.setupController();
-	ccg.setupController();
+        ccg.setupController();
+        cl.setupController();
         
 	}
 

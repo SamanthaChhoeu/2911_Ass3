@@ -19,6 +19,7 @@ public class ViewMenu extends JFrame implements Observer {
 	private JTable highScoreTable;
 	private JTextField userNameField;
 	private JButton saveUserName;
+	private JButton loadingButton;
 
     public ViewMenu (ModelInterface mi) {   
         
@@ -75,6 +76,11 @@ public class ViewMenu extends JFrame implements Observer {
         quitButton = new TranslucentButton("Quit");
         quitButton.setBounds(100, 525, 500, 50);
         mainPanel.add(quitButton);
+        
+        // creates a new button to load the saved files
+        loadingButton = new TranslucentButton("Load");
+        loadingButton.setBounds(700, 150, 500, 50);
+        mainPanel.add(loadingButton);
 
         String[] columnNames = {"Rank", "Name", "Score"};
         Object[][] data = mi.populateTable();
@@ -141,6 +147,10 @@ public class ViewMenu extends JFrame implements Observer {
     
     public JButton getQuitButton() {
         return quitButton;
+    }
+    
+    public JButton getLoadingButton() {
+    	return loadingButton;
     }
 
     @Override
