@@ -56,15 +56,16 @@ public class ViewSettings extends JFrame implements Observer {
         //create a label "music setting" 
         lb = new JLabel("Music Setting",SwingConstants.CENTER);
         mainPanel.add(lb);
-        lb.setBounds(98,100,100,100);
+        lb.setBounds(470,100,100,100);
+        lb.setFont(new Font (Font.DIALOG, Font.BOLD, 20));
         
         //create below buttons to control and select music
     	btnSwitch = new TranslucentButton("Off");
     	btnMusic1 = new JCheckBox("Music1");
     	btnMusic2 = new JCheckBox("Music2");
-        btnSwitch.setBounds(100, 180, 100, 50);
-    	btnMusic1.setBounds(100, 280, 100, 50);
-    	btnMusic2.setBounds(100, 380, 100, 50);
+        btnSwitch.setBounds(530, 180, 100, 50);
+    	btnMusic1.setBounds(530, 280, 100, 50);
+    	btnMusic2.setBounds(530, 380, 100, 50);
     	mainPanel.add(btnSwitch);
     	mainPanel.add(btnMusic1);
     	mainPanel.add(btnMusic2);
