@@ -1112,7 +1112,6 @@ public class ModelGame extends Observable {
     }
     
     public void undoMove() {
-        // TODO @Sam @Jath build a function so that the user can undo their last move (no of moves that's saved is up to you)
         // HINT Maybe consider using states to save the last position the player and boxes were in
 
         // undo player position
@@ -1315,7 +1314,7 @@ public class ModelGame extends Observable {
 
     //Saving The board of the player
     public void SaveGame(int Slot){
-        int lines = 20;//getAmountOfLines("leaderBoard.txt");
+        int lines = getAmountOfLines("leaderBoard.txt");
 
         if(this.Name == null){
             this.Name = ("UnNamed" + lines);

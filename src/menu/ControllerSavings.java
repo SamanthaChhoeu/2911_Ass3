@@ -43,35 +43,35 @@ public class ControllerSavings {
         
         one = new ActionListener() {
         	public void actionPerformed(ActionEvent event){
-        		
+        		mg.SaveGame(1);
         	}
         };
         vsv.getOne().addActionListener(one);
         
         two = new ActionListener() {
         	public void actionPerformed(ActionEvent event){
-        		
+                mg.SaveGame(2);
         	}
         };
         vsv.getTwo().addActionListener(two);
         
         three = new ActionListener() {
         	public void actionPerformed(ActionEvent event){
-        		
+                mg.SaveGame(3);
         	}
         };
         vsv.getThree().addActionListener(three);
         
         four = new ActionListener() {
         	public void actionPerformed(ActionEvent event){
-        		
+                mg.SaveGame(4);
         	}
         };
         vsv.getFour().addActionListener(four);
         
         five = new ActionListener() {
         	public void actionPerformed(ActionEvent event){
-        		
+                mg.SaveGame(5);
         	}
         };
         vsv.getFive().addActionListener(five);
