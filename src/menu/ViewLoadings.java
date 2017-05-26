@@ -1,8 +1,15 @@
 package menu;
 
+import game.Box;
+import game.Player;
+
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,29 +46,36 @@ public class ViewLoadings extends JFrame implements Observer{
         // add this panel to the frame
         this.add(mainPanel);
         //this.getContentPane().add(mainPanel);
+
+        //loop through slot files
+        String name1 = getName(1);
+        String name2 = getName(2);
+        String name3 = getName(3);
+        String name4 = getName(4);
+        String name5 = getName(5);
         
-        
-        One= new TranslucentButton("User 1");
+        One= new TranslucentButton(name1);
         One.setBounds(100, 150, 500, 50);
         //signupButton.setBorderPainted(false);
         mainPanel.add(One);
-        
-        Two= new TranslucentButton("User 2");
+
+
+        Two= new TranslucentButton(name2);
         Two.setBounds(100, 250, 500, 50);
         //signupButton.setBorderPainted(false);
         mainPanel.add(Two);
         
-        Three= new TranslucentButton("User 3");
+        Three= new TranslucentButton(name3);
         Three.setBounds(100, 350, 500, 50);
         //signupButton.setBorderPainted(false);
         mainPanel.add(Three);
         
-        Four= new TranslucentButton("User 4");
+        Four= new TranslucentButton(name4);
         Four.setBounds(100, 450, 500, 50);
         //signupButton.setBorderPainted(false);
         mainPanel.add(Four);
         
-        Five= new TranslucentButton("User 5");
+        Five= new TranslucentButton(name5);
         Five.setBounds(100, 550, 500, 50);
         //signupButton.setBorderPainted(false);
         mainPanel.add(Five);
@@ -73,6 +87,28 @@ public class ViewLoadings extends JFrame implements Observer{
         mainPanel.add(quitButton);
 
 	}
+
+	private String getName (int num){
+        Scanner sc = null;
+        String file1 = "saves/" + "slot" + num + ".txt";
+        String name = "Empty Slot " +num;
+        try {
+            sc = new Scanner(new FileReader(file1));
+            int count =0;
+            while (sc.hasNext()) {
+                String line = sc.nextLine();
+                if(count == 0) {
+                    name = line;
+                }
+                count++;
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Issue with reading Save file");
+        } finally {
+            if (sc != null) sc.close();
+        }
+        return name;
+    }
 	
 	
 	
