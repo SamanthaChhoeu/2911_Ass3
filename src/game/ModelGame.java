@@ -245,7 +245,34 @@ public class ModelGame extends Observable {
 
         return board;
 	}
-
+    
+    
+    private boolean cornered(int x, int y){
+    	
+    	// bottom right
+    	if (!clear(y+1,x) && !clear(y,x+1)){
+    		return true;
+    	}
+    	
+    	// top right
+    	if (!clear(y-1,x) && !clear(y,x+1)){
+    		return true;
+    	}
+    	
+    	// top left
+    	if (!clear(y-1,x) && !clear(y,x-1)){
+    		return true;
+    	}
+    	
+    	// bottom left
+    	if (!clear(y+1,x) && !clear(y,x-1)){
+    		return true;
+    	}
+    	
+    	
+    	return false;
+    }
+    
     private String[][] init(){
     	String[][] initboard = new String[ySizeOfBoard][xSizeOfBoard];
         // put in the walls
@@ -611,7 +638,7 @@ public class ModelGame extends Observable {
         y = yBox;
     	System.out.println("TEST box coords"+"x: "+x+" y: "+y);
         // if the new box is on an existing goal then ignore and try to find a new goal plus start box location
-        if (board[y][x] == "b" || board[y][x] == "g"||board[y][x] == "p" || board[yGoal][xGoal]=="b"|| board[yGoal][xGoal]=="g"||board[yGoal][xGoal]=="p"){
+        if (board[y][x] == "b" || board[y][x] == "g"||board[y][x] == "p" || board[yGoal][xGoal]=="b"|| board[yGoal][xGoal]=="g"||board[yGoal][xGoal]=="p"||cornered(x,y)){
         	boxPull();
         } else if (y == yGoal && x==xGoal){
         	boxPull();
@@ -679,7 +706,7 @@ public class ModelGame extends Observable {
     			x++;
     		}
     	}
-    	if (board[y][x] == "b" || board[y][x] == "g" || board[y][x] == "p"||board[yGoal][xGoal]=="b"||board[yGoal][xGoal]=="p"){
+    	if (board[y][x] == "b" || board[y][x] == "g" || board[y][x] == "p"||board[yGoal][xGoal]=="b"||board[yGoal][xGoal]=="p"||cornered(x,y)){
         	boxTurn();
         } else if (y == yGoal && x==xGoal){
         	boxTurn();

@@ -56,7 +56,7 @@ public class ViewSettings extends JFrame implements Observer {
         //create a label "music setting" 
         lb = new JLabel("Music Setting",SwingConstants.CENTER);
         mainPanel.add(lb);
-        lb.setBounds(470,100,100,100);
+        lb.setBounds(470,100,200,100);
         lb.setFont(new Font (Font.DIALOG, Font.BOLD, 20));
         
         //create below buttons to control and select music

@@ -144,18 +144,18 @@ public class ViewGame extends JFrame implements Observer {
         // remake button
         remakeButton = new TranslucentButton("Remake");
         //remakeButton.setBounds(1110, 250, 120, 30);
-        remakeButton.setBounds(50, 360, 120, 30);
+        remakeButton.setBounds(50, 300, 120, 30);
         utilityPanel.add(remakeButton);
 
         undoButton = new TranslucentButton("Undo");
         //remakeButton.setBounds(1110, 250, 120, 30);
-        undoButton.setBounds(50, 420, 120, 30);
+        undoButton.setBounds(50, 360, 120, 30);
         utilityPanel.add(undoButton);
 
-       /* soundButton = new TranslucentButton("Set Sound");
+        soundButton = new TranslucentButton("Set Sound");
         //remakeButton.setBounds(1110, 250, 120, 30);
         soundButton.setBounds(50, 420, 120, 30);
-        utilityPanel.add(soundButton);*/
+        utilityPanel.add(soundButton);
 
         saveButton = new TranslucentButton("Save");
         saveButton.setBounds(50, 480, 120, 30);
