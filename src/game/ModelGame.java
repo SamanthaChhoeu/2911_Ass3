@@ -21,7 +21,7 @@ public class ModelGame extends Observable {
     private int y;
 
     private int moveCounter;
-    public int scoreCounter;
+    private int scoreCounter;
     private String Name;                 //save
 
     private Timer gameTimer;
@@ -46,6 +46,9 @@ public class ModelGame extends Observable {
         openBoard(Slot);
     }
 
+    public int getScore(){
+    	return this.scoreCounter;
+	}
     public void openBoard(int slot){
         String filename = "saves/" + "slot" + slot + ".txt";
         System.out.println(filename);

@@ -55,11 +55,11 @@ public class ViewWinScreen extends JFrame implements Observer {
         winning.setFont(new Font("Default", Font.BOLD, 50));
         mainPanel.add(winning);
         
-        String t = "" + mg.scoreCounter;
+        String t = "" + mg.getScore();
         score = new JLabel("Your score is: " + t, JLabel.CENTER);
         score.setBounds(0, 250, 1280, 50);
-        score.setFont(new Font("Default", Font.BOLD, 35));
-        mainPanel.add(score);
+        score.tFont(new Font("Default", Font.BOLD, 35));
+        mainPanel.add(score);se
         
         // creates a new button to quit the game
         backToMainMenuButton = new JButton("Back to Main Menu");
