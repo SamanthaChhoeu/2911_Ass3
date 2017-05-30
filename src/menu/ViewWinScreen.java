@@ -55,6 +55,7 @@ public class ViewWinScreen extends JFrame implements Observer {
         winning.setFont(new Font("Default", Font.BOLD, 50));
         mainPanel.add(winning);
         
+
         /*String t = "" + mg.scoreCounter;
         score = new JLabel("Your score is: " + t, JLabel.CENTER);
         score.setBounds(0, 250, 1280, 50);
