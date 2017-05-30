@@ -28,10 +28,12 @@ public class ModelInterface extends Observable {
     }
 
     public void setRankList(){
+        //rank.clear();
         Scanner sc = null;
         try {
             sc = new Scanner(new FileReader("leaderBoard.txt"));
             int i = 0;
+            rank.clear();
             while (sc.hasNext() && i<5) {
                 i++;
                 String line = sc.nextLine();
@@ -62,6 +64,7 @@ public class ModelInterface extends Observable {
     public void setCurrScreen(String currScreen) {
         //this.prevScreen = this.currScreen;
         //this.currScreen = currScreen;
+        setRankList();
         String changeToScreen = "ChangeScreen" + currScreen;
         setChanged();
         notifyObservers(changeToScreen);
@@ -69,6 +72,8 @@ public class ModelInterface extends Observable {
 
     public Object[][] populateTable() {
 
+        setRankList();
+        //System.out.println("test");
         Object[][] data = new Object[5][3];
         int i = 0;
         

@@ -35,7 +35,7 @@ public class ModelGame extends Observable {
 		this.xSizeOfBoard = 15;
 		this.ySizeOfBoard = 10;
 		this.moveCounter = 0;
-		this.scoreCounter = 1000;
+		this.scoreCounter = 100000;
 		this.sobokanBoard = new String[ySizeOfBoard][xSizeOfBoard];
 		this.boxes = new ArrayList<Box>();
 		start = System.currentTimeMillis();

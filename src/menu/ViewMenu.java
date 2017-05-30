@@ -1,9 +1,13 @@
 package menu;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class ViewMenu extends JFrame implements Observer {
@@ -33,6 +37,7 @@ public class ViewMenu extends JFrame implements Observer {
     
     private void setupMenu() {
 
+        mi.setRankList();
         // sets the size of the window
         this.setSize(mi.getDimensions());
         // sets what happens when the user closes the window
@@ -83,11 +88,20 @@ public class ViewMenu extends JFrame implements Observer {
         loadingButton = new TranslucentButton("Load");
         loadingButton.setBounds(100, 300, 500, 50);
         mainPanel.add(loadingButton);
-        
-        GameName = new JLabel("Warehouse Boss", JLabel.CENTER);
-        GameName.setFont(new Font("Default", Font.BOLD, 30));
-        GameName.setBounds(0, 100, 1280, 50);
-        mainPanel.add(GameName);
+
+        try {
+            BufferedImage myPicture = ImageIO.read(new File("Logo.png"));
+            GameName = new JLabel(new ImageIcon(myPicture), JLabel.CENTER);
+            GameName.setFont(new Font("Default", Font.BOLD, 30));
+            GameName.setBounds(0, 100, 1280, 100);
+            mainPanel.add(GameName);
+        }catch(IOException e) {
+            System.out.println("cannot read image");
+            GameName = new JLabel("Warehouse Boss", JLabel.CENTER);
+            GameName.setFont(new Font("Default", Font.BOLD, 30));
+            GameName.setBounds(0, 100, 1280, 50);
+            mainPanel.add(GameName);
+        }
 
         String[] columnNames = {"Rank", "Name", "Score"};
         Object[][] data = mi.populateTable();
@@ -110,27 +124,6 @@ public class ViewMenu extends JFrame implements Observer {
         scrollPane.setBounds(700, 350, 500, 225);
         mainPanel.add(scrollPane);
         //mainPanel.add(highScoreTable);
-
-        /* //Top menu bar.
-        //Feel free to delete if we don't need at the end.
-        MenuItem something = new MenuItem("Something");
-        MenuItem somethingmore = new MenuItem("Something More");
-        MenuItem Guide = new MenuItem("Guide");
-        MenuItem About = new MenuItem("About");
-
-    	Menu option = new Menu("Game Option");
-		//option.addSeparator();//Do we even need a seperator?
-		option.add(something);
-		option.add(somethingmore);
-
-		Menu help = new Menu("Help");
-		help.add(Guide);
-		help.add(About);
-
-		MenuBar bar = new MenuBar();
-		bar.add(option);
-		bar.add(help);
-		setMenuBar(bar);*/
 
         // set such that the main menu is the visible when this class is created
         this.setVisible(true);
@@ -186,11 +179,10 @@ public class ViewMenu extends JFrame implements Observer {
         
         // check whether or not to show this screen
         if (command.equals("ChangeScreenMenu")) {
-                
+
             this.setVisible(true);
 
         } else {
-            
             this.setVisible(false);
             
         }
