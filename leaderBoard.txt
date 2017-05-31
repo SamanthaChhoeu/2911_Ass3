@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 1//Jath//9681
-=======
 1//UnNamed2//963
 2//UnNamed5//961
 3//UnNamed2//958
@@ -8,4 +6,3 @@
 5//UnNamed6//940
 6//UnNamed2//916
 7//UnNamed7//908
->>>>>>> origin/Jathurson
