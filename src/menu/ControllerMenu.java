@@ -34,7 +34,7 @@ public class ControllerMenu {
     
     public void setupController() {
         // creates the action when the play button is pressed
-        mi.setRankList();
+
         guide = new ActionListener() {
              public void actionPerformed(ActionEvent event) {
                  mi.setCurrScreen("Guide");

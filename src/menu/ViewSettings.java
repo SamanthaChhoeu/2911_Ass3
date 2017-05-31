@@ -12,9 +12,12 @@ public class ViewSettings extends JFrame implements Observer {
     private ModelInterface mi;
     private JPanel mainPanel;
     private JButton backButton;
-    private JButton btnSwitch;
-    private JCheckBox btnMusic1;
-    private JCheckBox btnMusic2;
+    private JButton btnSwitch1;
+    private JButton btnSwitch2;
+    //private JCheckBox btnMusic1;
+    //private JCheckBox btnMusic2;
+    private JLabel m1;
+    private JLabel m2;
     private JLabel lb;
 
     public ViewSettings(ModelInterface mi) {
@@ -54,42 +57,50 @@ public class ViewSettings extends JFrame implements Observer {
         mainPanel.add(backButton);
         
         //create a label "music setting" 
-        lb = new JLabel("Music Setting",SwingConstants.CENTER);
+        lb = new JLabel("Music Settings",SwingConstants.CENTER);
         mainPanel.add(lb);
         lb.setBounds(470,100,200,100);
         lb.setFont(new Font (Font.DIALOG, Font.BOLD, 20));
-        
+
+        m1 = new JLabel("Track 1 :",SwingConstants.CENTER);
+        mainPanel.add(m1);
+        m1.setBounds(370,155,200,100);
+        m1.setFont(new Font (Font.DIALOG, Font.BOLD, 20));
+
+        m2 = new JLabel("Track 2 :",SwingConstants.CENTER);
+        mainPanel.add(m2);
+        m2.setBounds(370,255,200,100);
+        m2.setFont(new Font (Font.DIALOG, Font.BOLD, 20));
+
         //create below buttons to control and select music
-    	btnSwitch = new TranslucentButton("Off");
-    	btnMusic1 = new JCheckBox("Music1");
-    	btnMusic2 = new JCheckBox("Music2");
-        btnSwitch.setBounds(530, 180, 100, 50);
-    	btnMusic1.setBounds(530, 280, 100, 50);
-    	btnMusic2.setBounds(530, 380, 100, 50);
-    	mainPanel.add(btnSwitch);
-    	mainPanel.add(btnMusic1);
-    	mainPanel.add(btnMusic2);
-        
-        btnMusic1.setSelected(true);
-    	btnMusic2.setSelected(false);
-        
+    	btnSwitch1 = new TranslucentButton("Off");
+        btnSwitch1.setBounds(530, 180, 100, 50);
+    	mainPanel.add(btnSwitch1);
+
+        btnSwitch2 = new TranslucentButton("On");
+        btnSwitch2.setBounds(530, 280, 100, 50);
+        mainPanel.add(btnSwitch2);
     }
 
     public JButton getBackButton() {
         return backButton;
     }
     
-    public JButton getbtnSwitch() {
-        return btnSwitch;
+    public JButton getbtnSwitch1() {
+        return btnSwitch1;
     }
 
-    public JCheckBox getbtnMusic1() {
+    public JButton getbtnSwitch2() {
+        return btnSwitch2;
+    }
+
+    /*public JCheckBox getbtnMusic1() {
         return btnMusic1;
-    }
+    }*/
     
-    public JCheckBox getbtnMusic2() {
+    /*public JCheckBox getbtnMusic2() {
         return btnMusic2;
-    }
+    }*/
 
 
     @Override

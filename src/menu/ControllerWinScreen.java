@@ -23,7 +23,7 @@ public class ControllerWinScreen {
         backToMenu = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 // when the menu button is pressed, sets the current screen being viewed to the menu screen
-                mi.setRankList();
+                //mi.setRankList();
                 mi.setCurrScreen("Menu");
             }
         };
